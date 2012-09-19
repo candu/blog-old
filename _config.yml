@@ -2,12 +2,12 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://candu.github.com
+title: quantophrenic self
+subtitle: life, code, data
+author: Evan Savage
 simple_search: http://google.com/search
-description:
+description: Evan Savage's semi-structured braindump on the internets.
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -93,7 +93,7 @@ disqus_short_name:
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: "UA-34927069-1"
 
 # Facebook Like
-facebook_like: false
+facebook_like: true
