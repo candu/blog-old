@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Non-Technical | Quantified Savagery]]></title>
+  <link href="http://candu.github.com/blog/categories/non-technical/atom.xml" rel="self"/>
+  <link href="http://candu.github.com/"/>
+  <updated>2012-10-03T14:59:38-07:00</updated>
+  <id>http://candu.github.com/</id>
+  <author>
+    <name><![CDATA[Evan Savage]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Welcome to Quantified Savagery]]></title>
+    <link href="http://candu.github.com/blog/2012/10/02/welcome-to-quantified-savagery/"/>
+    <updated>2012-10-02T21:34:00-07:00</updated>
+    <id>http://candu.github.com/blog/2012/10/02/welcome-to-quantified-savagery</id>
+    <content type="html"><![CDATA[<p>I'm <a href="http://cv.savageevan.com/">Evan Savage</a> and I'd like to welcome you
+to Quantified Savagery. I recently left my job at Facebook to focus on
+exploring the
+<a href="http://quantifiedself.com/">Quantified Self</a>,
+and I'm super-excited to share those explorations here on my new blog.</p>
+
+<p>In this first post, I'll explain the Quantified Self, give you a sense of
+what I'll be posting in the near future, and provide some helpful tips on
+reading this blog.</p>
+
+<!--more-->
+
+
+<h2>What is the Quantified Self?</h2>
+
+<p>I've had to explain this countless times to friends, family, and
+co-workers: why did I leave
+<a href="http://www.glassdoor.com/Reviews/Facebook-Reviews-E40772.htm">one of the world's best employers</a>
+to explore a field most people haven't even heard of?
+I usually start by name-dropping
+<a href="http://www.fitbit.com/">Fitbit</a> or <a href="http://nikeplus.nike.com/plus/">Nike+</a> as
+prominent examples of personal data collection and analysis. I then do some
+semi-coherent hand-waving about the vast potential of data collection and
+analysis. All of this is really just an attempt to cover up the fact
+that <em>I don't really know</em>.</p>
+
+<p>That doesn't really cut it as an explanation for a major life decision,
+though, so let's look a bit deeper.</p>
+
+<p>The Quantified Self
+<a href="http://quantifiedself.com/">community website</a> has this tagline:</p>
+
+<p><blockquote><p>self knowledge through numbers</p></blockquote></p>
+
+<ul>
+<li><em>self</em>: you seek to answer <em>your</em> questions.</li>
+<li><em>knowledge</em>: in doing this, you gain an <em>awareness</em> of your behaviors and
+motivations.</li>
+<li><em>through numbers</em>: this process is driven by <em>data</em> gathered from sensors,
+journals, and any other tools at your disposal.</li>
+</ul>
+
+
+<p>This is a good first-level approximation: you gather your data, analyze it,
+interpret the analysis, and reap a greater self-awareness.</p>
+
+<p>But why is this suddenly important? After all, journal-keeping has been around
+roughly as long as written languages. The answer lies in <em>technology</em>: for the
+first time in history, over half the world's population is equipped with
+networked computing devices that are jam-packed with sensors. We refer to these
+devices as mobile phones only by historical accident. In fact, they're really
+powerful tools for speeding up this process of gaining
+<em>self knowledge through numbers</em>.</p>
+
+<p>As I said before, though, this is only a first-level approximation. There are
+two main ways in which Quantified Self can achieve greater awesomeness:
+<em>Quantified Mass</em> and <em>Qualified Self</em>.</p>
+
+<h3>Quantified Mass</h3>
+
+<p>As Gary Wolf pointed out in his
+<a href="http://www.onthemedia.org/people/gary-wolf/">interview with On the Media</a>,
+self-tracking doesn't lead to self-obsession but rather to group-awareness.
+In asking our own questions, we find that these questions are important to
+others as well. When many people gather comparable datasets to answer the
+same questions, there's an opportunity to extract insights
+that could benefit us all.</p>
+
+<p>Scalable <em>mass</em> insights have massive power. Taking a 1% chunk out of the
+American obesity epidemic might not sound impressive, but that's potentially
+a <a href="http://www.forbes.com/sites/bethhoffman/2012/08/16/what-the-obesity-epidemic-costs-us-infographic/">$6 billion impact</a>
+on direct and indirect costs. And that's just in the United States, which
+counts for a tiny slice of the global mobile userbase.</p>
+
+<p>Many of the requisite data mining tools already
+exist, but they're being employed to increase advertising click-through rates
+by 1%. The engineers building these tools aren't indifferent to societal
+problems; rather, the datasets to solve those problems largely don't exist yet.
+Once they do, the quantified mass can start driving these massive-scale
+incremental wins.</p>
+
+<h3>Qualified Self</h3>
+
+<p><blockquote><p>Not everything that counts can be counted,<br/>and not everything that can be counted counts.</p></blockquote></p>
+
+<p>Our perception of life is rarely numerical. Much more often, it is visual,
+auditory, tactile, or experiential.
+The problem with data is that you can't
+<a href="http://worrydream.com/#!/KillMath">see</a> or
+<a href="http://blog.makezine.com/2009/02/08/haptic-compass/">feel</a> them.
+Even the best data scientists use
+data only as a means of
+<a href="http://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen.html">telling a story</a>.</p>
+
+<p>Put another way, this awareness process starts with qualitative questions
+and ends with qualitative answers. Data is the intermediate representation,
+one we use for its unique ability to permit detailed analysis. Ultimately,
+though, we're going to ask questions like <em>how can I improve my fitness?</em>
+and expect answers like <em>by finding training partners, engaging in athletic
+activities that are actually fun, and setting aside regularly scheduled time</em>.
+We're going to need moral support. We're going to give and receive advice.
+We're going to have conversations and tell stories about our personal
+struggles with fitness.</p>
+
+<p>These <em>qualified</em> aspects of self-awareness are arguably the most important
+to us. Data provide a stepping-stone, something we can build upon
+to address these aspects. By building systems designed for the qualified self,
+we can bring the benefits of the quantified self to everyone.</p>
+
+<h3>Back to the Quantified Self</h3>
+
+<p>That sums up why I'm so excited about Quantified Self: there really is an
+enormous potential here to revolutionize our lives, both from a macro-level
+global/societal perspective and from a micro-level individual perspective.
+It's also a fantastically diverse field, one that connects hackers and
+doctors and entrepreneurs and teachers and artists through mutual pursuit of
+insanely lofty goals.</p>
+
+<h2>Upcoming Content</h2>
+
+<p>The next few posts will detail my experiences dealing with panic
+disorder through self-tracking. I gave a talk about this to the Bay Area
+Quantified Self community, which you can
+<a href="http://quantifiedself.com/2012/07/evan-savage-on-panic-tracking/">view here</a>
+for some initial context.</p>
+
+<h2>How To Read This Blog</h2>
+
+<p>Although this is a blog about personal data, one of my primary goals is to
+make the thoughts and insights shared here accessible to a broad audience.
+You can filter what you read with these categories:</p>
+
+<ul>
+<li><em>Non-Technical</em>: expect to see insights, thoughts, discussions, descriptions
+of planned experiments, and post-mortems. I might link to articles, studies,
+or books that provide context, but I'll try to summarize the relevant
+parts.</li>
+<li><em>Technical</em>: expect to see code, statistical analysis, LaTeX'd formulae,
+links to <a href="https://github.com/candu">Github</a> repos, and algorithm
+descriptions. I'll assume familiarity with programming and mathematics, or
+at least a willingness to learn.</li>
+</ul>
+
+
+<p>In addition, many of my posts will be connected to one or more experiments.
+For instance, my upcoming posts on self-tracking to address panic disorder will
+fall under the <em>Panic</em> category. For every experiment, I'll attempt to post
+content in both the <em>Non-Technical</em> and <em>Technical</em> categories.</p>
+
+<p>Of course, I'll be glad to answer any questions you have, technical or
+otherwise!</p>
+]]></content>
+  </entry>
+  
+</feed>
