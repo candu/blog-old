@@ -2,10 +2,9 @@
 // To give it a try, uncomment some of the lines below rebuild your blog, and see how it works. your sites's.
 // If you love to use Web Fonts, you also need to add some lines to source/_includes/custom/head.html
 
-$ubuntu: "Ubuntu", sans-serif;
-$sans: $ubuntu;
-$serif: $ubuntu;
+$sans: "Ubuntu", "Optima", sans-serif;
+$serif: "Ubuntu", "Baskerville", serif;
 //$mono: "Courier", monospace;
-$heading-font-family: $ubuntu;
-$header-title-font-family: $ubuntu;
-$header-subtitle-font-family: $ubuntu;
+$heading-font-family: "Ubuntu", "Verdana", sans-serif;
+$header-title-font-family: "Ubuntu", "Futura", sans-serif;
+$header-subtitle-font-family: "Ubuntu", "Futura", sans-serif;

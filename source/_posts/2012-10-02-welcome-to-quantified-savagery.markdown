@@ -41,22 +41,24 @@ The Quantified Self
 self knowledge through numbers
 {% endblockquote %}
 
-- *self*: you seek to answer *your* questions.
-- *knowledge*: in doing this, you gain an *awareness* of your behaviors and
+- **self:** you seek to answer *your* questions.
+- **knowledge:** in doing this, you gain an *awareness* of your behaviors and
   motivations.
-- *through numbers*: this process is driven by *data* gathered from sensors,
+- **through numbers:** this process is driven by *data* gathered from sensors,
   journals, and any other tools at your disposal.
 
-This is a good first-level approximation: you gather your data, analyze it,
-interpret the analysis, and reap a greater self-awareness.
+This is a good first-level approximation: you *gather* your data, *analyze* it,
+and *interpret* the analysis to become more *self-aware*.
 
+{% pullquote %}
 But why is this suddenly important? After all, journal-keeping has been around
-roughly as long as written languages. The answer lies in *technology*: for the
-first time in history, over half the world's population is equipped with
-networked computing devices that are jam-packed with sensors. We refer to these
+roughly as long as written languages. The answer lies in *technology*.
+{" For the first time in history, over half the world's population owns
+sensor-packed networked computing devices. "} We refer to these
 devices as mobile phones only by historical accident. In fact, they're really
 powerful tools for speeding up this process of gaining
 *self knowledge through numbers*.
+{% endpullquote %}
 
 As I said before, though, this is only a first-level approximation. There are
 two main ways in which Quantified Self can achieve greater awesomeness:
@@ -81,7 +83,7 @@ counts for a tiny slice of the global mobile userbase.
 Many of the requisite data mining tools already
 exist, but they're being employed to increase advertising click-through rates
 by 1%. The engineers building these tools aren't indifferent to societal
-problems; rather, the datasets to solve those problems largely don't exist yet.
+problems; rather, *the datasets to solve those problems largely don't exist yet.*
 Once they do, the quantified mass can start driving these massive-scale
 incremental wins.
 
@@ -104,31 +106,41 @@ data only as a means of
 Put another way, this awareness process starts with qualitative questions
 and ends with qualitative answers. Data is the intermediate representation,
 one we use for its unique ability to permit detailed analysis. Ultimately,
-though, we're going to ask questions like _how can I improve my fitness?_
-and expect answers like _by finding training partners, engaging in athletic
-activities that are actually fun, and setting aside regularly scheduled time_.
+though, we're going to ask questions like
+
+{% blockquote %}
+How can I improve my fitness?
+{% endblockquote %}
+
+and expect answers like
+
+{% blockquote %}
+By finding training partners. By doing more engaging athletic
+activities. By setting aside regularly scheduled time.
+{% endblockquote %}
+
 We're going to need moral support. We're going to give and receive advice.
-We're going to have conversations and tell stories about our personal
+We're going to have conversations and *tell stories* about our personal
 struggles with fitness.
 
-These *qualified* aspects of self-awareness are arguably the most important
-to us. Data provide a stepping-stone, something we can build upon
+These qualified aspects of self-awareness are arguably the most important
+to us. *Data provide a stepping-stone*, something we can build upon
 to address these aspects. By building systems designed for the qualified self,
 we can bring the benefits of the quantified self to everyone.
 
 ### Back to the Quantified Self
 
 That sums up why I'm so excited about Quantified Self: there really is an
-enormous potential here to revolutionize our lives, both from a macro-level
-global/societal perspective and from a micro-level individual perspective.
+enormous potential here to revolutionize our lives on both the global/societal
+and individual levels.
 It's also a fantastically diverse field, one that connects hackers and 
 doctors and entrepreneurs and teachers and artists through mutual pursuit of
 insanely lofty goals.
 
 ## Upcoming Content
 
-The next few posts will detail my experiences dealing with panic
-disorder through self-tracking. I gave a talk about this to the Bay Area
+The next few posts will detail my experiences *dealing with panic
+disorder through self-tracking*. I gave a talk about this to the Bay Area
 Quantified Self community, which you can
 [view here](http://quantifiedself.com/2012/07/evan-savage-on-panic-tracking/)
 for some initial context.
@@ -139,19 +151,24 @@ Although this is a blog about personal data, one of my primary goals is to
 make the thoughts and insights shared here accessible to a broad audience.
 You can filter what you read with these categories:
 
-- *Non-Technical*: expect to see insights, thoughts, discussions, descriptions
+- <a href="/blog/categories/non-technical/" class="category">Non-Technical</a>:
+  expect to see insights, thoughts, discussions, descriptions
   of planned experiments, and post-mortems. I might link to articles, studies,
   or books that provide context, but I'll try to summarize the relevant
   parts.
-- *Technical*: expect to see code, statistical analysis, LaTeX'd formulae,
+- <a href="/blog/categories/technical/" class="category">Technical</a>:
+  expect to see code, statistical analysis, LaTeX'd formulae,
   links to [Github](https://github.com/candu) repos, and algorithm
   descriptions. I'll assume familiarity with programming and mathematics, or
   at least a willingness to learn.
 
 In addition, many of my posts will be connected to one or more experiments.
 For instance, my upcoming posts on self-tracking to address panic disorder will
-fall under the *Panic* category. For every experiment, I'll attempt to post
-content in both the *Non-Technical* and *Technical* categories.
+fall under the <a href="/blog/categories/panic/" class="category">Panic</a> category.
+For every experiment, I'll attempt to post
+content in both the
+<a href="/blog/categories/non-technical/" class="category">Non-Technical</a> and
+<a href="/blog/categories/technical/" class="category">Technical</a> categories.
 
 Of course, I'll be glad to answer any questions you have, technical or
 otherwise!
