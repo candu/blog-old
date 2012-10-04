@@ -1,2 +1,68 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+#content {
+  background-color: #eee;
+  color: #444;
+}
+
+article a,
+article a:visited,
+#content .blog-index article h1 a,
+#content .blog-index a[rel="full-article"],
+#blog-archives h1 a {
+  font-family: "Ubuntu", sans-serif;
+  text-decoration: none;
+  font-weight: 500;
+  color: #36f;
+  border: 1px solid #9af;
+  background-color: #ace;
+  padding: 1px;
+}
+
+article a:hover,
+#content .blog-index article h1 a:hover,
+#content .blog-index a[rel="full-article"]:hover,
+#blog-archives h1 a:hover {
+  text-decoration: none;
+  background-color: #79e;
+  border: 1px solid #68f;
+  color: #00f;
+}
+
+article em {
+  font-style: normal;
+  color: #ed1c2d;
+}
+
+a.category,
+a.category:visited,
+#blog-archives a.category{
+  background-color: #fe7;
+  border: 1px solid #dc4;
+  color: #963;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 500;
+  margin: 2px;
+  padding: 1px;
+  text-decoration: none;
+}
+
+a.category:hover,
+#blog-archives a.category:hover {
+  background-color: #ff2;
+  color: #c90;
+  border: 1px solid #ed2;
+}
+
+article {
+  > header > h1 {
+    color: #272727;
+  }
+  div.entry-content {
+    h1, h2, h3, h4, h5, h6 {
+      color: #272727;
+    }
+  }
+}
