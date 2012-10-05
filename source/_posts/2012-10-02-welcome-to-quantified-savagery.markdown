@@ -157,7 +157,7 @@ You can filter what you read with these categories:
   or books that provide context, but I'll try to summarize the relevant
   parts.
 - <a href="/blog/categories/technical/" class="category">Technical</a>:
-  expect to see code, statistical analysis, LaTeX'd formulae,
+  expect to see code, statistical analysis, $ \LaTeX $ formulae,
   links to [Github](https://github.com/candu) repos, and algorithm
   descriptions. I'll assume familiarity with programming and mathematics, or
   at least a willingness to learn.

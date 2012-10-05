@@ -33,7 +33,7 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-markdown: rdiscount
+markdown: kramdown 
 pygments: false # default python pygments have been replaced by pygments.rb
 
 paginate: 10          # Posts per page on the blog index
@@ -59,13 +59,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 
 # Github repositories
 github_user: candu
-github_repo_count: 3
+github_repo_count: 5
 github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
 twitter_user: candusavage
-twitter_tweet_count: 4
+twitter_tweet_count: 5
 twitter_show_replies: false
 twitter_follow_button: true
 twitter_show_follower_count: false
