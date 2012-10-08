@@ -10,8 +10,8 @@
   <meta name="author" content="Evan Savage">
 
   
-  <meta name="description" content="In this post, I&#8217;ll tell the story of how I got started with self-tracking
-and talk briefly about my first experiment. ">
+  <meta name="description" content="In this post, I perform initial exploratory analysis on my panic recovery
+journal data using basic UNIX/bash commands. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -26,6 +26,23 @@ and talk briefly about my first experiment. ">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!-- see http://luikore.github.com/2011/09/good-things-learned-from-octopress/ -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+  </script>
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
   <link href="/atom.xml" rel="alternate" title="Quantified Savagery" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -84,6 +101,48 @@ and talk briefly about my first experiment. ">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">Self-Tracking for Panic: A Bash-ful Look at Some Data</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-08T10:00:00-04:00" pubdate data-updated="true">Oct 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In this post, I perform initial exploratory analysis on my panic recovery
+journal data using basic UNIX/bash commands.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/10/03/panic/">Panic!</a></h1>
     
     
@@ -100,14 +159,14 @@ and talk briefly about my first experiment. ">
   
 
 
-<time datetime="2012-10-03T17:47:00-07:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2012</time>
+<time datetime="2012-10-03T17:47:00-04:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>In this post, I&#8217;ll tell the story of how I got started with self-tracking
+  <div class="entry-content"><p>In this post, I’ll tell the story of how I got started with self-tracking
 and talk briefly about my first experiment.</p>
 
 </div>
@@ -142,21 +201,21 @@ and talk briefly about my first experiment.</p>
   
 
 
-<time datetime="2012-10-02T21:34:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2012</time>
+<time datetime="2012-10-02T21:34:00-04:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I&#8217;m <a href="http://cv.savageevan.com/">Evan Savage</a> and I&#8217;d like to welcome you
+  <div class="entry-content"><p>I’m <a href="http://cv.savageevan.com/">Evan Savage</a> and I’d like to welcome you
 to Quantified Savagery. I recently left my job at Facebook to focus on
 exploring the
 <a href="http://quantifiedself.com/">Quantified Self</a>,
-and I&#8217;m super-excited to share those explorations here on my new blog.</p>
+and I’m super-excited to share those explorations here on my new blog.</p>
 
-<p>In this first post, I&#8217;ll explain the Quantified Self, give you a sense of
-what I&#8217;ll be posting in the near future, and provide some helpful tips on
+<p>In this first post, I’ll explain the Quantified Self, give you a sense of
+what I’ll be posting in the near future, and provide some helpful tips on
 reading this blog.</p>
 
 </div>
@@ -181,6 +240,10 @@ reading this blog.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">Self-Tracking For Panic: A bash-ful Look At Some Data</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/10/03/panic/">Panic!</a>
@@ -213,7 +276,7 @@ reading this blog.</p>
 
         github.showRepos({
             user: 'candu',
-            count: 3,
+            count: 5,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -230,7 +293,7 @@ reading this blog.</p>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
-      getTwitterFeed("candusavage", 4, false);
+      getTwitterFeed("candusavage", 5, false);
     });
   </script>
   <script src="/javascripts/twitter.js" type="text/javascript"> </script>

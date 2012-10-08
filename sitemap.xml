@@ -2,18 +2,22 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://candu.github.com/blog/2012/10/02/welcome-to-quantified-savagery/</loc>
-        <lastmod>2012-10-03T17:27:09-07:00</lastmod>
+        <lastmod>2012-10-05T17:54:29-04:00</lastmod>
     </url>
     <url>
         <loc>http://candu.github.com/blog/2012/10/03/panic/</loc>
-        <lastmod>2012-10-04T17:38:20-07:00</lastmod>
+        <lastmod>2012-10-05T20:25:58-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://candu.github.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/</loc>
+        <lastmod>2012-10-08T17:57:46-04:00</lastmod>
     </url>
     <url>
         <loc>http://candu.github.com/blog/archives/</loc>
-        <lastmod>2012-10-04T17:38:20-07:00</lastmod>
+        <lastmod>2012-10-08T17:57:46-04:00</lastmod>
     </url>
     <url>
         <loc>http://candu.github.com/</loc>
-        <lastmod>2012-10-04T17:38:20-07:00</lastmod>
+        <lastmod>2012-10-08T17:57:46-04:00</lastmod>
     </url>
 </urlset>
