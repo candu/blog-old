@@ -300,7 +300,7 @@ Otherwise, there's always [megam](http://www.cs.utah.edu/~hal/megam/) or
 
 You can see the code for this analysis [here](https://github.com/candu/quantified-savagery-files/blob/master/Panic/recovery-journal/panic_maxent.py).
 This time I don't care about having consecutive dates, so I use all of the
-samples
+samples.
 
 After building a `MaxentClassifier`, I print out the most informative features
 with `show_most_informative_features()`:
