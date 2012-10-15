@@ -3,11 +3,14 @@ layout: post
 title: "Fitbit: My Brief Experience"
 date: 2012-10-16 07:00
 comments: true
+published: false
 categories: [Panic, Non-Technical]
 ---
 
 In this post, I discuss my experiences using the popular
 [Fitbit](LINK) fitness tracker.
+
+<!-- more -->
 
 ## First, A Broad View
 
