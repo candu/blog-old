@@ -2,28 +2,34 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://candu.github.com/blog/2012/10/02/welcome-to-quantified-savagery/</loc>
-        <lastmod>2012-10-05T17:54:29-04:00</lastmod>
+        <lastmod>2012-10-05T14:54:29-07:00</lastmod>
     </url>
     <url>
         <loc>http://candu.github.com/blog/2012/10/03/panic/</loc>
-        <lastmod>2012-10-05T20:25:58-04:00</lastmod>
+        <lastmod>2012-10-05T17:25:58-07:00</lastmod>
     </url>
     <url>
         <loc>http://candu.github.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/</loc>
-        <lastmod>2012-10-08T17:57:46-04:00</lastmod>
+        <lastmod>2012-10-08T14:57:46-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://candu.github.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/
         </loc>
-        <lastmod>2012-10-11T00:53:17-04:00</lastmod>
+        <lastmod>2012-10-14T18:26:00-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://candu.github.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/
+        </loc>
+        <lastmod>2012-10-15T14:07:37-07:00</lastmod>
     </url>
     <url>
         <loc>http://candu.github.com/blog/archives/</loc>
-        <lastmod>2012-10-11T00:53:17-04:00</lastmod>
+        <lastmod>2012-10-15T14:07:37-07:00</lastmod>
     </url>
     <url>
         <loc>http://candu.github.com/</loc>
-        <lastmod>2012-10-11T00:53:17-04:00</lastmod>
+        <lastmod>2012-10-15T14:07:37-07:00</lastmod>
     </url>
 </urlset>
