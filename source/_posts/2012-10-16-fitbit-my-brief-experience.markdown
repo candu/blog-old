@@ -16,23 +16,26 @@ In this post, I discuss my experiences using the popular
 
 I started using the [Fitbit Ultra](http://www.fitbit.com/product) on April 11, 2012:
 
-TODO: screenshots
+{% img https://lh6.googleusercontent.com/-BbdI4RDLEPg/UH4U2PwH7AI/AAAAAAAAAFI/cdY5hnwl3so/s400/steps-april.jpg %}
 
 Over the following three months, I walked, ran, and otherwise jostled my Fitbit
 about a good deal:
 
-TODO: screenshots
+{% img https://lh6.googleusercontent.com/-Rk-sPLHtYVg/UH4U3FhjRJI/AAAAAAAAAFY/J7Ygbqqfi_k/s288/lifetime-steps.jpg %}
+{% img https://lh4.googleusercontent.com/-663jKpbc6yw/UH4U3vzf8EI/AAAAAAAAAFg/-EnTuoTD9LQ/s288/lifetime-floors.jpg %}
+{% img https://lh4.googleusercontent.com/-yzUccJOlbCQ/UH4U36eSCJI/AAAAAAAAAFk/Qmx-r-swHwc/s800/lifetime-distance.jpg %}
 
 Somewhere around July 12, tragedy struck: *I lost my Fitbit.*
 
-TODO: screenshots
+{% img https://lh3.googleusercontent.com/--zc0squq1yo/UH4U1nCGuQI/AAAAAAAAAE8/aDOP5c1f0pw/s400/steps-july.jpg %}
 
 ### The Good
 
 My initial impression was ecstatic. Fitbit didn't look like your average
 pedometer:
 
-TODO: Fitbit side by side with http://www.gorillamarketing.net/pedometer1.jpg
+{% img https://lh5.googleusercontent.com/-eLa1uqTeKRg/UH4U5G5GSNI/AAAAAAAAAF0/RiNA89GciGQ/s288/fitbit.jpg %}
+{% img https://lh5.googleusercontent.com/-eRCIrQhA5Kk/UH4U1SaRsKI/AAAAAAAAAE0/4y8n3UjOl-c/s288/janky-pedometer.jpg %}
 
 {% pullquote %}
 It was *small, sleek, easily concealed.* {" I felt like I'd stumbled upon the access
@@ -57,7 +60,7 @@ netted me the 30 000 step badge. I pocketed the 200 floors badge after a
 
 For the first time, I could also see how much I was sleeping:
 
-TODO: get screenshot
+{% img https://lh6.googleusercontent.com/-QGWtSgEdMz8/UH4U5qNFyXI/AAAAAAAAAF8/5dGzfE_2YBk/s400/sleep-graph.jpg %}
 
 *Great gouts of data* poured into my life, chartporn galore for an unrepentant 
 math addict. Soon it even became a quasi-social activity as my leaderboard
@@ -94,7 +97,8 @@ We took our Fitbits everywhere: walking, running, playing soccer, cycling,
 and...wait, no, *Valkyrie couldn't take it swimming.* Actually, it didn't
 measure our cycling accurately, it was useless for my static
 bodyweight exercises, and it couldn't track our occasional indoor climbing
-stints effectively either. *It was discouraging the activities we loved most!*
+stints effectively either. *It was discouraging us from doing the activities
+we loved most!*
 
 ### The Ugly
 
@@ -119,7 +123,7 @@ decided to check out the [Fitbit API](http://dev.fitbit.com/), hoping to create 
 This immediately hit a snag: *to get the minute-by-minute data, you need 
 Partner API access.*
 
-{% blockquote https://wiki.fitbit.com/display/API/Fitbit+Partner+API Fitbit Partner API %}
+{% blockquote Fitbit Partner API https://wiki.fitbit.com/display/API/Fitbit+Partner+API %}
 Partner API allows to fetch the intraday data points with 1 minute detail level for several user resources
 {% endblockquote %}
 
@@ -128,7 +132,7 @@ happily extended this access upon request, and I soon had
 [fitbit-crossfilter](https://github.com/candu/fitbit-crossfilter) up and
 working.
 
-TODO: screenshot of fitbit-crossfilter
+{% img https://lh6.googleusercontent.com/-Ys7TdGOf2kI/UH4U6Tb2pRI/AAAAAAAAAGE/yVHssco65NU/s640/fitbit-crossfilter.jpg %}
 
 Again, though, there was that sour taste. *Why not provide this access by default?*
 A bit of digging around the site revealed a likely culprit:
@@ -170,7 +174,7 @@ and explore. *Let them decide what your product means to them.*
 Looking back, one of my largest complaints was about *closed-ness.* Part
 of the Grand Promise of Quantified Self is *control over your data and how you
 use it.* We're still a long way from that Grand Promise. {" We're in the Internet
-Middle Ages, an era of *data fiefdoms.* "}
+Middle Ages, an era of data fiefdoms. "}
 {% endpullquote %}
 
 The analogy is apt. Much as the old fiefdoms laid claim to your land and labor,
@@ -199,7 +203,7 @@ measure cycling accurately.*
 Even though the average person won't care to make these improvements,
 *a few people will.* This recalls the [reddit maxim](https://www.facebook.com/photo.php?fbid=3563106890027):
 
-TODO: screenshot of Give a damn. Give lots of damns (if you can find it).
+{% img https://lh6.googleusercontent.com/-Y4JWrp5wBmU/UH4U4dNSO-I/AAAAAAAAAFs/qCIibiyvafk/s400/give-a-damn.jpg %}
 
 *There's a tension here.* This is how better products are built, but it's not
 in Fitbit's interest to let just anyone do that in a completely unconstrained
