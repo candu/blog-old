@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Panic | Quantified Savagery]]></title>
-  <link href="http://candu.github.com/blog/categories/panic/atom.xml" rel="self"/>
-  <link href="http://candu.github.com/"/>
-  <updated>2012-10-16T19:26:26-07:00</updated>
-  <id>http://candu.github.com/</id>
+  <link href="http://blog.savageevan.com/blog/categories/panic/atom.xml" rel="self"/>
+  <link href="http://blog.savageevan.com/"/>
+  <updated>2012-10-18T15:29:35-07:00</updated>
+  <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
     
@@ -14,225 +14,391 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Fitbit: My Brief Experience]]></title>
-    <link href="http://candu.github.com/blog/2012/10/16/fitbit-my-brief-experience/"/>
-    <updated>2012-10-16T07:00:00-07:00</updated>
-    <id>http://candu.github.com/blog/2012/10/16/fitbit-my-brief-experience</id>
-    <content type="html"><![CDATA[<p>In this post, I discuss my experiences using the popular
-<a href="http://www.fitbit.com/">Fitbit</a> fitness tracker.</p>
+    <title type="html"><![CDATA[Fitbit: APIs, crossfilter, and d3.js]]></title>
+    <link href="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/"/>
+    <updated>2012-10-17T08:30:00-07:00</updated>
+    <id>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3</id>
+    <content type="html"><![CDATA[<p>In this post, I present
+<a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a>, which uses
+the <a href="http://dev.fitbit.com/">Fitbit API</a>, <a href="http://square.github.com/crossfilter/">crossfilter</a> and <a href="http://d3js.org/">d3.js</a>
+to provide an interactive visualization for exploratory analysis.</p>
 
 <!-- more -->
 
-<h2 id="my-time-with-fitbit">My Time With Fitbit</h2>
+<h2 id="the-inspiration">The Inspiration</h2>
 
-<p>I started using the <a href="http://www.fitbit.com/product">Fitbit Ultra</a> on April 11, 2012:</p>
+<p>It was early April 2012. By this point, I’d been through a stint of pen-and-paper
+self-tracking for <a href="/blog/2012/10/03/panic/">panic recovery</a>.
+I’d <a href="/blog/2012/10/16/fitbit-my-brief-experience/">just received my Fitbit in the mail</a>. </p>
 
-<p><img src="https://lh6.googleusercontent.com/-BbdI4RDLEPg/UH4U2PwH7AI/AAAAAAAAAFI/cdY5hnwl3so/s400/steps-april.jpg"></p>
+<p>Earlier that year, I applied to the <a href="http://www.eecs.berkeley.edu/Gradadm/">EECS PhD program at UC Berkeley</a> with
+<a href="https://docs.google.com/document/d/10PupOF0RLa54o6y9_xBGnj7VbjtQNPab0-HdoVfT6gA/edit">this statement of purpose</a>. I was fascinated by this idea that <em>pervasive
+gameplay really could make us all better</em>, that somewhere beyond the rat wheel
+of gamification was hidden a Shangri-La of game-driven awesome.</p>
 
-<p>Over the following three months, I walked, ran, and otherwise jostled my Fitbit
-about a good deal:</p>
+<p>That unfortunately didn’t pan out, and I was left with the age-old question:</p>
 
-<p><img src="https://lh6.googleusercontent.com/-Rk-sPLHtYVg/UH4U3FhjRJI/AAAAAAAAAFY/J7Ygbqqfi_k/s288/lifetime-steps.jpg">
-<img src="https://lh4.googleusercontent.com/-663jKpbc6yw/UH4U3vzf8EI/AAAAAAAAAFg/-EnTuoTD9LQ/s288/lifetime-floors.jpg">
-<img src="https://lh4.googleusercontent.com/-yzUccJOlbCQ/UH4U36eSCJI/AAAAAAAAAFk/Qmx-r-swHwc/s800/lifetime-distance.jpg"></p>
+<p><blockquote><p>What do I do with this idea?</p></blockquote></p>
 
-<p>Somewhere around July 12, tragedy struck: <em>I lost my Fitbit.</em></p>
+<p>It was around this time that, in a moment of exquisite
+digital serendipity, <a href="http://www.meetup.com/">Meetup</a> suggested I check out the
+<a href="http://www.meetup.com/quantifiedself/">Bay Area Quantified Self Meetup Group</a>.</p>
 
-<p><img src="https://lh3.googleusercontent.com/–zc0squq1yo/UH4U1nCGuQI/AAAAAAAAAE8/aDOP5c1f0pw/s400/steps-july.jpg"></p>
+<p>Quantified Self? <a href="/blog/2012/10/02/welcome-to-quantified-savagery/">What’s that?</a>. As I explored the group page, I felt
+a rush of clarity: <em>this was exactly what I’d been doing!</em> There’s a whole
+community of people turning their lives into games in the name of
+self-betterment!</p>
 
-<h3 id="the-good">The Good</h3>
+<p>I bit the bullet and forked over hard cash to sign up for
+<a href="http://www.meetup.com/quantifiedself/events/58370532/">QS Show&amp;Tell #25</a> at the
+<a href="http://goo.gl/maps/fn8H4">California College of the Arts</a>. It was everything I’d hoped for.
+One presenter dissected 30 years of medical data and correlated it with
+his marital status. Another showed off a cyclist threat detection system
+cobbled together by mounting a webcam and sonar unit to his handlebars.
+There was a <em>rich vein of inquiry into awesome here.</em> I was hooked.</p>
 
-<p>My initial impression was ecstatic. Fitbit didn’t look like your average
-pedometer:</p>
+<p><a href="http://www.beaugunderson.com/">Beau Gunderson</a> of
+<a href="https://singly.com/">Singly</a> presented <a href="https://github.com/beaugunderson/zeo-crossfilter">zeo-crossfilter</a>.
+That was the turning point. I saw what he had done and said</p>
 
-<p><img src="https://lh5.googleusercontent.com/-eLa1uqTeKRg/UH4U5G5GSNI/AAAAAAAAAF0/RiNA89GciGQ/s288/fitbit.jpg">
-<img src="https://lh5.googleusercontent.com/-eRCIrQhA5Kk/UH4U1SaRsKI/AAAAAAAAAE0/4y8n3UjOl-c/s288/janky-pedometer.jpg"></p>
+<p><blockquote><p>Hey, I can build that!</p></blockquote></p>
 
-<p>Surround your pullquote like this {" text to be quoted "}</p>
+<p>And so <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a> was born.</p>
 
-<p><em>Wireless syncing</em> and <em>long battery life</em> sweetened the deal. This was a vast step
-up from my pen-and-paper recovery journal. I was doing <em>serious</em> self-tracking
-with <em>serious</em> devices now.</p>
+<h2 id="the-tools">The Tools</h2>
 
-<p>As I started to use it, I noticed <em>small changes in my behavior.</em> I’d walk an
-extra few blocks to the employee shuttle. I’d buy fewer groceries at the market,
-forcing myself to walk there more frequently. I’d take late-evening walks if I
-felt my daily step count was too low. Each change was minor, but they often
-added up to <em>thousands of additional steps per day.</em></p>
+<p>As mentioned, <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a> is a mashup between
+the <a href="http://dev.fitbit.com/">Fitbit API</a>,
+<a href="http://square.github.com/crossfilter/">crossfilter</a>,
+and <a href="http://d3js.org/">d3.js</a>.
+I’ll go over each part with examples.</p>
 
-<p>I’d also revel in more extreme bursts of exercise. A hike in the Marin headlands
-netted me the 30 000 step badge. I pocketed the 200 floors badge after a
-<a href="http://goo.gl/maps/jB7fa">ride up to Tilden</a>.</p>
+<h3 id="fitbit-api">Fitbit API</h3>
 
-<p>For the first time, I could also see how much I was sleeping:</p>
+<p>The Fitbit API uses <a href="http://oauth.net/">OAuth</a> for authentication. If you’ve never
+confronted OAuth before, it can be confusing. To compound the confusion, <em>every
+API provider seems to do it slightly differently.</em> The
+<a href="https://wiki.fitbit.com/display/API/OAuth+Authentication+in+the+Fitbit+API">official Fitbit docs</a> are opaque, the
+<a href="http://tools.ietf.org/html/rfc5849">OAuth specs</a> are even more opaque, and
+the <a href="http://apis.io/Fitbit">unofficial apis.io listing</a> is just wrong:</p>
 
-<p><img src="https://lh6.googleusercontent.com/-QGWtSgEdMz8/UH4U5qNFyXI/AAAAAAAAAF8/5dGzfE_2YBk/s400/sleep-graph.jpg"></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>curl -X GET -u ‘&lt;username&gt;:&lt;password&gt;<span class="err">&#39;</span> http://api.fitbit.com/1/user/-/profile.json 2&amp;gt;/dev/null | jsonpp
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="s2">&quot;errors&quot;</span>: <span class="o">[</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>      <span class="s2">&quot;errorType&quot;</span>: <span class="s2">&quot;oauth&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;fieldName&quot;</span>: <span class="s2">&quot;n/a&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;No Authorization header provided in the request. Each call to Fitbit API should be OAuth signed&quot;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">]</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></password></username></p>
 
-<p><em>Great gouts of data</em> poured into my life, chartporn galore for an unrepentant 
-math addict. Soon it even became a quasi-social activity as my leaderboard
-filled up with my Fitbit-using friends.</p>
+<p>I turned to <a href="https://github.com/simplegeo/python-oauth2">oauth2</a>, a Python library that makes it easier to carry out
+this handshake. First, we get a <em>temporary access token:</em></p>
 
-<p>All in all, the Fitbit seemed like a fantastic way to turbocharge my exercise
-patterns.</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="c"># Fill in your app parameters here.</span>
+</span><span class='line'><span class="n">FITBIT_APP_KEY</span> <span class="o">=</span> <span class="err">‘</span><span class="o">&lt;</span><span class="n">app</span> <span class="n">key</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span><span class="s">&#39;</span>
+</span><span class='line'><span class="n">FITBIT_APP_SECRET</span> <span class="o">=</span> <span class="s">&#39;&lt;app secret=&quot;&quot;&gt;&#39;</span><span class="o">&lt;/</span><span class="n">app</span><span class="o">&gt;&lt;/</span><span class="n">app</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">oauth2</span>
+</span><span class='line'><span class="n">consumer</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Consumer</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">FITBIT_APP_KEY</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="n">FITBIT_APP_SECRET</span><span class="p">)</span>
+</span><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+</span><span class='line'><span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">oauth</span><span class="o">/</span><span class="n">request_token</span><span class="p">,</span> <span class="err">‘</span><span class="n">GET</span><span class="err">’</span><span class="p">)</span>
+</span><span class='line'><span class="n">token</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Token</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span><span class='line'><span class="c"># NOTE: the auth URL uses www.fitbit.com as the domain, NOT api.fitbit.com</span>
+</span><span class='line'><span class="n">auth_url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">oauth</span><span class="o">/</span><span class="n">authorize</span><span class="err">?</span><span class="n">oauth_token</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="n">auth_url</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h3 id="the-bad">The Bad</h3>
+<p>Now we need an <a href="http://wiki.oauth.net/w/page/12238555/Signed%20Callback%20URLs">OAuth verifier</a>. This will be used to retrieve the real
+access credentials. Visit <code>auth_url</code> in your browser,
+log into Fitbit, and click Allow. You’ll be redirected to the OAuth callback
+specified in your app. Use the value of the <code>oauth_verifier</code> GET param on your
+<code>token</code> from before to keep going:</p>
 
-<p>My wife, <a href="http://www.eecs.berkeley.edu/~valkyrie/">Valkyrie Savage</a>, also had a Fitbit. In the instructions, women
-were suggested to wear the Fitbit on their bra strap for the ultimate in
-clandestine self-tracking. This soon unearthed a glaring problem:</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">token</span><span class="o">.</span><span class="n">set_verifier</span><span class="p">(</span><span class="err">‘</span><span class="o">&lt;</span><span class="n">oauth_verifier</span><span class="o">&gt;</span><span class="s">&#39;)</span>
+</span><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">consumer</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+</span><span class='line'><span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;http://api.fitbit.com/oauth/access_token&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">access_token</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Token</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></oauth_verifier></p>
 
-<p><blockquote><p>Sweat is corrosive to metal.</p></blockquote></p>
+<p>With this, we can now <em>retrieve useful information:</em></p>
 
-<p>In particular, the internal leads started to corrode, and before long she was
-unable to connect it to the base station. After a quick phone call, Fitbit
-agreed to replace the device at no cost; we weren’t the first users to have
-this problem, and they were in the process of changing the documentation.</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">request_url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">user</span><span class="o">/-/</span><span class="n">profile</span><span class="o">.</span><span class="n">json</span><span class="err">’</span>
+</span><span class='line'><span class="n">oauth_request</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">from_consumer_and_token</span><span class="p">(</span><span class="n">consumer</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">access_token</span><span class="p">,</span> <span class="n">http_url</span><span class="o">=</span><span class="n">request_url</span><span class="p">)</span>
+</span><span class='line'><span class="c"># Despite what the docs say, you need to generate a plaintext signature.</span>
+</span><span class='line'><span class="n">oauth_request</span><span class="o">.</span><span class="n">sign_request</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">SignatureMethod_PLAINTEXT</span><span class="p">(),</span> <span class="n">consumer</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+</span><span class='line'><span class="n">headers</span> <span class="o">=</span> <span class="n">oauth_request</span><span class="o">.</span><span class="n">to_header</span><span class="p">(</span><span class="n">realm</span><span class="o">=</span><span class="err">’</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">httplib</span>
+</span><span class='line'><span class="n">connection</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="err">‘</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="p">)</span>
+</span><span class='line'><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="err">‘</span><span class="n">GET</span><span class="err">’</span><span class="p">,</span> <span class="n">request_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</span><span class='line'><span class="n">resp</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">json</span>
+</span><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Still, the experience soured the deal a bit. Had they never field-tested it with
-women?</p>
+<p>I encountered a few difficulties in figuring this out:</p>
 
-<p>While we waited for the replacement, I noticed something else: my wristband
-had stretched out and was now loose on my wrist. This was a minor detail,
-but it added to a growing concern that the Fitbit Ultra <em>might not be
-durable enough to withstand our protracted Savage-ing.</em></p>
+<ul>
+  <li>For the authorize step, you need to use <code>www.fitbit.com</code> as the URL domain.
+<code>api.fitbit.com</code> will NOT work.</li>
+  <li>You need to <em>sign all requests with the access token.</em></li>
+  <li>No, <code>oauth2.SignatureMethod_HMAC_SHA1</code> will <strong>NOT</strong> work. Yes, they explicitly
+claim to use HMAC-SHA1 in the documentation. Don’t believe everything you
+read. Use <a href="http://oauth.net/core/1.0/#anchor35">plaintext signatures</a> instead.</li>
+  <li>Fitbit expects both the URI and Authorization header to be set, but
+<code>oauth2</code> will only set <strong>ONE</strong> of them properly.
+See <a href="https://github.com/candu/fitbit-crossfilter/commit/1d094cecaa6c78bc8d5c295a797d96b7e1687493">this commit message</a>
+for more details.</li>
+</ul>
 
-<p>Her second Fitbit finally arrived, and we were back into the self-tracking groove.
-We took our Fitbits everywhere: walking, running, playing soccer, cycling,
-and…wait, no, <em>Valkyrie couldn’t take it swimming.</em> Actually, it didn’t
-measure our cycling accurately, it was useless for my static
-bodyweight exercises, and it couldn’t track our occasional indoor climbing
-stints effectively either. <em>It was discouraging us from doing the activities
-we loved most!</em></p>
+<p>You can see the full implementation <a href="https://github.com/candu/fitbit-crossfilter/blob/master/fitbit_crossfilter/foo/lib/fitbit.py">here</a>, along with
+<a href="https://github.com/candu/fitbit-crossfilter/blob/master/fitbit_crossfilter/foo/views/__init__.py">an example of its use</a>.</p>
 
-<h3 id="the-ugly">The Ugly</h3>
+<h3 id="crossfilter">crossfilter</h3>
 
-<p>As we kept up our co-tracking, Valkyrie and I noticed a curious effect.
-There were several days where we spent the whole day together doing the
-exact same things, and yet <em>I would always be 1000-2000 steps ahead.</em> Our stride lengths
-and heights are nearly equal. What was going on?</p>
+<p>Square’s <a href="http://square.github.com/crossfilter/">crossfilter</a> is a JavaScript library for efficiently performing
+<em>multidimensional range queries.</em> I’ve included an interactive example
+<a href="#quick-demo">below</a>.</p>
 
-<p>We tried wearing the Fitbits in the same locations on our bodies. No effect.
-We tried counting steps while we were out together. The counts matched up.
-The solution came by accident. With the wristband getting more stretched out
-by the day, I finally started taking my Fitbit off when going to bed.
-going to bed.</p>
+<p>crossfilter uses two types of objects to <em>represent a multidimensional dataset:</em></p>
 
-<p>Aha! There was the difference: <em>it was counting every tiny
-movement I made while asleep.</em> This effect was never mentioned in the
-manual. It hadn’t occurred to us that <em>our data might not be comparable!</em></p>
+<ul>
+  <li><strong>dimension:</strong> a map function that returns totally-ordered <em>dimension values</em>
+(e.g. numbers, dates);</li>
+  <li><strong>group:</strong> a reduce function on those dimension values.</li>
+</ul>
 
-<p>Meanwhile, my interest in Quantified Self was gradually intensifying. I
-decided to check out the <a href="http://dev.fitbit.com/">Fitbit API</a>, hoping to create something like
-<a href="https://github.com/beaugunderson/zeo-crossfilter">zeo-crossfilter</a> for Fitbit.
-This immediately hit a snag: <em>to get the minute-by-minute data, you need 
-Partner API access.</em></p>
+<p>The <em>totally-ordered</em> part is essential, since that makes it possible to
+perform range queries. A quick code snippet might help explain this further:</p>
 
-<p><blockquote><p>Partner API allows to fetch the intraday data points with 1 minute detail level for several user resources</p><footer><strong>Fitbit Partner API</strong> <cite><a href='https://wiki.fitbit.com/display/API/Fitbit+Partner+API'>wiki.fitbit.com/display/API/&hellip;</a></cite></footer></blockquote></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">L</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">N</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">M</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">N</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">L</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">i</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">M</span> <span class="o">*</span> <span class="p">(</span><span class="nx">N</span> <span class="o">-</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">N</span><span class="p">)]);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">crossfilter</span><span class="p">(</span><span class="nx">L</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">d0</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">dimension</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">g0</span> <span class="o">=</span> <span class="nx">d0</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">d1</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">dimension</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">g1</span> <span class="o">=</span> <span class="nx">d1</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+</span><span class='line'><span class="nx">d0</span><span class="p">.</span><span class="nx">filterRange</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Fortunately, <a href="http://pavelrisenberg.com/">Pavel Risenberg</a>
-happily extended this access upon request, and I soon had
-<a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a> up and
-working.</p>
+<p>At this point, we can <em>inspect the dimensions and groups</em> to understand the
+effect of <code>filterRange()</code>:</p>
 
-<p><img src="https://lh6.googleusercontent.com/-Ys7TdGOf2kI/UH4U6Tb2pRI/AAAAAAAAAGE/yVHssco65NU/s640/fitbit-crossfilter.jpg"></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">top</span><span class="p">(</span><span class="kc">Infinity</span><span class="p">))</span>
+</span><span class='line'><span class="err">‘</span><span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span><span class="err">’</span>
+</span><span class='line'><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">g1</span><span class="p">.</span><span class="nx">all</span><span class="p">())</span>
+</span><span class='line'><span class="err">‘</span><span class="p">[{</span><span class="err">“</span><span class="nx">key</span><span class="err">”</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span><span class="err">”</span><span class="nx">value</span><span class="err">”</span><span class="o">:</span><span class="mi">3</span><span class="p">},{</span><span class="err">“</span><span class="nx">key</span><span class="err">”</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span><span class="err">”</span><span class="nx">value</span><span class="err">”</span><span class="o">:</span><span class="mi">2</span><span class="p">}]</span><span class="err">’</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Again, though, there was that sour taste. <em>Why not provide this access by default?</em>
-A bit of digging around the site revealed a likely culprit:
-<a href="http://www.fitbit.com/premium/about">Fitbit Premium</a>.
-Users can pay to turn Fitbit into a personal trainer, gaining access
-to more powerful data reports and goal-setting tools.</p>
+<p>Note that the range <code>[3, 8]</code> is actually interpreted as the semi-open interval
+$ [3, 8) $. Note also that the elements of <code>g1.all()</code> are of the form
+<code>{key: k, value: v}</code> where <code>v</code> is the number of elements <code>x</code> with
+<code>3 &lt;= x[0] &amp;&amp; x[0] &lt; 8 &amp;&amp; x[1] == k</code>.</p>
 
-<h3 id="the-verdict">The Verdict</h3>
+<h3 id="d3js">d3.js</h3>
 
-<p><em>Was the Fitbit useful for me?</em> As a way to encourage walking: definitely.
-As a lightweight persistent self-tracking device: mostly. As part of an
-exercise program that meant something to me: not really.</p>
+<p><blockquote><p>D3.js is a JavaScript library for manipulating documents based on data.</p></blockquote></p>
 
-<p>I was left with a strong suspicion that <em>I wasn’t in their target demographic.</em> I was
-already fairly active. 10 000 steps was more of a baseline than a goal. I didn’t
-really need to walk more, and <em>I couldn’t trust it</em> to accurately track the types
-of exercise I enjoy most.</p>
+<p>Using HTML, SVG, CSS, and JavaScript, you can build some pretty stunning
+visualizations.
+Again, check out the interactive example <a href="#quick-demo">below</a>. For more
+examples, the <a href="https://github.com/mbostock/d3/wiki/Gallery">D3 Gallery</a> is
+many kinds of awesome.</p>
 
-<p>This is an important lesson for aspiring Quantified Self entrepreneurs:</p>
+<h3 id="a-quick-demo">A Quick Demo</h3>
 
-<p><blockquote><p>Your product is personal by nature.</p></blockquote></p>
+<div id="quick-demo">
+  <style type="text/css">
+    .chart {
+      display: inline-block;
+      height: 151px;
+      margin-bottom: 20px;
+    }
+    
+    .reset {
+      margin-left: 1em;
+      font-size: smaller;
+    }
+    
+    .background.bar {
+      fill: #ccc;
+    }
+    
+    .foreground.bar {
+      fill: steelblue;
+    }
+    
+    .axis path, .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+    
+    .axis text {
+      font: 10px sans-serif;
+    }
+    
+    .brush rect.extent {
+      fill: steelblue;
+      fill-opacity: .125;
+    }
+    
+    .brush .resize path {
+      fill: #eee;
+      stroke: #666;
+    }
 
-<p>Your product will encounter
-<a href="http://quantifiedself.com/2012/08/nir-eyal-knowing-your-behaviour-type-from-gary-wolf-on-vimeo/">different behaviors</a>,
-needs, and goals. <em>You are not everyone.</em> You will never understand most of these
-behaviors, needs, and goals firsthand. No amount of user studies,
-A/B testing, or market research will save you from this fundamental truth.</p>
+    #chartA {
+      width: 610px;
+    }
+    
+    #chartB {
+      width: 610px;
+    }
+  </style>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/crossfilter.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/d3.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/chart.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/demo.js"></script>
+  <div id="charts">
+    <div id="chartA" class="chart">
+      <div class="title">A</div>
+    </div>
+    <div id="chartB" class="chart">
+      <div class="title">B</div>
+    </div>
+  </div>
+</div>
 
-<p>The only way out is to <em>give users control.</em> Let them tinker, mashup, share,
-and explore. <em>Let them decide what your product means to them.</em></p>
+<h2 id="insights-from-my-data">Insights From My Data</h2>
 
-<h2 id="questions-from-my-time-as-a-fitbit-user">Questions From My Time As A Fitbit User</h2>
+<p>You can see the live dashboard <a href="http://fitbit.savageevan.com/">here</a>. Some of the highlights:</p>
 
-<h3 id="who-owns-self-tracking-data">Who Owns Self-Tracking Data?</h3>
+<ul>
+  <li>During this tracking period, I was <em>most active during the 8-10 am and 6-9 pm
+timeslots.</em> (The former was my morning walk to the employee shuttle; the
+latter was the evening walk back plus <a href="http://soccerfours.com/">Soccer Fours</a>.</li>
+  <li>The more sleep I get, the more bipolar my exercise habits become.</li>
+  <li>Unlike Beau Gunderson, I’m not seeing a correlation between number of times
+awoken and duration of sleep.</li>
+  <li>There is, however, a clear positive correlation between steps per minute
+and calories burned per minute, as expected.</li>
+</ul>
 
-<p>Surround your pullquote like this {" text to be quoted "}</p>
+<p>Again, you can play around with the dashboard <a href="http://fitbit.savageevan.com/">here</a>
+to find patterns in my Fitbit data.</p>
 
-<p>The analogy is apt. Much as the old fiefdoms laid claim to your land and labor,
-these fiefdoms <em>use your data and your data entry labor to enrich
-themselves.</em> Much as the old fiefdoms provided vital services in exchange
-for this taxation, you receive the <em>benefit of services like search and
-social networking.</em> Much as the old fiefdoms fought each other relentlessly for
-economic gain, these fiefdoms <em>wage war over users and intellectual property.</em></p>
+<h2 id="how-to-use-fitbit-crossfilter">How To Use fitbit-crossfilter</h2>
 
-<p>This is not necessarily bad. As a result of these data fiefdoms, we have many
-services that might not otherwise exist. By selling your self-tracking data
-back to you, Fitbit is <em>able to fund the provision of tools for managing and
-improving your fitness.</em> Those tools are generally of reasonable quality,
-and are likely to improve over time.</p>
+<p>I’ve placed my live fitbit-crossfilter dashboard into demo mode, but <em>you can
+fetch and view your data as follows.</em></p>
 
-<p>However, if you want to make your own tools, <em>you’re largely out of
-luck.</em> You can pay for different tools via Fitbit Premium, but there’s no
-guarantee that those tools will be better for <em>you.</em> Your only other
-recourse is to navigate the API documentation and contact the right people for
-better data access. Even with that access, you still only have
-minute-by-minute data. You have no idea how Fitbit maps between raw
-accelerometer readings and steps, and definitely no opportunity to improve that
-mapping. To take my example, <em>I can’t tweak the step detection algorithms to
-measure cycling accurately.</em></p>
+<p>First, you will need a Fitbit app <em>with Partner API access</em>; see
+<a href="https://wiki.fitbit.com/display/API/Fitbit+Partner+API">this page</a> for more details on setting that up. Use the following
+application settings:</p>
 
-<p>Even though the average person won’t care to make these improvements,
-<em>a few people will.</em> This recalls the <a href="https://www.facebook.com/photo.php?fbid=3563106890027">reddit maxim</a>:</p>
+<ul>
+  <li><strong>Application Type:</strong> Website</li>
+  <li><strong>Callback URL:</strong> <code>http://localhost:9001/oauth</code></li>
+  <li><strong>Default Access Type:</strong> Read-Only</li>
+</ul>
 
-<p><img src="https://lh6.googleusercontent.com/-Y4JWrp5wBmU/UH4U4dNSO-I/AAAAAAAAAFs/qCIibiyvafk/s400/give-a-damn.jpg"></p>
+<p>Now copy <code>settings.py.nopasswd</code> to create your settings file:</p>
 
-<p><em>There’s a tension here.</em> This is how better products are built, but it’s not
-in Fitbit’s interest to let just anyone do that in a completely unconstrained
-fashion. If they do, they go out of business.</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cp settings.py.nopasswd settings.py
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h3 id="what-is-my-ideal-fitness-tracking-device">What Is My Ideal Fitness Tracking Device?</h3>
+<p>Edit the bottom of <code>settings.py</code>:</p>
 
-<p>It would be:</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">SYNC_ENABLED</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class='line'><span class="n">DEFAULT_USER</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="n">FITBIT_CONSUMER_KEY</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">app</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="n">key</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">FITBIT_CONSUMER_SECRET</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">app</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="n">secret</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></your></your></p>
 
-<ol>
-  <li><strong>activity-agnostic,</strong> with the ability to track diverse forms of
-physical activity.</li>
-  <li><strong>water-resistant.</strong> (I won’t ask for waterproof, since I’m not much of a
-swimmer myself, but it should be able to handle light rain and a little
-sweat.)</li>
-  <li><strong>data-transparent,</strong> allowing me to get at the raw data without going
-through a vendor API. (I note that <a href="https://github.com/qdot/libfitbit">libfitbit</a> exists as an
-attempt to reverse-engineer Fitbit, but I haven’t played around with it.)</li>
-</ol>
+<p>Start the server, login, and sync your data:</p>
 
-<p>I haven’t looked into <a href="http://www.bodymedia.com/">BodyMedia</a> or
-<a href="https://fluxtream.com">Fluxtream</a>, but they both look promising.</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python manage.py runserver 9001
+</span><span class='line'><span class="c"># visit localhost:9001/login in the browser to do the OAuth handshake</span>
+</span><span class='line'><span class="c"># visit localhost:9001/sync-user-data in the browser to sync data</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h3 id="is-persistent-tracking-useful">Is Persistent Tracking Useful?</h3>
-
-<p><blockquote><p>Yes, but only if you can analyze the data as quickly as you generate it.</p></blockquote></p>
+<p>When the syncing completes, you’ll be redirected to your dashboard.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Self-Tracking for Panic: Another Dataset]]></title>
-    <link href="http://candu.github.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/"/>
+    <link href="http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/"/>
     <updated>2012-10-14T21:23:00-07:00</updated>
-    <id>http://candu.github.com/blog/2012/10/14/self-tracking-for-panic-another-dataset</id>
+    <id>http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset</id>
     <content type="html"><![CDATA[<p>In this post, I perform the same analyses presented in
 <a href="/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/">my last post</a> using data from my second panic tracking period.
 I then test whether my average alcohol and sugar consumption changed
@@ -496,9 +662,9 @@ suggest I should?</em></p>
   
   <entry>
     <title type="html"><![CDATA[Self-Tracking For Panic: A Deeper Look]]></title>
-    <link href="http://candu.github.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/"/>
+    <link href="http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/"/>
     <updated>2012-10-09T07:00:00-07:00</updated>
-    <id>http://candu.github.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look</id>
+    <id>http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look</id>
     <content type="html"><![CDATA[<p>In this post, I apply three statistical and machine learning tools to my panic
 recovery journal data: linear regression/correlation, the Fast Fourier
 Transform, and maximum entropy modelling.</p>
@@ -866,9 +1032,9 @@ self-tracking. I perform these same three analyses on the
   
   <entry>
     <title type="html"><![CDATA[Self-Tracking For Panic: A bash-ful Look At Some Data]]></title>
-    <link href="http://candu.github.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/"/>
+    <link href="http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/"/>
     <updated>2012-10-08T10:00:00-07:00</updated>
-    <id>http://candu.github.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look</id>
+    <id>http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look</id>
     <content type="html"><![CDATA[<p>In this post, I perform initial exploratory analysis on my panic recovery
 journal data using basic UNIX/bash commands.</p>
 
@@ -1390,9 +1556,9 @@ reduce friction in the recording process.</p>
   
   <entry>
     <title type="html"><![CDATA[Panic!]]></title>
-    <link href="http://candu.github.com/blog/2012/10/03/panic/"/>
+    <link href="http://blog.savageevan.com/blog/2012/10/03/panic/"/>
     <updated>2012-10-03T17:47:00-07:00</updated>
-    <id>http://candu.github.com/blog/2012/10/03/panic</id>
+    <id>http://blog.savageevan.com/blog/2012/10/03/panic</id>
     <content type="html"><![CDATA[<p>In this post, I’ll tell the story of how I got started with self-tracking
 and talk briefly about my first experiment.</p>
 

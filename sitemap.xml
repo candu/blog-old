@@ -1,39 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://candu.github.com/blog/2012/10/02/welcome-to-quantified-savagery/</loc>
+        <loc>http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery/</loc>
         <lastmod>2012-10-05T14:54:29-07:00</lastmod>
     </url>
     <url>
-        <loc>http://candu.github.com/blog/2012/10/03/panic/</loc>
+        <loc>http://blog.savageevan.com/blog/2012/10/03/panic/</loc>
         <lastmod>2012-10-05T17:25:58-07:00</lastmod>
     </url>
     <url>
-        <loc>http://candu.github.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/</loc>
+        <loc>
+            http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/
+        </loc>
         <lastmod>2012-10-08T14:57:46-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://candu.github.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/
+            http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/
         </loc>
         <lastmod>2012-10-14T18:26:00-07:00</lastmod>
     </url>
     <url>
         <loc>
-            http://candu.github.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/
+            http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/
         </loc>
         <lastmod>2012-10-15T14:07:37-07:00</lastmod>
     </url>
     <url>
-        <loc>http://candu.github.com/blog/2012/10/16/fitbit-my-brief-experience/</loc>
-        <lastmod>2012-10-16T19:26:25-07:00</lastmod>
+        <loc>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/</loc>
+        <lastmod>2012-10-18T15:27:02-07:00</lastmod>
     </url>
     <url>
-        <loc>http://candu.github.com/blog/archives/</loc>
-        <lastmod>2012-10-16T19:26:25-07:00</lastmod>
+        <loc>http://blog.savageevan.com/blog/archives/</loc>
+        <lastmod>2012-10-18T15:27:02-07:00</lastmod>
     </url>
     <url>
-        <loc>http://candu.github.com/</loc>
-        <lastmod>2012-10-16T19:26:25-07:00</lastmod>
+        <loc>http://blog.savageevan.com/</loc>
+        <lastmod>2012-10-18T15:27:02-07:00</lastmod>
     </url>
 </urlset>

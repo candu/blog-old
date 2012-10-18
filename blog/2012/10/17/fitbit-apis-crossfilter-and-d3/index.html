@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,500,500italic' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8">
+  <title>Fitbit: APIs, crossfilter, and d3.js - Quantified Savagery</title>
+  <meta name="author" content="Evan Savage">
+
+  
+  <meta name="description" content="In this post, I present
+fitbit-crossfilter, which uses
+the Fitbit API, crossfilter and d3.js
+to provide an interactive visualization for exploratory &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!-- see http://luikore.github.com/2011/09/good-things-learned-from-octopress/ -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+  </script>
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <link href="/atom.xml" rel="alternate" title="Quantified Savagery" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34927069-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Quantified Savagery</a></h1>
+  
+    <h2>Where Personal Data Runs Wild</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.savageevan.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Fitbit: APIs, Crossfilter, and d3.js</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-17T08:30:00-07:00" pubdate data-updated="true">Oct 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In this post, I present
+<a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a>, which uses
+the <a href="http://dev.fitbit.com/">Fitbit API</a>, <a href="http://square.github.com/crossfilter/">crossfilter</a> and <a href="http://d3js.org/">d3.js</a>
+to provide an interactive visualization for exploratory analysis.</p>
+
+<!-- more -->
+
+<h2 id="the-inspiration">The Inspiration</h2>
+
+<p>It was early April 2012. By this point, I’d been through a stint of pen-and-paper
+self-tracking for <a href="/blog/2012/10/03/panic/">panic recovery</a>.
+I’d <a href="/blog/2012/10/16/fitbit-my-brief-experience/">just received my Fitbit in the mail</a>. </p>
+
+<p>Earlier that year, I applied to the <a href="http://www.eecs.berkeley.edu/Gradadm/">EECS PhD program at UC Berkeley</a> with
+<a href="https://docs.google.com/document/d/10PupOF0RLa54o6y9_xBGnj7VbjtQNPab0-HdoVfT6gA/edit">this statement of purpose</a>. I was fascinated by this idea that <em>pervasive
+gameplay really could make us all better</em>, that somewhere beyond the rat wheel
+of gamification was hidden a Shangri-La of game-driven awesome.</p>
+
+<p>That unfortunately didn’t pan out, and I was left with the age-old question:</p>
+
+<blockquote><p>What do I do with this idea?</p></blockquote>
+
+<p>It was around this time that, in a moment of exquisite
+digital serendipity, <a href="http://www.meetup.com/">Meetup</a> suggested I check out the
+<a href="http://www.meetup.com/quantifiedself/">Bay Area Quantified Self Meetup Group</a>.</p>
+
+<p>Quantified Self? <a href="/blog/2012/10/02/welcome-to-quantified-savagery/">What’s that?</a>. As I explored the group page, I felt
+a rush of clarity: <em>this was exactly what I’d been doing!</em> There’s a whole
+community of people turning their lives into games in the name of
+self-betterment!</p>
+
+<p>I bit the bullet and forked over hard cash to sign up for
+<a href="http://www.meetup.com/quantifiedself/events/58370532/">QS Show&amp;Tell #25</a> at the
+<a href="http://goo.gl/maps/fn8H4">California College of the Arts</a>. It was everything I’d hoped for.
+One presenter dissected 30 years of medical data and correlated it with
+his marital status. Another showed off a cyclist threat detection system
+cobbled together by mounting a webcam and sonar unit to his handlebars.
+There was a <em>rich vein of inquiry into awesome here.</em> I was hooked.</p>
+
+<p><a href="http://www.beaugunderson.com/">Beau Gunderson</a> of
+<a href="https://singly.com/">Singly</a> presented <a href="https://github.com/beaugunderson/zeo-crossfilter">zeo-crossfilter</a>.
+That was the turning point. I saw what he had done and said</p>
+
+<blockquote><p>Hey, I can build that!</p></blockquote>
+
+<p>And so <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a> was born.</p>
+
+<h2 id="the-tools">The Tools</h2>
+
+<p>As mentioned, <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a> is a mashup between
+the <a href="http://dev.fitbit.com/">Fitbit API</a>,
+<a href="http://square.github.com/crossfilter/">crossfilter</a>,
+and <a href="http://d3js.org/">d3.js</a>.
+I’ll go over each part with examples.</p>
+
+<h3 id="fitbit-api">Fitbit API</h3>
+
+<p>The Fitbit API uses <a href="http://oauth.net/">OAuth</a> for authentication. If you’ve never
+confronted OAuth before, it can be confusing. To compound the confusion, <em>every
+API provider seems to do it slightly differently.</em> The
+<a href="https://wiki.fitbit.com/display/API/OAuth+Authentication+in+the+Fitbit+API">official Fitbit docs</a> are opaque, the
+<a href="http://tools.ietf.org/html/rfc5849">OAuth specs</a> are even more opaque, and
+the <a href="http://apis.io/Fitbit">unofficial apis.io listing</a> is just wrong:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>curl -X GET -u <span class="s1">&#39;&lt;username&gt;:&lt;password&gt;&#39;</span> http://api.fitbit.com/1/user/-/profile.json 2&gt;/dev/null | jsonpp
+</span><span class="line"><span class="o">{</span>
+</span><span class="line">  <span class="s2">&quot;errors&quot;</span>: <span class="o">[</span>
+</span><span class="line">    <span class="o">{</span>
+</span><span class="line">      <span class="s2">&quot;errorType&quot;</span>: <span class="s2">&quot;oauth&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;fieldName&quot;</span>: <span class="s2">&quot;n/a&quot;</span>,
+</span><span class="line">      <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;No Authorization header provided in the request. Each call to Fitbit API should be OAuth signed&quot;</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">  <span class="o">]</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I turned to <a href="https://github.com/simplegeo/python-oauth2">oauth2</a>, a Python library that makes it easier to carry out
+this handshake. First, we get a <em>temporary access token:</em></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="py"><span class="line"><span class="c"># Fill in your app parameters here.</span>
+</span><span class="line"><span class="n">FITBIT_APP_KEY</span> <span class="o">=</span> <span class="s">&#39;&lt;app key&gt;&#39;</span>
+</span><span class="line"><span class="n">FITBIT_APP_SECRET</span> <span class="o">=</span> <span class="s">&#39;&lt;app secret&gt;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="kn">import</span> <span class="nn">oauth2</span>
+</span><span class="line"><span class="n">consumer</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Consumer</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">FITBIT_APP_KEY</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="n">FITBIT_APP_SECRET</span><span class="p">)</span>
+</span><span class="line"><span class="n">client</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+</span><span class="line"><span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;http://api.fitbit.com/oauth/request_token, &#39;</span><span class="n">GET</span><span class="s">&#39;)</span>
+</span><span class="line"><span class="n">token</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Token</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span><span class="line"><span class="c"># NOTE: the auth URL uses www.fitbit.com as the domain, NOT api.fitbit.com</span>
+</span><span class="line"><span class="n">auth_url</span> <span class="o">=</span> <span class="s">&#39;http://www.fitbit.com/oauth/authorize?oauth_token={0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+</span><span class="line"><span class="k">print</span> <span class="n">auth_url</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now we need an <a href="http://wiki.oauth.net/w/page/12238555/Signed%20Callback%20URLs">OAuth verifier</a>. This will be used to retrieve the real
+access credentials. Visit <code>auth_url</code> in your browser,
+log into Fitbit, and click Allow. You’ll be redirected to the OAuth callback
+specified in your app. Use the value of the <code>oauth_verifier</code> GET param on your
+<code>token</code> from before to keep going:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="py"><span class="line"><span class="n">token</span><span class="o">.</span><span class="n">set_verifier</span><span class="p">(</span><span class="s">&#39;&lt;oauth_verifier&gt;&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">client</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">consumer</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+</span><span class="line"><span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;http://api.fitbit.com/oauth/access_token&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">access_token</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Token</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>With this, we can now <em>retrieve useful information:</em></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="py"><span class="line"><span class="n">request_url</span> <span class="o">=</span> <span class="s">&#39;http://api.fitbit.com/1/user/-/profile.json&#39;</span>
+</span><span class="line"><span class="n">oauth_request</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">from_consumer_and_token</span><span class="p">(</span><span class="n">consumer</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">access_token</span><span class="p">,</span> <span class="n">http_url</span><span class="o">=</span><span class="n">request_url</span><span class="p">)</span>
+</span><span class="line"><span class="c"># Despite what the docs say, you need to generate a plaintext signature.</span>
+</span><span class="line"><span class="n">oauth_request</span><span class="o">.</span><span class="n">sign_request</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">SignatureMethod_PLAINTEXT</span><span class="p">(),</span> <span class="n">consumer</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+</span><span class="line"><span class="n">headers</span> <span class="o">=</span> <span class="n">oauth_request</span><span class="o">.</span><span class="n">to_header</span><span class="p">(</span><span class="n">realm</span><span class="o">=</span><span class="s">&#39;api.fitbit.com&#39;</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kn">import</span> <span class="nn">httplib</span>
+</span><span class="line"><span class="n">connection</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="s">&#39;api.fitbit.com&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="n">request_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</span><span class="line"><span class="n">resp</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
+</span><span class="line">
+</span><span class="line"><span class="kn">import</span> <span class="nn">json</span>
+</span><span class="line"><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I encountered a few difficulties in figuring this out:</p>
+
+<ul>
+  <li>For the authorize step, you need to use <code>www.fitbit.com</code> as the URL domain.
+<code>api.fitbit.com</code> will NOT work.</li>
+  <li>You need to <em>sign all requests with the access token.</em></li>
+  <li>No, <code>oauth2.SignatureMethod_HMAC_SHA1</code> will <strong>NOT</strong> work. Yes, they explicitly
+claim to use HMAC-SHA1 in the documentation. Don’t believe everything you
+read. Use <a href="http://oauth.net/core/1.0/#anchor35">plaintext signatures</a> instead.</li>
+  <li>Fitbit expects both the URI and Authorization header to be set, but
+<code>oauth2</code> will only set <strong>ONE</strong> of them properly.
+See <a href="https://github.com/candu/fitbit-crossfilter/commit/1d094cecaa6c78bc8d5c295a797d96b7e1687493">this commit message</a>
+for more details.</li>
+</ul>
+
+<p>You can see the full implementation <a href="https://github.com/candu/fitbit-crossfilter/blob/master/fitbit_crossfilter/foo/lib/fitbit.py">here</a>, along with
+<a href="https://github.com/candu/fitbit-crossfilter/blob/master/fitbit_crossfilter/foo/views/__init__.py">an example of its use</a>.</p>
+
+<h3 id="crossfilter">crossfilter</h3>
+
+<p>Square’s <a href="http://square.github.com/crossfilter/">crossfilter</a> is a JavaScript library for efficiently performing
+<em>multidimensional range queries.</em> I’ve included an interactive example
+<a href="#quick-demo">below</a>.</p>
+
+<p>crossfilter uses two types of objects to <em>represent a multidimensional dataset:</em></p>
+
+<ul>
+  <li><strong>dimension:</strong> a map function that returns totally-ordered <em>dimension values</em>
+(e.g. numbers, dates);</li>
+  <li><strong>group:</strong> a reduce function on those dimension values.</li>
+</ul>
+
+<p>The <em>totally-ordered</em> part is essential, since that makes it possible to
+perform range queries. A quick code snippet might help explain this further:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="kd">var</span> <span class="nx">L</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">N</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">M</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class="line"><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">N</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="nx">L</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">i</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">M</span> <span class="o">*</span> <span class="p">(</span><span class="nx">N</span> <span class="o">-</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">N</span><span class="p">)]);</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">crossfilter</span><span class="p">(</span><span class="nx">L</span><span class="p">);</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">d0</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">dimension</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">});</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">g0</span> <span class="o">=</span> <span class="nx">d0</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">d1</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">dimension</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="p">});</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">g1</span> <span class="o">=</span> <span class="nx">d1</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+</span><span class="line"><span class="nx">d0</span><span class="p">.</span><span class="nx">filterRange</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>At this point, we can <em>inspect the dimensions and groups</em> to understand the
+effect of <code>filterRange()</code>:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="o">&gt;</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">top</span><span class="p">(</span><span class="kc">Infinity</span><span class="p">))</span>
+</span><span class="line"><span class="s1">&#39;[[4,1],[3,1],[7,0],[6,0],[5,0]]&#39;</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">g1</span><span class="p">.</span><span class="nx">all</span><span class="p">())</span>
+</span><span class="line"><span class="s1">&#39;[{&quot;key&quot;:0,&quot;value&quot;:3},{&quot;key&quot;:1,&quot;value&quot;:2}]&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Note that the range <code>[3, 8]</code> is actually interpreted as the semi-open interval
+$ [3, 8) $. Note also that the elements of <code>g1.all()</code> are of the form
+<code>{key: k, value: v}</code> where <code>v</code> is the number of elements <code>x</code> with
+<code>3 &lt;= x[0] &amp;&amp; x[0] &lt; 8 &amp;&amp; x[1] == k</code>.</p>
+
+<h3 id="d3js">d3.js</h3>
+
+<blockquote><p>D3.js is a JavaScript library for manipulating documents based on data.</p></blockquote>
+
+<p>Using HTML, SVG, CSS, and JavaScript, you can build some pretty stunning
+visualizations.
+Again, check out the interactive example <a href="#quick-demo">below</a>. For more
+examples, the <a href="https://github.com/mbostock/d3/wiki/Gallery">D3 Gallery</a> is
+many kinds of awesome.</p>
+
+<h3 id="a-quick-demo">A Quick Demo</h3>
+
+<div id="quick-demo">
+  <style type="text/css">
+    .chart {
+      display: inline-block;
+      height: 151px;
+      margin-bottom: 20px;
+    }
+    
+    .reset {
+      margin-left: 1em;
+      font-size: smaller;
+    }
+    
+    .background.bar {
+      fill: #ccc;
+    }
+    
+    .foreground.bar {
+      fill: steelblue;
+    }
+    
+    .axis path, .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+    
+    .axis text {
+      font: 10px sans-serif;
+    }
+    
+    .brush rect.extent {
+      fill: steelblue;
+      fill-opacity: .125;
+    }
+    
+    .brush .resize path {
+      fill: #eee;
+      stroke: #666;
+    }
+
+    #chartA {
+      width: 610px;
+    }
+    
+    #chartB {
+      width: 610px;
+    }
+  </style>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/crossfilter.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/d3.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/chart.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/demo.js"></script>
+  <div id="charts">
+    <div id="chartA" class="chart">
+      <div class="title">A</div>
+    </div>
+    <div id="chartB" class="chart">
+      <div class="title">B</div>
+    </div>
+  </div>
+</div>
+
+<h2 id="insights-from-my-data">Insights From My Data</h2>
+
+<p>You can see the live dashboard <a href="http://fitbit.savageevan.com/">here</a>. Some of the highlights:</p>
+
+<ul>
+  <li>During this tracking period, I was <em>most active during the 8-10 am and 6-9 pm
+timeslots.</em> (The former was my morning walk to the employee shuttle; the
+latter was the evening walk back plus <a href="http://soccerfours.com/">Soccer Fours</a>.</li>
+  <li>The more sleep I get, the more bipolar my exercise habits become.</li>
+  <li>Unlike Beau Gunderson, I’m not seeing a correlation between number of times
+awoken and duration of sleep.</li>
+  <li>There is, however, a clear positive correlation between steps per minute
+and calories burned per minute, as expected.</li>
+</ul>
+
+<p>Again, you can play around with the dashboard <a href="http://fitbit.savageevan.com/">here</a>
+to find patterns in my Fitbit data.</p>
+
+<h2 id="how-to-use-fitbit-crossfilter">How To Use fitbit-crossfilter</h2>
+
+<p>I’ve placed my live fitbit-crossfilter dashboard into demo mode, but <em>you can
+fetch and view your data as follows.</em></p>
+
+<p>First, you will need a Fitbit app <em>with Partner API access</em>; see
+<a href="https://wiki.fitbit.com/display/API/Fitbit+Partner+API">this page</a> for more details on setting that up. Use the following
+application settings:</p>
+
+<ul>
+  <li><strong>Application Type:</strong> Website</li>
+  <li><strong>Callback URL:</strong> <code>http://localhost:9001/oauth</code></li>
+  <li><strong>Default Access Type:</strong> Read-Only</li>
+</ul>
+
+<p>Now copy <code>settings.py.nopasswd</code> to create your settings file:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>cp settings.py.nopasswd settings.py
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Edit the bottom of <code>settings.py</code>:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="py"><span class="line"><span class="n">SYNC_ENABLED</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class="line"><span class="n">DEFAULT_USER</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class="line"><span class="n">FITBIT_CONSUMER_KEY</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">app</span> <span class="n">key</span><span class="o">&gt;</span>
+</span><span class="line"><span class="n">FITBIT_CONSUMER_SECRET</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">app</span> <span class="n">secret</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Start the server, login, and sync your data:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>python manage.py runserver 9001
+</span><span class="line"><span class="c"># visit localhost:9001/login in the browser to do the OAuth handshake</span>
+</span><span class="line"><span class="c"># visit localhost:9001/sync-user-data in the browser to sync data</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>When the syncing completes, you’ll be redirected to your dashboard.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Evan Savage</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-17T08:30:00-07:00" pubdate data-updated="true">Oct 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/panic/'>Panic</a>, <a class='category' href='/blog/categories/technical/'>Technical</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/14/self-tracking-for-panic-another-dataset/" title="Previous Post: Self-Tracking for Panic: Another Dataset">&laquo; Self-Tracking for Panic: Another Dataset</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/">Fitbit: APIs, crossfilter, and d3.js</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/14/self-tracking-for-panic-another-dataset/">Self-Tracking for Panic: Another Dataset</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/">Self-Tracking For Panic: A Deeper Look</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">Self-Tracking For Panic: A bash-ful Look At Some Data</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/03/panic/">Panic!</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/candu">@candu</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'candu',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("candusavage", 5, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/candusavage" class="twitter-follow-button" data-show-count="false">Follow @candusavage</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Evan Savage -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
