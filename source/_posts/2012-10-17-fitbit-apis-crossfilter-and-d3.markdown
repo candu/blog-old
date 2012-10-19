@@ -197,7 +197,7 @@ $ [3, 8) $. Note also that the elements of `g1.all()` are of the form
 
 ### d3.js
 
-{% blockquote http://d3js.org/ %}
+{% blockquote D3.js http://d3js.org/ %}
 D3.js is a JavaScript library for manipulating documents based on data.
 {% endblockquote %}
 
@@ -271,6 +271,9 @@ many kinds of awesome.
     </div>
   </div>
 </div>
+
+If you're viewing this through an RSS reader, the above demo won't show
+correctly. You can view it [on my blog](/blog/2012/10/17/fitbit-apis-crossfilter-and-d3#quick-demo).
 
 ## Insights From My Data
 
