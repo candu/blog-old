@@ -102,6 +102,8 @@ a [quick demo](#quick-demo) below.
 If you're viewing this on an RSS reader, check out the example
 [on my blog](/blog/2012/10/22/dont-hate-cross-correlate/#quick-demo).
 
+You can see the code for this demo [here](https://github.com/candu/quantified-savagery-files/tree/master/Algorithms/cross-correlation).
+
 <div id="quick-demo" markdown="0">
   <style type="text/css">
     #datasets {
@@ -141,6 +143,7 @@ If you're viewing this on an RSS reader, check out the example
     #status {
       color: #909;
       font-family: "Menlo", monospace;
+      padding-bottom: 10px;
     }
     
     #s1-picker {
@@ -187,9 +190,25 @@ the cross-correlation is maximized!*
 Given the two sleep signals $ S, T $ above, cross-correlation makes it
 possible to answer these questions:
 
-- Who wakes up first?
+- Who wakes up first? By how long?
 - Accounting for the time shift in awakening, how closely do the sleep
   patterns match?
+
+This gives a *more rigorous* sense of whether the peaks in nighttime activity
+actually do coincide. It also identifies the person who wakes up first and
+how much earlier they wake up.
+
+While simply *looking at the data* can be very effective, rigorous analysis
+has definite value if you plan to *carry out further experiments.* Armed with
+cross-correlation data, you can answer questions like
+
+{% blockquote %}
+Okay, I switched to a separately-coiled mattress. How well does that prevent
+us from waking each other up?
+{% endblockquote %}
+
+In general, *signal processing* techniques can be highly useful in examining
+time-series data.
 
 ## Up Next
 
