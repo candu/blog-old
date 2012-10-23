@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Panic | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/panic/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-10-19T12:09:28-07:00</updated>
+  <updated>2012-10-23T14:09:35-05:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Track Your Happiness: An Adventure In Data Extraction]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/"/>
-    <updated>2012-10-18T15:41:00-07:00</updated>
+    <updated>2012-10-18T15:41:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction</id>
     <content type="html"><![CDATA[<p>In this post, I go over my first report from
 <a href="https://www.trackyourhappiness.org/">Track Your Happiness</a>, a tool that uses
@@ -262,7 +262,7 @@ experiments.</p>
   <entry>
     <title type="html"><![CDATA[Fitbit: APIs, crossfilter, and d3.js]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/"/>
-    <updated>2012-10-17T08:30:00-07:00</updated>
+    <updated>2012-10-17T08:30:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3</id>
     <content type="html"><![CDATA[<p>In this post, I present
 <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a>, which uses
@@ -646,7 +646,7 @@ application settings:</p>
   <entry>
     <title type="html"><![CDATA[Self-Tracking for Panic: Another Dataset]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/"/>
-    <updated>2012-10-14T21:23:00-07:00</updated>
+    <updated>2012-10-14T21:23:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset</id>
     <content type="html"><![CDATA[<p>In this post, I perform the same analyses presented in
 <a href="/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/">my last post</a> using data from my second panic tracking period.
@@ -912,7 +912,7 @@ suggest I should?</em></p>
   <entry>
     <title type="html"><![CDATA[Self-Tracking For Panic: A Deeper Look]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/"/>
-    <updated>2012-10-09T07:00:00-07:00</updated>
+    <updated>2012-10-09T07:00:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look</id>
     <content type="html"><![CDATA[<p>In this post, I apply three statistical and machine learning tools to my panic
 recovery journal data: linear regression/correlation, the Fast Fourier
@@ -1282,7 +1282,7 @@ self-tracking. I perform these same three analyses on the
   <entry>
     <title type="html"><![CDATA[Self-Tracking For Panic: A bash-ful Look At Some Data]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/"/>
-    <updated>2012-10-08T10:00:00-07:00</updated>
+    <updated>2012-10-08T10:00:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look</id>
     <content type="html"><![CDATA[<p>In this post, I perform initial exploratory analysis on my panic recovery
 journal data using basic UNIX/bash commands.</p>

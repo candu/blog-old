@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technical | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/technical/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-10-19T12:09:28-07:00</updated>
+  <updated>2012-10-23T14:09:35-05:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -14,9 +14,241 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Don't Hate, Cross-Correlate]]></title>
+    <link href="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/"/>
+    <updated>2012-10-22T13:41:00-05:00</updated>
+    <id>http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate</id>
+    <content type="html"><![CDATA[<p>In this post, I discuss cross-correlation. Although commonly used in signal
+processing, cross-correlation can be useful in a Quantified Self context.
+I’ll present a bit of the mathematics behind cross-correlation, demonstrate
+a quick example, and briefly explain where you might use this in analyzing
+your personal data.</p>
+
+<!-- more -->
+
+<h2 id="the-inspiration">The Inspiration</h2>
+
+<p>I was going through my <a href="http://reader.google.com">Google Reader</a> queue this morning and
+came across <a href="http://vimeo.com/50329491">this talk</a> by <a href="http://www.linkedin.com/in/jeffzira">Jeff Zira</a>, a product manager at
+<a href="http://www.lark.com/">Lark Technologies</a>. The talk asks a simple question:</p>
+
+<p><blockquote><p>Do Jeff and his fiancée influence each other’s sleep patterns?</p></blockquote></p>
+
+<p>He presents raw time-series sleep data collected using
+<a href="http://www.lark.com/products/lark-life/experience">larklife</a>, then attempts to answer this question in a couple of
+different ways. He first displays a <em>timeline visualization</em> of peak
+overnight activity:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-nU3qiQKycow/UIbogGdHsGI/AAAAAAAAAHY/Ax23iCZB98M/s640/jeffzira-peak-vis.jpg"></p>
+
+<p>Since his peaks often occur slightly after her peaks, he uses this as
+evidence that she’s waking him up. He also shows the <em>difference signal</em>
+between their sleep patterns, but finds this less than conclusive:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-GAskT1r-gP4/UIbogcHUqCI/AAAAAAAAAHc/XbCl5IvAves/s640/jeffzira-diff-vis.jpg"></p>
+
+<p>After watching this talk, I immediately thought:</p>
+
+<p><blockquote><p>Is there a more precise way to answer this question?</p></blockquote></p>
+
+<h2 id="the-mathematics">The Mathematics</h2>
+
+<p>Note that term <em>difference signal</em> above. Any time-series dataset is a signal,
+which means the powerful tools of signal processing can be applied!</p>
+
+<p>Let the sleep patterns of Jeff and his fiancée be the signals
+$ S(\tau) $ and $ T(\tau) $ respectively. Let $ f(S(\tau), T(\tau)) $ be the
+<em>similarity</em> between those signals. Ignoring (for now) the fact that $ f $
+remains undefined, I’m looking for the <em>time shift</em> $ t $ that maximizes</p>
+
+<script type="math/tex; mode=display">
+f(S(\tau + t), T(\tau))
+</script>
+
+<p>(As a side note, the <em>difference signal</em> is a new signal
+$ R(\tau) = S(\tau) - T(\tau) $.)</p>
+
+<p>First, however, I need a reasonable <em>similarity function</em> $ f $. The answer
+lies in <em>cross-correlation:</em></p>
+
+<p><blockquote><p>In signal processing, cross-correlation is a measure of similarity of two waveforms as a function of a time-lag applied to one of them.</p><footer><strong>Wikipedia</strong> <cite><a href='http://en.wikipedia.org/wiki/Cross-correlation'>en.wikipedia.org/wiki/&hellip;</a></cite></footer></blockquote></p>
+
+<p>Perfect! The core of cross-correlation is an integral that looks suspiciously
+like <a href="http://en.wikipedia.org/wiki/Convolution">convolution</a>, except that we have a term $ T(\tau + t) $ instead
+of $ T(\tau - t) $:</p>
+
+<script type="math/tex; mode=display">
+(S \star T)(t) = \int_{-\infty}^{\infty} S^{\ast}(\tau) T(\tau + t) \mathrm{d}\tau
+</script>
+
+<p>The desired $ t $ is the <em>global maximum</em> of this cross-correlation function.</p>
+
+<p>Given two discrete periodic signals <code>S1</code>, <code>S2</code> of equal length, this
+cross-correlation integral can easily be computed:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">crossCorrelation</span><span class="p">(</span><span class="nx">S1</span><span class="p">,</span> <span class="nx">S2</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">N</span> <span class="o">=</span> <span class="nx">S1</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">t</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">%</span> <span class="nx">N</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">t</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">t</span> <span class="o">+=</span> <span class="nx">N</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">tau</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">tau</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">N</span><span class="p">;</span> <span class="nx">tau</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">C</span> <span class="o">+=</span> <span class="nx">S1</span><span class="p">[</span><span class="nx">tau</span><span class="p">]</span> <span class="o">*</span> <span class="nx">S2</span><span class="p">[(</span><span class="nx">tau</span> <span class="o">+</span> <span class="nx">t</span><span class="p">)</span> <span class="o">%</span> <span class="nx">N</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">C</span> <span class="o">/</span> <span class="nx">N</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>It can be hard to visualize what this is doing, though, so I’ve provided
+a <a href="#quick-demo">quick demo</a> below.</p>
+
+<h3 id="an-interactive-example">An Interactive Example</h3>
+
+<p>If you’re viewing this on an RSS reader, check out the example
+<a href="/blog/2012/10/22/dont-hate-cross-correlate/#quick-demo">on my blog</a>.</p>
+
+<p>You can see the code for this demo <a href="https://github.com/candu/quantified-savagery-files/tree/master/Algorithms/cross-correlation">here</a>.</p>
+
+<div id="quick-demo">
+  <style type="text/css">
+    #datasets {
+      cursor: move;
+    }
+    
+    #cross-correlation {
+      margin-top: 10px;
+    }
+    
+    path {
+      stroke-width: 2px;
+    }
+    
+    path.s1 {
+      fill: rgba(210, 0, 0, 0.4);
+    }
+    
+    path.s2 {
+      fill: rgba(0, 0, 210, 0.4);
+    }
+    
+    path.c {
+      fill: rgba(126, 0, 210, 0.64);
+    }
+    
+    line {
+      stroke: rgba(64, 64, 64, 0.7);
+      stroke-width: 1px;
+    }
+    
+    line.t {
+      stroke: rgba(32, 32, 32, 0.8);
+      stroke-width: 2px;
+    }
+    
+    #status {
+      color: #909;
+      font-family: "Menlo", monospace;
+      padding-bottom: 10px;
+    }
+    
+    #s1-picker {
+      background-color: rgba(210, 0, 0, 0.7);
+    }
+    
+    #s2-picker {
+      background-color: rgba(0, 0, 210, 0.7);
+    }  
+  </style>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/ArrayUtils.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/MathUtils.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/third-party/mootools.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/third-party/d3.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Algorithms/cross-correlation/demo.js"></script>
+  <div id="controls">
+    <select id="s1-picker">
+      <option value="sine" selected="">Sine</option>
+      <option value="noise">Noise</option>
+      <option value="spiky">Spiky</option>
+      <option value="square">Square</option>
+      <option value="triangle">Triangle</option>
+    </select>
+    <select id="s2-picker">
+      <option value="sine" selected="">Sine</option>
+      <option value="noise">Noise</option>
+      <option value="spiky">Spiky</option>
+      <option value="square">Square</option>
+      <option value="triangle">Triangle</option>
+    </select>
+  </div>
+  <div id="datasets"></div>
+  <div id="cross-correlation"></div>
+  <div id="status"></div>
+</div>
+
+<p>Use the select boxes to change the red and blue functions. Click and drag
+on the chart at top to see how sliding the blue function affects the
+cross-correlation. Try different combinations of functions and <em>see where
+the cross-correlation is maximized!</em></p>
+
+<h3 id="back-to-the-original-motivation">Back To The Original Motivation</h3>
+
+<p>Given the two sleep signals $ S, T $ above, cross-correlation makes it
+possible to answer these questions:</p>
+
+<ul>
+  <li>Who wakes up first? By how long?</li>
+  <li>Accounting for the time shift in awakening, how closely do the sleep
+patterns match?</li>
+</ul>
+
+<p>This gives a <em>more rigorous</em> sense of whether the peaks in nighttime activity
+actually do coincide. It also identifies the person who wakes up first and
+how much earlier they wake up.</p>
+
+<p>While simply <em>looking at the data</em> can be very effective, rigorous analysis
+has definite value if you plan to <em>carry out further experiments.</em> Armed with
+cross-correlation data, you can answer questions like</p>
+
+<p><blockquote><p>Okay, I switched to a separately-coiled mattress. How well does that prevent<br/>us from waking each other up?</p></blockquote></p>
+
+<p>In general, <em>signal processing</em> techniques can be highly useful in examining
+time-series data.</p>
+
+<h2 id="up-next">Up Next</h2>
+
+<p>This was a slight diversion from my plan to talk about
+upcoming experiments, which I’ll return to in my next few posts. If you
+just can’t wait, here’s a <em>quick summary:</em></p>
+
+<ul>
+  <li><strong>Persistent location tracking:</strong> by <em>constantly tracking my location</em>, I’ll
+have an additional dataset to correlate against.</li>
+  <li><strong>Diet:</strong> by <em>taking meal photos</em>, <em>tagging foods</em>, and <em>measuring
+stress levels after meals</em>, I’ll get a better idea of how different
+foods affect me.</li>
+  <li><strong>Finances:</strong> by <em>tracking where Valkyrie and I spend our money</em>, we’ll
+hopefully be able to better control our discretionary spending.</li>
+  <li><strong>Loss Aversion:</strong> by <em>experimenting with tracking methods</em>, I’ll see if this
+is something that can be meaningfully tracked over time.</li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Track Your Happiness: An Adventure In Data Extraction]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/"/>
-    <updated>2012-10-18T15:41:00-07:00</updated>
+    <updated>2012-10-18T15:41:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction</id>
     <content type="html"><![CDATA[<p>In this post, I go over my first report from
 <a href="https://www.trackyourhappiness.org/">Track Your Happiness</a>, a tool that uses
@@ -262,7 +494,7 @@ experiments.</p>
   <entry>
     <title type="html"><![CDATA[Fitbit: APIs, crossfilter, and d3.js]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/"/>
-    <updated>2012-10-17T08:30:00-07:00</updated>
+    <updated>2012-10-17T08:30:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3</id>
     <content type="html"><![CDATA[<p>In this post, I present
 <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a>, which uses
@@ -646,7 +878,7 @@ application settings:</p>
   <entry>
     <title type="html"><![CDATA[Self-Tracking for Panic: Another Dataset]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/"/>
-    <updated>2012-10-14T21:23:00-07:00</updated>
+    <updated>2012-10-14T21:23:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset</id>
     <content type="html"><![CDATA[<p>In this post, I perform the same analyses presented in
 <a href="/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/">my last post</a> using data from my second panic tracking period.
@@ -912,7 +1144,7 @@ suggest I should?</em></p>
   <entry>
     <title type="html"><![CDATA[Self-Tracking For Panic: A Deeper Look]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/"/>
-    <updated>2012-10-09T07:00:00-07:00</updated>
+    <updated>2012-10-09T07:00:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look</id>
     <content type="html"><![CDATA[<p>In this post, I apply three statistical and machine learning tools to my panic
 recovery journal data: linear regression/correlation, the Fast Fourier
@@ -1276,530 +1508,6 @@ learning algorithms can produce results that are difficult to interpret.</em></l
 self-tracking. I perform these same three analyses on the
 <a href="https://github.com/candu/quantified-savagery-files/tree/master/Panic/qs-counters">qs-counters dataset</a>, then compare it to the
 <a href="https://github.com/candu/quantified-savagery-files/tree/master/Panic/recovery-journal">recovery-journal dataset</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Self-Tracking For Panic: A bash-ful Look At Some Data]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/"/>
-    <updated>2012-10-08T10:00:00-07:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look</id>
-    <content type="html"><![CDATA[<p>In this post, I perform initial exploratory analysis on my panic recovery
-journal data using basic UNIX/bash commands.</p>
-
-<!-- more -->
-
-<h2 id="unix-bash-youre-not-serious-right">UNIX? bash? You’re not serious, right?</h2>
-
-<p>Most of the data-centric Quantified Self talks I’ve seen focus on more
-complicated methods, including:</p>
-
-<ul>
-  <li><a href="http://en.wikipedia.org/wiki/Linear_regression">linear regression</a>, which <em>identifies gradual trends</em>;</li>
-  <li><a href="http://en.wikipedia.org/wiki/Fast_Fourier_transform">FFT</a>, which <em>identifies periodic effects</em>;</li>
-  <li><a href="http://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient">Pearson’s r</a>, which <em>measures correlation between datasets</em>;</li>
-  <li><a href="http://en.wikipedia.org/wiki/Student's_t-test">t-test</a>, which <em>measures difference between datasets</em>.</li>
-</ul>
-
-<p>These are extremely powerful tools to have at your disposal. Better yet,
-many languages have community-contributed libraries that provide these
-tools out-of-the-box. For instance, Python’s <a href="LINK">scipy</a>
-offers <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html">linregress</a>
-for performing linear regression.</p>
-
-<p>That said, these tools rely on mathematics that is <em>opaque</em> to many software
-developers. Even if you don’t need to know how they work to use them, you need
-some knowledge of <em>what they do</em> and <em>where they are most appropriate</em>.
-Statistical tests in particular often have <em>strong preconditions</em> for use:</p>
-
-<p><blockquote><p>Each of the two populations being compared should follow a normal distribution.</p><footer><strong>Wikipedia</strong> <cite><a href='http://en.wikipedia.org/wiki/Student%27s_t-test'>Student’s T-test</a></cite></footer></blockquote></p>
-
-<p>Even if you pick the right tool, there’s still <em>fear associated with losing
-control</em>. These tools are not hammers and screwdrivers but magic
-wands, and <a href="http://www.flickr.com/photos/wishingline/7162517642/">we are terrible magicians</a>.</p>
-
-<h3 id="a-word-on-exploratory-analysis">A Word On Exploratory Analysis</h3>
-
-<p>I mentioned that this post would demonstrate <em>exploratory analysis</em>. This is
-a mode of analysis where you explore your data, play around with it a bit,
-grab some low-hanging analytical fruit. You don’t necessarily need higher
-mathematics. Regular counts and averages will do. You’re not looking for
-ironclad proof, but rather for <em>suggestions</em>.</p>
-
-<p><blockquote><p>What does this data suggest?</p></blockquote></p>
-
-<p>This is an important question. Put this way, <em>there is no “right” or “wrong”
-way to analyze your data</em>. UNIX tools fit in nicely here, because you can
-piece them together and pretty quickly get some useful insights. Better yet,
-since you understand what you just did, you can explain it to someone else.
-Analysis becomes a <em>demystified</em> and <em>shareable</em> process.</p>
-
-<p>Exploratory analysis is also a <em>great entry point</em> to deeper and more directed
-analysis. As you work with the data, you ask more complicated questions. Eventually these
-questions exceed the sophistication of your tools, so you look for better
-tools. You might not deeply understand the better tools, but at least you’ve
-worked with the data a bit. You can <em>perform basic sanity checks</em> when these
-better tools turn up results you don’t expect.</p>
-
-<h2 id="the-data">The Data</h2>
-
-<p>I took my paper recovery journal logs:</p>
-
-<p><img src="https://lh6.googleusercontent.com/-TDKFRsDfutE/UHNEPJReCOI/AAAAAAAAABU/q0sWUwRbPoE/s640/IMG<em>20121005</em>171146_426.jpg" title="A page from my journal" ></p>
-
-<p>and manually converted them to handy CSV files:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>date,relaxation,exercise,diet,supplements
-</span><span class='line'>…
-</span><span class='line'>2012-03-12,0,0,1,1
-</span><span class='line'>2012-03-13,1,0,1,1
-</span><span class='line'>2012-03-14,1,0,0,1
-</span><span class='line'>2012-03-15,1,1,1,1
-</span><span class='line'>2012-03-16,1,1,1,1
-</span><span class='line'>2012-03-17,1,1,0,1
-</span><span class='line'>2012-03-18,0,1,0,1
-</span><span class='line'>…</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Where did all those different treatments go? I didn’t end up using most of
-them. Making nine parallel habit changes is difficult, so I rapidly converged
-on a subset of four:</p>
-
-<ul>
-  <li>relaxation breathing;</li>
-  <li>daily exercise;</li>
-  <li>dietary modifications; and</li>
-  <li>vitamin supplements.</li>
-</ul>
-
-<p>Why manual input? There wasn’t enough data to make
-<a href="http://code.google.com/p/tesseract-ocr/">OCR</a>
-worthwhile:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd recovery-journal
-</span><span class='line'>$ wc -l * | grep total
-</span><span class='line'>      41 exercise-record
-</span><span class='line'>      46 food-diary
-</span><span class='line'>       8 panic-log
-</span><span class='line'>      46 weekly-practice-record
-</span><span class='line'>     141 total</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>You can view and download the raw data files
-<a href="https://github.com/candu/quantified-savagery-files/tree/master/Panic/recovery-journal">here</a>.</p>
-
-<h2 id="common-operations">Common Operations</h2>
-
-<p>These operations appear several times in the UNIX one-liners below, so let’s go over
-them quickly.</p>
-
-<p>To lop off the CSV column name header:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tail -n+2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>To extract field <span>$ n $</span> from a CSV file:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cut -d’,’ -f$n</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>To tabulate counts in descending order:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sort | uniq -c | sort -rn</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>To sum a series of numbers:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>awk ‘{sum+=$1} END {print sum}’</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>To get the day before <code>$ds</code>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ts=$(date -j -f “%Y-%m-%d” $ds “+%s”); tsprev=$(echo “$ts - 86400” | bc); dsprev=$(date -j -f “%s” $tsprev “+%Y-%m-%d”);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2 id="and-now-the-main-show">And Now, The Main Show</h2>
-
-<p>Let’s start by looking at my weekly practice record:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ for a in [01] 1; do for b in [01] 1; do for c in [01] 1; do for d in [01] 1; do count=$(grep -E “,$a,$b,$c,$d$” weekly-practice-record | wc -l); echo $a $b $c $d $count; done; done; done; done | tr ‘ ‘ ‘\t’
-</span><span class='line'>[01]    [01]    [01]    [01]    45
-</span><span class='line'>[01]    [01]    [01]    1       43
-</span><span class='line'>[01]    [01]    1       [01]    22
-</span><span class='line'>[01]    [01]    1       1       21
-</span><span class='line'>[01]    1       [01]    [01]    32
-</span><span class='line'>[01]    1       [01]    1       31
-</span><span class='line'>[01]    1       1       [01]    16
-</span><span class='line'>[01]    1       1       1       16
-</span><span class='line'>1       [01]    [01]    [01]    36
-</span><span class='line'>1       [01]    [01]    1       34
-</span><span class='line'>1       [01]    1       [01]    19
-</span><span class='line'>1       [01]    1       1       18
-</span><span class='line'>1       1       [01]    [01]    26
-</span><span class='line'>1       1       [01]    1       25
-</span><span class='line'>1       1       1       [01]    14
-</span><span class='line'>1       1       1       1       14</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I tracked myself for 45 days. During that time, I followed all four treatments
-on 14 days. In order from most to least regular:</p>
-
-<ul>
-  <li>vitamin supplements (43 days);</li>
-  <li>relaxation breathing (36 days);</li>
-  <li>daily exercise (32 days);</li>
-  <li>dietary modifications (22 days).</li>
-</ul>
-
-<p>I followed both the exercise and diet treatments for only 16 of 45 days! Right away, I
-have a question for further inquiry:</p>
-
-<p><blockquote><p>What was so hard about those two treatments?</p></blockquote></p>
-
-<h3 id="exercise">Exercise</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -n+2 exercise-record | cut -d’,’ -f2 | sort | uniq -c | sort -rn | head -5
-</span><span class='line'>  11 16:00
-</span><span class='line'>   8 20:00
-</span><span class='line'>   3 15:00
-</span><span class='line'>   3 14:00
-</span><span class='line'>   3 12:00</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>My most common exercise times were 4pm and 8pm. What was I doing at those times?</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep 16:00 exercise-record | cut -d’,’ -f3 | sort | uniq -c | sort -rn | head -1
-</span><span class='line'>   9 conditioning
-</span><span class='line'>$ grep 20:00 exercise-record | cut -d’,’ -f3 | sort | uniq -c | sort -rn | head -1
-</span><span class='line'>   6 soccer</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Aha! 4pm was my scheduled gym time at work, and 8pm was when I went for
-<a href="http://soccerfours.com/">weekly pickup soccer</a>. Both were regularly scheduled activities.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep -E “(00|01|02|03|04|05|06|07|08|09|10|11):00” exercise-record | wc -l
-</span><span class='line'>       7
-</span><span class='line'>$ grep -E “(12|13|14|15|16|17|18|19|20|21|22|23):00” exercise-record | wc -l
-</span><span class='line'>       33</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I rarely exercise in the morning, which might be okay: physical performance is
-<a href="http://online.wsj.com/article/SB10000872396390444180004578018294057070544.html">higher in the afternoon</a>.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -n+2 exercise-record | cut -d’,’ -f3 | sort | uniq -c | sort -rn
-</span><span class='line'>  15 conditioning
-</span><span class='line'>   7 soccer
-</span><span class='line'>   6 walking
-</span><span class='line'>   6 cycling
-</span><span class='line'>   2 running
-</span><span class='line'>   2 dancing
-</span><span class='line'>   1 swimming
-</span><span class='line'>   1 longboarding</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>It’s not surprising to see gym conditioning sets and soccer as my top
-activities, but walking and cycling aren’t far behind.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -n+2 exercise-record | cut -d’,’ -f4 | sort | uniq -c | sort -rn
-</span><span class='line'>  20 30
-</span><span class='line'>  11 60
-</span><span class='line'>   4 45
-</span><span class='line'>   2 40
-</span><span class='line'>   2 240
-</span><span class='line'>   1 120</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I most commonly exercised for 30-60 minutes, with infrequent longer blocks
-of activity. What was I doing in those longer blocks?</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep -E “,(120|240)$” exercise-record 
-</span><span class='line'>2012-01-27,20:00,dancing,120
-</span><span class='line'>2012-01-29,10:00,walking,240
-</span><span class='line'>2012-02-11,12:00,walking,240</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>When else was I dancing?</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep dancing exercise-record
-</span><span class='line'>2012-01-27,20:00,dancing,120
-</span><span class='line'>2012-02-03,21:00,dancing,30</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Looking at my calendar, these blocks are easily identified:</p>
-
-<p><img src="https://lh6.googleusercontent.com/-BMXU2Ek3Ng0/UHNJnPz-bqI/AAAAAAAAABw/3vSmmAKQzQo/s800/Screen%2520Shot%25202012-10-08%2520at%25205.45.17%2520PM.jpg" title="Jan 27, 2012" >
-<img src="https://lh4.googleusercontent.com/-EWShEmAoYPc/UHNJnuc6eGI/AAAAAAAAAB4/nWSI-zqtp_U/s800/Screen%2520Shot%25202012-10-08%2520at%25205.45.37%2520PM.jpg" title="Feb 03, 2012" ></p>
-
-<p>Having fun is great for my health!</p>
-
-<h3 id="diet">Diet</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ for i in $(seq 2 5); do count=$(cut -d’,’ -f$i food-diary | awk ‘{ sum+=$1} END {print sum}’); name=$(head -1 food-diary | cut -d’,’ -f$i); printf “%12s\t%s\n” $name $count; done
-</span><span class='line'>    caffeine    6
-</span><span class='line'>      sweets    48
-</span><span class='line'>     alcohol    140
-</span><span class='line'> supplements    42</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I nearly eliminated caffeine during this period! By the time I started keeping the log,
-I’d already started to reduce my consumption. On average, I had just over one sweet per day.
-More troubling is alcohol, with an average of 3.1 drinks/day. Let’s take a closer look
-at my drinking patterns.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -n+2 food-diary | cut -d’,’ -f4 | sort | uniq -c | sort -rn
-</span><span class='line'>  12 4
-</span><span class='line'>   9 2
-</span><span class='line'>   7 1
-</span><span class='line'>   6 5
-</span><span class='line'>   3 3
-</span><span class='line'>   2 8
-</span><span class='line'>   2 6
-</span><span class='line'>   2 0
-</span><span class='line'>   2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>My most common daily drinking amounts were 1, 2, and 4 drinks per day. It was
-very rare for me to go a day without drinking any alcohol. More alarmingly,
-<a href="http://en.wikipedia.org/wiki/Binge_drinking#Definition">binge drinking</a> counts for <em>over 40% of my alcohol consumption!</em></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -n+2 food-diary | while read line; do weekday=$(date -j -f “%Y-%m-%d” $(echo $line | cut -d’,’ -f1) “+%a”); alcohol=$(echo $line | cut -d’,’ -f4); echo $weekday $alcohol; done &gt; drinking.log
-</span><span class='line'>$ for weekday in Mon Tue Wed Thu Fri Sat Sun; do count=$(grep $weekday drinking.log | cut -d’ ‘ -f2 | awk ‘{ sum+=$1} END {print sum}’); echo $count $weekday; done | sort -rn
-</span><span class='line'>28 Wed
-</span><span class='line'>27 Sat
-</span><span class='line'>23 Mon
-</span><span class='line'>20 Sun
-</span><span class='line'>19 Fri
-</span><span class='line'>15 Tue
-</span><span class='line'>8 Thu</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I drank most on Wednesdays and Saturdays; Mondays were also major drinking days,
-which is surprising! By contrast, I drank much less than average on Thursdays.
-When I narrow in on binge drinking, the pattern shifts slightly:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ grep -E “(5|6|7|8)$” drinking.log | cut -d’ ‘ -f1 | sort | uniq -c | sort -rn
-</span><span class='line'>   4 Sat
-</span><span class='line'>   3 Sun
-</span><span class='line'>   2 Wed
-</span><span class='line'>   1 Fri</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Wednesday is still an offender, but the weekends are clear culprits. <em>80% of my
-binge drinking days fell on weekends.</em></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -n+2 food-diary | cut -d’,’ -f1,4 | grep -E “(5|6|7|8)$” | while read line; do ds=$(echo $line | cut -d’,’ -f1); ts=$(date -j -f “%Y-%m-%d” $ds “+%s”); ts_next=$(echo “$ts + 86400” | bc); ds_next=$(date -j -f “%s” $ts_next “+%Y-%m-%d”); echo $line $(grep $ds_next food-diary | cut -d’,’ -f1,4); done
-</span><span class='line'>2012-01-21,5 2012-01-22,5
-</span><span class='line'>2012-01-22,5 2012-01-23,1
-</span><span class='line'>2012-01-28,8 2012-01-29,2
-</span><span class='line'>2012-02-01,6 2012-02-02,0
-</span><span class='line'>2012-02-04,5 2012-02-05,3
-</span><span class='line'>2012-02-10,6 2012-02-11,4
-</span><span class='line'>2012-02-12,5 2012-02-13,3
-</span><span class='line'>2012-03-14,8 2012-03-15,0
-</span><span class='line'>2012-03-17,5 2012-03-18,5
-</span><span class='line'>2012-03-18,5 2012-03-19,4</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Among days where I had 5 or more drinks, I had an average of 2.7 drinks the next day.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -n+2 food-diary | cut -d’,’ -f1,4 | grep -E “(0|1)$” | while read line; do ds=$(echo $line | cut -d’,’ -f1); ts=$(date -j -f “%Y-%m-%d” $ds “+%s”); tsprev=$(echo “$ts - 86400” | bc); dsprev=$(date -j -f “%s” $tsprev “+%Y-%m-%d”); echo $(grep $dsprev food-diary | cut -d’,’ -f1,4) $line; done
-</span><span class='line'>2012-01-22,5 2012-01-23,1
-</span><span class='line'>2012-01-23,1 2012-01-24,1
-</span><span class='line'>2012-01-30,4 2012-01-31,1
-</span><span class='line'>2012-02-01,6 2012-02-02,0
-</span><span class='line'>2012-02-05,3 2012-02-06,1
-</span><span class='line'>2012-02-06,1 2012-02-07,1
-</span><span class='line'>2012-02-08,4 2012-02-09,1
-</span><span class='line'>2012-03-14,8 2012-03-15,0
-</span><span class='line'>2012-03-15,0 2012-03-16,1</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Among days where I had fewer than 2 drinks, I had consumed an average of 3.6 drinks the
-previous day. This suggests a <em>see-saw pattern</em>: I would drink too much one day,
-back off the next, and repeat.</p>
-
-<h3 id="panic">Panic</h3>
-
-<p>All of this skirts the real question:</p>
-
-<p><blockquote><p>What caused me to have panic attacks?</p></blockquote></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ for i in $(seq 2 4); do head -1 food-diary | cut -d’,’ -f$i; tail -n+2 panic-log | cut -d’,’ -f1 | while read ds; do ts=$(date -j -f “%Y-%m-%d” $ds “+%s”); tsprev=$(echo “$ts - 86400” | bc); dsprev=$(date -j -f “%s” $tsprev “+%Y-%m-%d”); echo $(grep $dsprev food-diary | cut -d’,’ -f1,2) $(grep $ds food-diary | cut -d’,’ -f1,$i) $ds; done; done
-</span><span class='line'>caffeine
-</span><span class='line'>2012-01-28,0 2012-01-29,0 2012-01-29
-</span><span class='line'>2012-01-31,0 2012-02-01,0 2012-02-01
-</span><span class='line'>2012-02-03,0 2012-02-04,0 2012-02-04
-</span><span class='line'>2012-02-07,0 2012-02-08,1 2012-02-08
-</span><span class='line'>2012-02-12,0 2012-02-13,0 2012-02-13
-</span><span class='line'>2012-02-29
-</span><span class='line'>2012-03-12,0 2012-03-13,1 2012-03-13
-</span><span class='line'>sweets
-</span><span class='line'>2012-01-28,0 2012-01-29,3 2012-01-29
-</span><span class='line'>2012-01-31,0 2012-02-01,1 2012-02-01
-</span><span class='line'>2012-02-03,0 2012-02-04,2 2012-02-04
-</span><span class='line'>2012-02-07,0 2012-02-08,1 2012-02-08
-</span><span class='line'>2012-02-12,0 2012-02-13,1 2012-02-13
-</span><span class='line'>2012-02-29
-</span><span class='line'>2012-03-12,0 2012-03-13,1 2012-03-13
-</span><span class='line'>alcohol
-</span><span class='line'>2012-01-28,0 2012-01-29,2 2012-01-29
-</span><span class='line'>2012-01-31,0 2012-02-01,6 2012-02-01
-</span><span class='line'>2012-02-03,0 2012-02-04,5 2012-02-04
-</span><span class='line'>2012-02-07,0 2012-02-08,4 2012-02-08
-</span><span class='line'>2012-02-12,0 2012-02-13,3 2012-02-13
-</span><span class='line'>2012-02-29
-</span><span class='line'>2012-03-12,0 2012-03-13,2 2012-03-13</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I had no data for <code>2012-02-28</code>. Other than that, on days where I had reported
-panic attacks, my <em>current- and previous-day consumption patterns</em> were:</p>
-
-<ul>
-  <li><strong>alcohol</strong>: 3.7 drinks that day, 3.8 the previous day (overall average is 3.1);</li>
-  <li><strong>sweets</strong>: 1.5 sweets that day, 1.0 the previous day (overall average is 1.0);</li>
-  <li><strong>caffeine</strong>: 0.3 caffeinated beverages that day, 0.0 the previous day (overall average is 0.1).</li>
-</ul>
-
-<p>This suggests that <em>reducing alcohol and sweets consumption does help</em>. The data
-is less clear on caffeine; as previously mentioned, I had mostly cut out
-caffeine by the time I started tracking.</p>
-
-<h2 id="up-next">Up Next</h2>
-
-<p>In the next post, I’ll run some of the statistical tests and transformations
-mentioned previously on this same data. I’ll also compare this dataset with
-another dataset gathered through
-<a href="https://github.com/candu/qs-counters">qs-counters</a>, a simple lightweight tracking utility I built to
-reduce friction in the recording process.</p>
 ]]></content>
   </entry>
   

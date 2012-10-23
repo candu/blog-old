@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,500,500italic' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8">
+  <title>Don't Hate, Cross-Correlate - Quantified Savagery</title>
+  <meta name="author" content="Evan Savage">
+
+  
+  <meta name="description" content="In this post, I discuss cross-correlation. Although commonly used in signal
+processing, cross-correlation can be useful in a Quantified Self context &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!-- see http://luikore.github.com/2011/09/good-things-learned-from-octopress/ -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+  </script>
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <link href="/atom.xml" rel="alternate" title="Quantified Savagery" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34927069-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Quantified Savagery</a></h1>
+  
+    <h2>Where Personal Data Runs Wild</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.savageevan.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Don't Hate, Cross-Correlate</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-22T13:41:00-05:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In this post, I discuss cross-correlation. Although commonly used in signal
+processing, cross-correlation can be useful in a Quantified Self context.
+I’ll present a bit of the mathematics behind cross-correlation, demonstrate
+a quick example, and briefly explain where you might use this in analyzing
+your personal data.</p>
+
+<!-- more -->
+
+<h2 id="the-inspiration">The Inspiration</h2>
+
+<p>I was going through my <a href="http://reader.google.com">Google Reader</a> queue this morning and
+came across <a href="http://vimeo.com/50329491">this talk</a> by <a href="http://www.linkedin.com/in/jeffzira">Jeff Zira</a>, a product manager at
+<a href="http://www.lark.com/">Lark Technologies</a>. The talk asks a simple question:</p>
+
+<blockquote><p>Do Jeff and his fiancée influence each other&#8217;s sleep patterns?</p></blockquote>
+
+<p>He presents raw time-series sleep data collected using
+<a href="http://www.lark.com/products/lark-life/experience">larklife</a>, then attempts to answer this question in a couple of
+different ways. He first displays a <em>timeline visualization</em> of peak
+overnight activity:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-nU3qiQKycow/UIbogGdHsGI/AAAAAAAAAHY/Ax23iCZB98M/s640/jeffzira-peak-vis.jpg" /></p>
+
+<p>Since his peaks often occur slightly after her peaks, he uses this as
+evidence that she’s waking him up. He also shows the <em>difference signal</em>
+between their sleep patterns, but finds this less than conclusive:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-GAskT1r-gP4/UIbogcHUqCI/AAAAAAAAAHc/XbCl5IvAves/s640/jeffzira-diff-vis.jpg" /></p>
+
+<p>After watching this talk, I immediately thought:</p>
+
+<blockquote><p>Is there a more precise way to answer this question?</p></blockquote>
+
+<h2 id="the-mathematics">The Mathematics</h2>
+
+<p>Note that term <em>difference signal</em> above. Any time-series dataset is a signal,
+which means the powerful tools of signal processing can be applied!</p>
+
+<p>Let the sleep patterns of Jeff and his fiancée be the signals
+$ S(\tau) $ and $ T(\tau) $ respectively. Let $ f(S(\tau), T(\tau)) $ be the
+<em>similarity</em> between those signals. Ignoring (for now) the fact that $ f $
+remains undefined, I’m looking for the <em>time shift</em> $ t $ that maximizes</p>
+
+<script type="math/tex; mode=display">
+f(S(\tau + t), T(\tau))
+</script>
+
+<p>(As a side note, the <em>difference signal</em> is a new signal
+$ R(\tau) = S(\tau) - T(\tau) $.)</p>
+
+<p>First, however, I need a reasonable <em>similarity function</em> $ f $. The answer
+lies in <em>cross-correlation:</em></p>
+
+<blockquote><p>In signal processing, cross-correlation is a measure of similarity of two waveforms as a function of a time-lag applied to one of them.</p><footer><strong>Wikipedia</strong> <cite><a href="http://en.wikipedia.org/wiki/Cross-correlation">en.wikipedia.org/wiki/&hellip;</a></cite></footer></blockquote>
+
+<p>Perfect! The core of cross-correlation is an integral that looks suspiciously
+like <a href="http://en.wikipedia.org/wiki/Convolution">convolution</a>, except that we have a term $ T(\tau + t) $ instead
+of $ T(\tau - t) $:</p>
+
+<script type="math/tex; mode=display">
+(S \star T)(t) = \int_{-\infty}^{\infty} S^{\ast}(\tau) T(\tau + t) \mathrm{d}\tau
+</script>
+
+<p>The desired $ t $ is the <em>global maximum</em> of this cross-correlation function.</p>
+
+<p>Given two discrete periodic signals <code>S1</code>, <code>S2</code> of equal length, this
+cross-correlation integral can easily be computed:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="kd">function</span> <span class="nx">crossCorrelation</span><span class="p">(</span><span class="nx">S1</span><span class="p">,</span> <span class="nx">S2</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="kd">var</span> <span class="nx">N</span> <span class="o">=</span> <span class="nx">S1</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class="line">  <span class="nx">t</span> <span class="o">=</span> <span class="nx">t</span> <span class="o">%</span> <span class="nx">N</span><span class="p">;</span>
+</span><span class="line">  <span class="k">if</span> <span class="p">(</span><span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">t</span> <span class="o">+=</span> <span class="nx">N</span><span class="p">;</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line">  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">tau</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">tau</span> <span class="o">&lt;</span> <span class="nx">N</span><span class="p">;</span> <span class="nx">tau</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nx">C</span> <span class="o">+=</span> <span class="nx">S1</span><span class="p">[</span><span class="nx">tau</span><span class="p">]</span> <span class="o">*</span> <span class="nx">S2</span><span class="p">[(</span><span class="nx">tau</span> <span class="o">+</span> <span class="nx">t</span><span class="p">)</span> <span class="o">%</span> <span class="nx">N</span><span class="p">];</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line">  <span class="k">return</span> <span class="nx">C</span> <span class="o">/</span> <span class="nx">N</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>It can be hard to visualize what this is doing, though, so I’ve provided
+a <a href="#quick-demo">quick demo</a> below.</p>
+
+<h3 id="an-interactive-example">An Interactive Example</h3>
+
+<p>If you’re viewing this on an RSS reader, check out the example
+<a href="/blog/2012/10/22/dont-hate-cross-correlate/#quick-demo">on my blog</a>.</p>
+
+<p>You can see the code for this demo <a href="https://github.com/candu/quantified-savagery-files/tree/master/Algorithms/cross-correlation">here</a>.</p>
+
+<div id="quick-demo">
+  <style type="text/css">
+    #datasets {
+      cursor: move;
+    }
+    
+    #cross-correlation {
+      margin-top: 10px;
+    }
+    
+    path {
+      stroke-width: 2px;
+    }
+    
+    path.s1 {
+      fill: rgba(210, 0, 0, 0.4);
+    }
+    
+    path.s2 {
+      fill: rgba(0, 0, 210, 0.4);
+    }
+    
+    path.c {
+      fill: rgba(126, 0, 210, 0.64);
+    }
+    
+    line {
+      stroke: rgba(64, 64, 64, 0.7);
+      stroke-width: 1px;
+    }
+    
+    line.t {
+      stroke: rgba(32, 32, 32, 0.8);
+      stroke-width: 2px;
+    }
+    
+    #status {
+      color: #909;
+      font-family: &#8220;Menlo&#8221;, monospace;
+      padding-bottom: 10px;
+    }
+    
+    #s1-picker {
+      background-color: rgba(210, 0, 0, 0.7);
+    }
+    
+    #s2-picker {
+      background-color: rgba(0, 0, 210, 0.7);
+    }  
+  </style>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/ArrayUtils.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/MathUtils.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/third-party/mootools.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/third-party/d3.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Algorithms/cross-correlation/demo.js"></script>
+  <div id="controls">
+    <select id="s1-picker">
+      <option value="sine" selected="">Sine</option>
+      <option value="noise">Noise</option>
+      <option value="spiky">Spiky</option>
+      <option value="square">Square</option>
+      <option value="triangle">Triangle</option>
+    </select>
+    <select id="s2-picker">
+      <option value="sine" selected="">Sine</option>
+      <option value="noise">Noise</option>
+      <option value="spiky">Spiky</option>
+      <option value="square">Square</option>
+      <option value="triangle">Triangle</option>
+    </select>
+  </div>
+  <div id="datasets"></div>
+  <div id="cross-correlation"></div>
+  <div id="status"></div>
+</div>
+
+<p>Use the select boxes to change the red and blue functions. Click and drag
+on the chart at top to see how sliding the blue function affects the
+cross-correlation. Try different combinations of functions and <em>see where
+the cross-correlation is maximized!</em></p>
+
+<h3 id="back-to-the-original-motivation">Back To The Original Motivation</h3>
+
+<p>Given the two sleep signals $ S, T $ above, cross-correlation makes it
+possible to answer these questions:</p>
+
+<ul>
+  <li>Who wakes up first? By how long?</li>
+  <li>Accounting for the time shift in awakening, how closely do the sleep
+patterns match?</li>
+</ul>
+
+<p>This gives a <em>more rigorous</em> sense of whether the peaks in nighttime activity
+actually do coincide. It also identifies the person who wakes up first and
+how much earlier they wake up.</p>
+
+<p>While simply <em>looking at the data</em> can be very effective, rigorous analysis
+has definite value if you plan to <em>carry out further experiments.</em> Armed with
+cross-correlation data, you can answer questions like</p>
+
+<blockquote><p>Okay, I switched to a separately-coiled mattress. How well does that prevent<br />us from waking each other up?</p></blockquote>
+
+<p>In general, <em>signal processing</em> techniques can be highly useful in examining
+time-series data.</p>
+
+<h2 id="up-next">Up Next</h2>
+
+<p>This was a slight diversion from my plan to talk about
+upcoming experiments, which I’ll return to in my next few posts. If you
+just can’t wait, here’s a <em>quick summary:</em></p>
+
+<ul>
+  <li><strong>Persistent location tracking:</strong> by <em>constantly tracking my location</em>, I’ll
+have an additional dataset to correlate against.</li>
+  <li><strong>Diet:</strong> by <em>taking meal photos</em>, <em>tagging foods</em>, and <em>measuring
+stress levels after meals</em>, I’ll get a better idea of how different
+foods affect me.</li>
+  <li><strong>Finances:</strong> by <em>tracking where Valkyrie and I spend our money</em>, we’ll
+hopefully be able to better control our discretionary spending.</li>
+  <li><strong>Loss Aversion:</strong> by <em>experimenting with tracking methods</em>, I’ll see if this
+is something that can be meaningfully tracked over time.</li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Evan Savage</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-22T13:41:00-05:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithms/'>Algorithms</a>, <a class='category' href='/blog/categories/technical/'>Technical</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/" title="Previous Post: Track Your Happiness: An Adventure In Data Extraction">&laquo; Track Your Happiness: An Adventure In Data Extraction</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/22/dont-hate-cross-correlate/">Don't Hate, Cross-Correlate</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/">Track Your Happiness: An Adventure In Data Extraction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/">Fitbit: APIs, crossfilter, and d3.js</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/14/self-tracking-for-panic-another-dataset/">Self-Tracking for Panic: Another Dataset</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/">Self-Tracking For Panic: A Deeper Look</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/candu">@candu</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'candu',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("candusavage", 5, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/candusavage" class="twitter-follow-button" data-show-count="false">Follow @candusavage</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Evan Savage -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
