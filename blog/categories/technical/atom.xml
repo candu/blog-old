@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technical | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/technical/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-10-23T14:09:35-05:00</updated>
+  <updated>2012-10-30T14:30:02-07:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -14,9 +14,451 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Persistent Location Tracking: Picking The Right Tool]]></title>
+    <link href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/"/>
+    <updated>2012-10-29T18:37:00-07:00</updated>
+    <id>http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool</id>
+    <content type="html"><![CDATA[<p>In this post, I compare Google Latitude and InstaMapper, two popular services
+for persistent location tracking. I walk through installation and data
+extraction via API for each service, then provide some subjective first
+impressions as to which one better suits my location-tracking needs.</p>
+
+<!-- more -->
+
+<h2 id="evaluating-tools">Evaluating Tools</h2>
+
+<p>As the ecosystem of self-tracking tools <a href="http://quantifiedself.com/2011/03/the-state-of-quantified-self-a-year-of-growth/">grows exponentially</a>,
+choosing the right tool is becoming an increasingly daunting task.
+To add to the complexity of this decision, self-tracking tools are
+<em>highly personal.</em></p>
+
+<p><blockquote><p>How do I pick the best tool for me?</p></blockquote></p>
+
+<p>This question is far from monolithic:</p>
+
+<ul>
+  <li>Do I want <strong>manual</strong> or <strong>automatic</strong> tracking?
+    <ul>
+      <li>How much <em>time and effort</em> am I willing to spend on self-tracking?</li>
+      <li>Is a hybrid <em>automatic plus manual annotation</em> approach workable?</li>
+    </ul>
+  </li>
+  <li>Do I want <strong>persistent</strong> tracking?
+    <ul>
+      <li><em>All day?</em> Or only at predetermined times?</li>
+      <li><em>Every day?</em> What if I’m on vacation?</li>
+    </ul>
+  </li>
+  <li>Do I want <strong>raw data access?</strong>
+    <ul>
+      <li>How do I want to access that data? Through <em>Excel CSV files?</em>
+Via a <em>developer-friendly API?</em></li>
+      <li>What <em>granularity</em> do I want? Sub-second? Daily?</li>
+      <li>What <em>parameters</em> do I want? For location, is <code>(lat, long)</code> enough?
+Do I want <em>altitude</em> as well? GPS fix <em>accuracy?</em></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Without a <em>searchable database of self-tracking tools</em>, these questions can be
+difficult to answer. The main <a href="http://quantifiedself.com/">Quantified Self website</a> includes a
+<a href="http://quantifiedself.com/guide/">Guide to Self-Tracking Tools</a>, but their implementation is subject to
+criticism:</p>
+
+<p><blockquote><p>In a report to RWJF, Project Director Alexandra C. Carmichael noted that the guide was more a catalog of tools than a useful manual for people wanting to choose and use these tools.</p><footer><strong>Robert Wood Johnson Foundation</strong> <cite><a href='http://www.rwjf.org/content/dam/farm/reports/program_results_reports/2012/rwjf400733'>www.rwjf.org/content/dam/farm/&hellip;</a></cite></footer></blockquote></p>
+
+<p>This is a point worth repeating. Simply listing tools is <em>not enough</em>; a
+database of tools <em>must answer these basic questions</em> to be useful. A quick
+search on the Guide for <a href="http://quantifiedself.com/guide/tag/location">location-related tools</a>
+comes up short:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-1r1swg9oBxo/UJA_is6HMSI/AAAAAAAAAIQ/zoiBG4fRAPU/s640/qs-guide-location-apps.jpg"></p>
+
+<p>Why is <a href="http://moodpanda.com/">MoodPanda</a> listed? I suppose it must location-tag mood entries,
+but <em>that isn’t made explicit in the description.</em>
+<a href="http://www.momentoapp.com/">Momento</a> makes a bit more sense, but it’s primarily a journalling app.
+<a href="https://foursquare.com/">Foursquare</a> is definitely location-based, but anyone unfamiliar with
+it <em>must read its description closely</em> to realize that it relies on
+manual check-ins.</p>
+
+<p>In lieu of a useful tool database, the only effective option is direct
+evaluation. By investigating two popular location tracking tools, I’ll
+demonstrate how such an evaluation might be carried out.</p>
+
+<h2 id="the-tools">The Tools</h2>
+
+<h3 id="google-latitude">Google Latitude</h3>
+
+<p>Google Latitude bills itself primarily as a social location sharing service:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-ZGGebfguFEk/UJA_hShHXRI/AAAAAAAAAH4/kziP-01pI_g/s800/banner-glatitude.jpg"></p>
+
+<p>Social capacities aside, the <a href="https://maps.google.com/locationhistory/b/0">Location History</a>
+functionality can be used as a persistent location-tracking tool.</p>
+
+<h3 id="instamapper">InstaMapper</h3>
+
+<p>I first heard of InstaMapper from
+<a href="http://vimeo.com/8545134">Ted Power’s talk on geo-tracking</a>. Unlike Google
+Latitude, InstaMapper focuses more on personal tracking:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-dOIGJWcJ7uc/UJA_h8QM2FI/AAAAAAAAAIA/0owDXIrD6Ro/s800/banner-instamapper.jpg"></p>
+
+<h3 id="the-criteria">The Criteria</h3>
+
+<p>My ideal location tracking tool is:</p>
+
+<ul>
+  <li><strong>Android-compatible:</strong> It should work with my <a href="www.razr.com/RAZR-M">RAZR M</a> running
+<a href="http://www.android.com/about/ice-cream-sandwich/">Android 4.0.4 (Ice Cream Sandwich)</a>.</li>
+  <li><strong>Battery-friendly:</strong> It should allow me to go at least a day <em>without
+recharging.</em></li>
+  <li><strong>Automatic:</strong> It should track my location <em>without requiring check-ins</em>
+or other manual input.</li>
+  <li><strong>Persistent:</strong> It should track my location <em>constantly.</em></li>
+  <li><strong>Fine-grained:</strong> It should be capable of <em>per-minute resolution or better.</em></li>
+  <li><strong>Developer-friendly:</strong> It should <em>provide an API</em> for fetching location
+history, and the data offered through that API should be <em>as complete as
+possible.</em></li>
+</ul>
+
+<p>Both tools are <em>Android-compatible</em>, <em>automatic</em>, and <em>persistent</em> already,
+which narrows down the list of criteria to evaluate.</p>
+
+<h2 id="installation">Installation</h2>
+
+<h3 id="google-latitude-1">Google Latitude</h3>
+
+<p>Enabling automatic location tracking on Android requires <em>only a single
+setting change:</em></p>
+
+<p><img src="https://lh4.googleusercontent.com/-lGwyff6IKAQ/UJA_jzsY3CI/AAAAAAAAAIw/qgFZr8kT1xE/s288/install-glatitude-step1.jpg">
+<img src="https://lh5.googleusercontent.com/-v-7rvy4kAk4/UJA_kbfLddI/AAAAAAAAAI4/MLzFAjPXgR8/s288/install-glatitude-step2.jpg">
+<img src="https://lh3.googleusercontent.com/-rooAhkMibWg/UJA_kjz8o1I/AAAAAAAAAJA/sCnrK_yNHbE/s288/install-glatitude-step3.jpg">
+<img src="https://lh5.googleusercontent.com/-8jz3N_5HkUA/UJA_k6mNTAI/AAAAAAAAAJI/qerZyoCzXbo/s288/install-glatitude-step4.jpg"></p>
+
+<h3 id="instamapper-1">InstaMapper</h3>
+
+<p>I followed the Android installation directions <a href="http://www.instamapper.com/android_howto.html">here</a>.
+After you <a href="https://www.instamapper.com/fe?page=register">register for an InstaMapper account</a>, you install
+InstaMapper’s <a href="https://play.google.com/store/apps/details?id=com.instamapper.gpstracker&amp;hl=en">GPS Tracker app</a>:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-FJZ7CxlpWSE/UJA_lDw4OVI/AAAAAAAAAJQ/pCreIS9emn0/s288/install-instamapper-step1.jpg"></p>
+
+<h3 id="comparison">Comparison</h3>
+
+<p>Both tools are easily installed, but <em>Google Latitude</em> wins on simplicity. This
+is unsurprising, as Google Latitude comes pre-installed.</p>
+
+<h2 id="data-export">Data Export</h2>
+
+<h3 id="google-latitude-2">Google Latitude</h3>
+
+<p>To export data from the Location History dashboard, click on <em>Export KML</em>
+under the calendar widget:</p>
+
+<p><img src="https://lh3.googleusercontent.com/-N_E7GC01k3I/UJA_lY310cI/AAAAAAAAAJY/B6qCcqCAPm0/s800/export-glatitude.jpg"></p>
+
+<h3 id="instamapper-2">InstaMapper</h3>
+
+<p>Head to the <em>data page</em> for your device:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-WiPRLpRcC9Q/UJA_l7UA-cI/AAAAAAAAAJg/ienRb1xYY2o/s400/export-instamapper-step1.jpg">
+<img src="https://lh4.googleusercontent.com/-kvWTFuAZoJ8/UJA_mK_zsbI/AAAAAAAAAJk/aG-iJs2Sfp8/s400/export-instamapper-step2.jpg"></p>
+
+<p>Here’s where this process gets weird. To export your data, you first have to
+<em>define a track:</em></p>
+
+<p><img src="https://lh3.googleusercontent.com/-0j8AdUIinoU/UJA_msnEnLI/AAAAAAAAAKM/LfOZOnEyOJA/s400/export-instamapper-step3.jpg">
+<img src="https://lh5.googleusercontent.com/-aiXmPGeKOxo/UJA_nRZr93I/AAAAAAAAAJ0/wWNddc34ZXo/s400/export-instamapper-step4.jpg">
+<img src="https://lh6.googleusercontent.com/-tgipa_V9TfU/UJA_ncU8LeI/AAAAAAAAAJ8/2HIvGJ_ycfY/s400/export-instamapper-step5.jpg"></p>
+
+<p>Once the track is created, you can <em>visit the Track Manager</em> to
+export your track data in a variety of formats:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-OyteTDJcqYk/UJA_n7L2QvI/AAAAAAAAAKE/tvEkdMbB-Ik/s400/export-instamapper-step6.jpg">
+<img src="https://lh5.googleusercontent.com/-e52trEcnN0I/UJA_ob4XGgI/AAAAAAAAAKI/REcryQodFq0/s400/export-instamapper-step7.jpg"></p>
+
+<h3 id="comparison-1">Comparison</h3>
+
+<p>This one goes to <em>Google Latitude</em>. Aside from the terrible UI flow,
+InstaMapper has some other problems:</p>
+
+<ul>
+  <li>The <code>accuracy</code> field is missing, making it harder to <em>filter out noisy
+readings.</em></li>
+  <li>As stated in the <a href="http://www.instamapper.com/faq.html">InstaMapper FAQ</a>,
+data access is <em>limited to the
+previous 30 days or 100 000 locations.</em></li>
+</ul>
+
+<h2 id="api-fetching">API Fetching</h2>
+
+<h3 id="tailers-and-streams">Tailers and Streams</h3>
+
+<p>Many real-time APIs provide <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> endpoints for fetching
+time-bounded chunks of data:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://www.googleapis.com/latitude/v1/location?key=INSERT-YOUR-KEY&amp;min-time=1111&amp;max-time=2222&amp;max-results=10</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>By keeping track of a <code>since</code> time to fetch after, we can easily turn this
+into a stream:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="n">since</span><span class="p">):</span>
+</span><span class='line'>  <span class="c"># TODO: actually fetch data</span>
+</span><span class='line'>  <span class="k">pass</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="n">since</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">since</span>
+</span><span class='line'>  <span class="n">wait</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">-</span> <span class="n">elapsed</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">wait</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">return</span>
+</span><span class='line'>  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">poll</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">since</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">sleep</span><span class="p">(</span><span class="n">since</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">locations</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">since</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">locations</span><span class="p">:</span>
+</span><span class='line'>      <span class="k">continue</span>
+</span><span class='line'>    <span class="n">doSomething</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">since</span> <span class="o">=</span> <span class="n">locations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This pattern is often referred to as a <em>tailer.</em> Why? Suppose we have a simple
+implementation of <code>doSomething()</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">doSomething</span><span class="p">(</span><span class="n">locations</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">location</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This prints out locations as they are received, similar to UNIX <code>tail -F</code>. By
+adjusting <code>freq</code> I can make different real-time guarantees, although at some
+point the upstream API will start throttling my requests.</p>
+
+<h3 id="google-latitude-3">Google Latitude</h3>
+
+<p>You can see a working tailer implementation <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/tail_glatitude.py">here</a>.</p>
+
+<p>To access the <a href="https://developers.google.com/latitude/">Google Latitude API</a>, you first need to
+<a href="https://code.google.com/apis/console/b/0/">register an application</a>. This gives you the necessary
+parameters <code>YOUR_KEY</code>, <code>YOUR_SECRET</code> for stepping through the OAuth flow.</p>
+
+<p>With the Python library <a href="http://code.google.com/p/google-api-python-client/wiki/OAuth2Client">oauthclient2</a>, retrieving OAuth credentials is
+relatively painless:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.client</span> <span class="kn">import</span> <span class="n">OAuth2WebServerFlow</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.file</span> <span class="kn">import</span> <span class="n">Storage</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.tools</span> <span class="kn">import</span> <span class="n">run</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">getCredentials</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">flow</span> <span class="o">=</span> <span class="n">OAuth2WebServerFlow</span><span class="p">(</span>
+</span><span class='line'>    <span class="n">client_id</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">client_secret</span><span class="o">=</span><span class="n">secret</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">scope</span><span class="o">=</span><span class="err">’</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">latitude</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">best</span><span class="err">’</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">redirect_uri</span><span class="o">=</span><span class="err">’</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">oauth2callback</span><span class="err">’</span>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'>  <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span><span class="err">‘</span><span class="o">.</span><span class="n">creds</span><span class="err">’</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><code>oauth2client.tools.run()</code> invokes a browser window and starts an HTTP server
+to receive the OAuth callback. With the credentials, we can <em>make a signed API
+request:</em></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">httplib2</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">json</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">http</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">credentials</span> <span class="o">=</span> <span class="n">getCredentials</span><span class="p">(</span><span class="n">YOUR_KEY</span><span class="p">,</span> <span class="n">YOUR_SECRET</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">credentials</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">latitude</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">location</span><span class="err">?</span><span class="o">%</span><span class="n">s</span><span class="err">’</span> <span class="o">%</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span>
+</span><span class='line'>    <span class="err">‘</span><span class="nb">max</span><span class="o">-</span><span class="n">results</span><span class="err">’</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">‘</span><span class="nb">min</span><span class="o">-</span><span class="n">time</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">‘</span><span class="nb">max</span><span class="o">-</span><span class="n">time</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">),</span>
+</span><span class='line'>    <span class="err">‘</span><span class="n">granularity</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">best</span><span class="err">’</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'>  <span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="err">‘</span><span class="n">error</span><span class="err">’</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">None</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="err">‘</span><span class="n">data</span><span class="err">’</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="err">‘</span><span class="n">items</span><span class="err">’</span><span class="p">,</span> <span class="p">[])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>There are some minor details:</p>
+
+<ul>
+  <li>The API <em>uses milliseconds for its timestamps</em>, so my <code>since</code> values take
+this into account.</li>
+  <li>Without <code>max-time</code>, the API <em>returns the most recent</em> <code>max-results</code> locations.
+I supply a 150-second window.</li>
+  <li>If there are no locations within the given time range, the API <strong>does not</strong>
+populate <code>data['data']['items']</code>. I use <code>get()</code> to work around the resulting
+<code>KeyError</code>.</li>
+  <li>In the event of an error, the API populates <code>data['error']</code>. I use <code>None</code> as
+a <em>sentinel value</em> to indicate that an error has occurred.</li>
+</ul>
+
+<h3 id="instamapper-3">InstaMapper</h3>
+
+<p>You can see a working tailer implementation <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/tail_instamapper.py">here</a>.</p>
+
+<p>InstaMapper doesn’t use OAuth; instead, it uses a unique key
+<code>YOUR_KEY</code> that is passed as a GET parameter to the REST API:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">httplib</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">json</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="err">‘</span><span class="n">action</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">getPositions</span><span class="err">’</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">‘</span><span class="n">key</span><span class="err">’</span><span class="p">:</span> <span class="n">YOUR_KEY</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">‘</span><span class="n">num</span><span class="err">’</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">‘</span><span class="n">from_ts</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">‘</span><span class="n">format</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">json</span><span class="err">’</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">instamapper</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">api</span><span class="err">?</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">APIHOST</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+</span><span class='line'>  <span class="n">conn</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPConnection</span><span class="p">(</span><span class="err">‘</span><span class="n">www</span><span class="o">.</span><span class="n">instamapper</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="err">‘</span><span class="n">GET</span><span class="err">’</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">resp</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="err">‘</span><span class="n">HTTP</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">reason</span><span class="p">))</span>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="err">‘</span><span class="n">positions</span><span class="err">’</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3 id="comparison-2">Comparison</h3>
+
+<p>Although InstaMapper’s API is arguably simpler to use, I’ll award this one to
+<em>Google Latitude:</em></p>
+
+<ul>
+  <li><strong>Security:</strong> InstaMapper uses unencrypted HTTP GET requests, so anyone
+running a <a href="http://www.wireshark.org/">packet sniffer</a> on my network has <em>complete access to my
+location data.</em> Google Latitude uses HTTPS and OAuth. No contest.</li>
+  <li><strong>Support:</strong> I can <em>leverage the community of Google API users</em> to help resolve
+any issues I encounter.</li>
+  <li><strong>Data:</strong> again, InstaMapper is <em>missing location accuracy.</em></li>
+  <li><strong>Request Volume:</strong> InstaMapper permits one request every 10 seconds. Google
+Latitude allows 1 000 000 requests per day, or <em>one request every 0.0864
+seconds.</em></li>
+</ul>
+
+<h2 id="battery-usage">Battery Usage</h2>
+
+<p>To find out how battery-friendly the two Android apps are, I <em>check the
+Battery Manager:</em></p>
+
+<p><img src="https://lh6.googleusercontent.com/-B246p7a_vbg/UJA_i7iGdyI/AAAAAAAAAIU/Q6U6hLdc2hg/s288/battery-overview.jpg">
+<img src="https://lh5.googleusercontent.com/-X6ClOm7t-8s/UJA_jVwjgrI/AAAAAAAAAIk/V1lOfjmpO2o/s288/battery-maps.jpg">
+<img src="https://lh5.googleusercontent.com/-r7N176E75z0/UJA_jdJfs_I/AAAAAAAAAIg/XQnPc0Q2lgY/s288/battery-gps-tracker.jpg"></p>
+
+<h3 id="comparison-3">Comparison</h3>
+
+<p><em>Google Latitude</em> wins this one as well. InstaMapper keeps the GPS radio
+running almost constantly, whereas Google Latitude manages to sip radio
+access. I’m guessing that it uses WiFi, cell towers, and other non-GPS sources
+where possible.</p>
+
+<p>Without these power consumption improvements, InstaMapper’s GPS Tracker <em>uses
+an order of magnitude more energy</em> than Google Latitude. Ouch.</p>
+
+<h2 id="first-impressions">First Impressions</h2>
+
+<p>After a day of persistent location tracking with both Google Latitude and
+InstaMapper, <em>Google Latitude wins hands-down.</em> It’s <em>easy to install</em>, it
+provides <em>simple and secure data access</em> via <code>oauth2client</code>, and it <em>preserves
+battery life nicely.</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Don't Hate, Cross-Correlate]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/"/>
-    <updated>2012-10-22T13:41:00-05:00</updated>
+    <updated>2012-10-22T13:41:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate</id>
     <content type="html"><![CDATA[<p>In this post, I discuss cross-correlation. Although commonly used in signal
 processing, cross-correlation can be useful in a Quantified Self context.
@@ -248,7 +690,7 @@ is something that can be meaningfully tracked over time.</li>
   <entry>
     <title type="html"><![CDATA[Track Your Happiness: An Adventure In Data Extraction]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/"/>
-    <updated>2012-10-18T15:41:00-05:00</updated>
+    <updated>2012-10-18T15:41:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction</id>
     <content type="html"><![CDATA[<p>In this post, I go over my first report from
 <a href="https://www.trackyourhappiness.org/">Track Your Happiness</a>, a tool that uses
@@ -494,7 +936,7 @@ experiments.</p>
   <entry>
     <title type="html"><![CDATA[Fitbit: APIs, crossfilter, and d3.js]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/"/>
-    <updated>2012-10-17T08:30:00-05:00</updated>
+    <updated>2012-10-17T08:30:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3</id>
     <content type="html"><![CDATA[<p>In this post, I present
 <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a>, which uses
@@ -878,7 +1320,7 @@ application settings:</p>
   <entry>
     <title type="html"><![CDATA[Self-Tracking for Panic: Another Dataset]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/"/>
-    <updated>2012-10-14T21:23:00-05:00</updated>
+    <updated>2012-10-14T21:23:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset</id>
     <content type="html"><![CDATA[<p>In this post, I perform the same analyses presented in
 <a href="/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/">my last post</a> using data from my second panic tracking period.
@@ -1138,376 +1580,6 @@ exercise activity, and play a simple game with myself:</p>
 
 <p>That is, <em>can I exercise more often than my existing behavior patterns
 suggest I should?</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Self-Tracking For Panic: A Deeper Look]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/"/>
-    <updated>2012-10-09T07:00:00-05:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look</id>
-    <content type="html"><![CDATA[<p>In this post, I apply three statistical and machine learning tools to my panic
-recovery journal data: linear regression/correlation, the Fast Fourier
-Transform, and maximum entropy modelling.</p>
-
-<!-- more -->
-
-<h2 id="first-a-word-about-tools">First, A Word About Tools</h2>
-
-<p><blockquote><p>I suppose it is tempting, if the only tool you have is a hammer, to treat<br/>everything as if it were a nail.</p><footer><strong>Abraham Maslow</strong> <cite>The Psychology of Science: A Reconnaissance</cite></footer></blockquote></p>
-
-<h2 id="now-a-necessary-disclaimer">Now, A Necessary Disclaimer</h2>
-
-<p>My experiment has fewer than 50 samples, which is <em>nowhere near enough to draw
-statistically significant conclusions</em>. That’s not the point. The primary
-purpose of this post is to <em>demonstrate analysis techniques by example</em>. These
-same methods can be wielded on larger datasets, where they are much more
-useful.</p>
-
-<h2 id="getting-ready">Getting Ready</h2>
-
-<p>To follow along with the examples here, you’ll need
-the excellent Python toolkits
-<a href="http://scipy.org/">scipy</a>,
-<a href="http://matplotlib.org/">matplotlib</a>, and
-<a href="http://nltk.org/">nltk</a>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ pip install scipy nltk matplotlib</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2 id="linear-regression">Linear Regression</h2>
-
-<h3 id="what">What?</h3>
-
-<p>Linear regression answers this question:</p>
-
-<p><blockquote><p>What is the line that most closely fits this data?</p></blockquote></p>
-
-<p>Given points $ P_i = (x_i, y_i) $, the goal is to find the line
-$ y = mx + b $ such that some error function is minimized.
-A common one is the least squares function:</p>
-
-<script type="math/tex; mode=display">
-f(m, b) = \sum_{i} \left(y_i - (mx_i + b)\right)^2
-</script>
-
-<p>The
-<a href="http://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient">Pearson correlation coefficient</a> $ R $ and
-<a href="http://www.lstr.net/blog/2008/07/08/p-values-explained-well/">p-value</a> $ p $
-are also useful here, as they measure <em>correlation</em> and <em>statistical
-significance</em>.</p>
-
-<h3 id="why">Why?</h3>
-
-<p>In a self-tracking context, you might ask the following questions:</p>
-
-<ul>
-  <li>Have I been exercising more over time?</li>
-  <li>Does exercise affect mood? By how much and in what direction?</li>
-</ul>
-
-<p>Linear regression can help address both questions. However, it can only find
-<em>linear</em> relationships between datasets. Many dynamic processes are <em>locally linear</em>
-but not <em>globally linear</em>. For instance, there are practical limits to how
-much you can exercise in a day, so no linear model with non-zero slope will
-accurately capture your exercise duration for all time.</p>
-
-<h3 id="the-data">The Data</h3>
-
-<p>You can see the code for this analysis <a href="https://github.com/candu/quantified-savagery-files/blob/master/Panic/recovery-journal/food_linregress.py">here</a>. I look at only the first
-31 days, that being the largest consecutive run for which I have data.</p>
-
-<p><img src="https://lh6.googleusercontent.com/-plD2webhfrY/UHXc4xHxAGI/AAAAAAAAACM/2X488DqHKms/s640/alcohol.jpg" title="Alcohol Consumption" ></p>
-
-<p>My alcohol consumption did not decrease over time, but rather stayed fairly
-constant: with $ R = 0.0098 $, there is no correlation between alcohol and time.</p>
-
-<p><img src="https://lh5.googleusercontent.com/-UCZKlx5l5RI/UHXc6u8h2vI/AAAAAAAAACs/CWcJjS09dS8/s640/sweets.jpg" title="Sugar Consumption" ></p>
-
-<p>Sugar consumption is a similar story: although the best-fit slope is slightly
-negative, $ R = -0.0671 $ indicates no correlation over time. It seems that my
-alcohol and sugar consumption were not modified significantly over the tracking
-period.</p>
-
-<p><img src="https://lh5.googleusercontent.com/-Ssz89uoE-EA/UHXc5DvHf0I/AAAAAAAAACU/o0C_PJpmZcM/s640/alcohol-and-sugar.jpg" title="Alcohol and Sugar Consumption" ></p>
-
-<p>I decided to graph alcohol and sugar together. It looks like they might be
-related, as the peaks in each seem to coincide on several occasions. Let’s
-test this hypothesis:</p>
-
-<p><img src="https://lh6.googleusercontent.com/-iCO9umA8L8s/UHXc5vImvhI/AAAAAAAAACc/d82SCqFs-qI/s640/alcohol-today-vs-yesterday.jpg" title="Alcohol vs. Sugar Consumption" ></p>
-
-<p>The positive slope is more pronounced this time, but
-$ R = 0.1624 $ still indicates a small degree of correlation. We can also look
-at the p-value: with $ p = 0.3827 $, it is fairly easy to write this off as
-a random effect.</p>
-
-<p>Finally, let’s take another look at a question from
-<a href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">a previous blog post</a>:</p>
-
-<p><blockquote><p>On days where I drink heavily, do I drink less the day after?</p></blockquote></p>
-
-<p><img src="https://lh6.googleusercontent.com/-iCO9umA8L8s/UHXc5vImvhI/AAAAAAAAACc/d82SCqFs-qI/s640/alcohol-today-vs-yesterday.jpg" title="Alcohol Consumption: Today vs. Yesterday" ></p>
-
-<p>There’s a negative slope there, but the correlation and p-value statistics are
-in the same uncertain zone as before. I likely need more data to investigate
-these last two effects properly.</p>
-
-<h2 id="fast-fourier-transform">Fast Fourier Transform</h2>
-
-<h3 id="what-1">What?</h3>
-
-<p>Fourier analysis answers this question:</p>
-
-<p><blockquote><p>What frequencies comprise this signal?</p></blockquote></p>
-
-<p>Given a sequence $ x_n $, a
-<a href="http://en.wikipedia.org/wiki/Discrete_Fourier_transform">Discrete Fourier Transform</a> (DFT)
-computes</p>
-
-<script type="math/tex; mode=display">
-X_k = \sum_{n=0}^{N-1} x_n \cdot e^{\frac{-2 i \pi k n}{N}}
-</script>
-
-<p>The $ X_k $ encode the amplitude and phase of frequencies
-$ \frac{f k}{N} $ Hz, where $ T $ is the time between samples
-and $ f = 1 / T $ is the sampling frequency.</p>
-
-<p>As described here, the DFT requires $ \mathcal{O}(N^2) $ time to
-compute. The <a href="http://mathworld.wolfram.com/FastFourierTransform.html">Fast Fourier Transform</a> (FFT) uses
-divide-and-conquer on this sum of complex exponentials to compute the DFT in
-$ \mathcal{O}(N \log N) $ time. 
-<a href="http://groups.csail.mit.edu/netmit/sFFT/">Further speedups are possible</a> for
-real-world signals that are sparse in the frequency domain.</p>
-
-<h3 id="why-1">Why?</h3>
-
-<p>In a self-tracking context, you might ask the following questions:</p>
-
-<ul>
-  <li>Do I have regular exercising patterns?</li>
-  <li>Do these patterns cycle weekly? bi-weekly? monthly?</li>
-  <li>How much does my amount of exercise fluctuate during a cycle?</li>
-</ul>
-
-<p>With the FFT, Fourier analysis can help address these questions. However, it
-can only find <em>periodic</em> effects. Unlike linear regression, it does not help
-find <em>trends</em> in your data.</p>
-
-<h3 id="the-data-1">The Data</h3>
-
-<p>You can see the code for this analysis <a href="https://github.com/candu/quantified-savagery-files/blob/master/Panic/recovery-journal/food_fft.py">here</a>. Again, I look at the
-first 31 days to ensure that the frequency analysis is meaningful.</p>
-
-<p><img src="https://lh5.googleusercontent.com/-8j00ob_Ji-Y/UHXc67MQVpI/AAAAAAAAAC0/n3akVSjtRHs/s640/fft-frequencies.jpg" title="Frequency Strengths" ></p>
-
-<p>There are some apparent maxima there, but it’s hard to tell what they
-mean. Part of the difficulty is that <em>these are frequencies rather than
-period lengths</em>, so let’s deal with that:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ python food_fft.py 
-</span><span class='line'>food_fft.py:32: RuntimeWarning: divide by zero encountered in divide
-</span><span class='line'>  for strength, phase, period in sorted(zip(FS, FP, 1.0 / Q))[-5:]:
-</span><span class='line'>[2.21 days] 3.0461 (phase=-0.67 days)
-</span><span class='line'>[-2.21 days] 3.0461 (phase=-0.67 days)
-</span><span class='line'>[7.75 days] 3.1116 (phase=-3.67 days)
-</span><span class='line'>[-7.75 days] 3.1116 (phase=-3.67 days)
-</span><span class='line'>food_fft.py:33: RuntimeWarning: invalid value encountered in double_scalars
-</span><span class='line'>  phase_days = period * (phase / (2.0 * math.pi))
-</span><span class='line'>[inf days] 18.1401 (phase=nan days)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>If you’re not familiar with the Fourier transform,
-the last line might be a bit mysterious. That corresponds to $ X_0 $, which
-is just the sum of the original samples:</p>
-
-<script type="math/tex; mode=display">
-X_0 = \sum_{n=0}^{N-1} x_n \cdot e^0 = \sum_{n=0}^{N-1} x_n
-</script>
-
-<p>Other than that, the most pronounced cycles have period lengths of
-2.21 days and 7.75 days. The former might be explained by a <em>see-saw drinking
-pattern</em>, whereas the latter is likely related to the day-of-week effects
-we saw <a href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">in the previous post</a>.</p>
-
-<p>Which day of the week? The phase is -3.67 days, and our sample starts on a
-Monday, placing the first peak on Thursday. The period is slightly longer than
-a week, though, and the data runs for 31 days, so these peaks gradually shift
-to <em>cover the weekend</em>.</p>
-
-<p>There are two caveats:</p>
-
-<ol>
-  <li>I have no idea whether a Fourier coefficient of about 3 is significant
-here. If it isn’t, I’m grasping at straws.</li>
-  <li>Again, the small amount of data means the frequency domain data is sparse.
-To accurately test for bi-daily or weekly effects, I <em>need more
-fine-grained period lengths.</em></li>
-</ol>
-
-<h2 id="maximum-entropy-modelling">Maximum Entropy Modelling</h2>
-
-<h3 id="what-2">What?</h3>
-
-<p>Maximum entropy modelling answers this question:</p>
-
-<p><blockquote><p>Given observations of a random process, what is the most likely model<br/>for that random process?</p></blockquote></p>
-
-<p>Given a discrete probability distribution $ p(X = x_k) = p_k $, the entropy
-of this distribution is given by</p>
-
-<script type="math/tex; mode=display">
-H(p) = \sum - p_k \log p_k
-</script>
-
-<p>(Yes, I’m conflating the concepts of
-<a href="http://en.wikipedia.org/wiki/Random_variable">random variables</a> and
-<a href="http://en.wikipedia.org/wiki/Probability_distribution">probability distributions</a>.
-If you knew that, you probably don’t need this explanation.)</p>
-
-<p>This can be thought of as the <em>number of bits needed to encode outcomes
-in this distribution</em>. For instance, if I have a double-headed coin, I need
-no bits: I already know the outcome. Given a fair coin, though, I need one bit:
-heads or tails?</p>
-
-<p>After repeated sampling, we get observed expected values for $ p_k $;
-let these be $ p’_k $. Since we would like the model to <em>accurately
-reflect what we already know</em>, we impose the constraints $ p_k = p’_k $.
-The maximum entropy model is the model that also maximizes $ H(p’) $.</p>
-
-<p>This model encodes what is known
-<em>while remaining maximally noncommittal on what is unknown.</em></p>
-
-<p>Adam Berger (CMU) provides <a href="http://www.cs.cmu.edu/afs/cs/user/aberger/www/html/tutorial/node2.html#SECTION00011000000000000000">a more concrete example</a>.
-If you’re interested in learning more, his tutorial is highly recommended
-reading.</p>
-
-<h3 id="why-2">Why?</h3>
-
-<p>In a self-tracking context, you might ask the following questions:</p>
-
-<ul>
-  <li>Which treatments have the greatest effect in preventing panic attacks?
-Which have the least effect?</li>
-  <li>Today I exercised for at least 30 minutes and had four drinks. Am I
-likely to get a panic attack?</li>
-  <li>What treatments should I try next?</li>
-</ul>
-
-<p>Maximum entropy modelling can help address these questions. It is often
-used to <em>classify unseen examples</em>, and would be fantastic in a
-<a href="http://100plus.com/2012/09/qs-data-commons/">data commons</a> scenario
-with enough data to provide recommendations to users. </p>
-
-<h3 id="feature-extraction">Feature Extraction</h3>
-
-<p>Since I’m now effectively building a classifier, there’s an additional step.
-I need features for my classifier, which I extract from my existing datasets:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>train_set = []
-</span><span class='line'>dates = set(W).intersection(F)
-</span><span class='line'>for ds in dates:
-</span><span class='line'>  try:
-</span><span class='line'>    ds_data = {
-</span><span class='line'>      ‘relaxation’ : bool(int(W[ds][‘relaxation’])),
-</span><span class='line'>      ‘exercise’ : bool(int(W[ds][‘exercise’])),
-</span><span class='line'>      ‘caffeine’ : int(F[ds][‘caffeine’]) &gt; 0,
-</span><span class='line'>      ‘sweets’ : int(F[ds][‘sweets’]) &gt; 1,
-</span><span class='line'>      ‘alcohol’ : int(F[ds][‘alcohol’]) &gt; 4,
-</span><span class='line'>      ‘supplements’ : bool(int(F[ds][‘supplements’]))
-</span><span class='line'>    }
-</span><span class='line'>  except (ValueError, KeyError):
-</span><span class='line'>    continue
-</span><span class='line'>  had_panic = P.get(ds) and ‘panic’ or ‘no-panic’
-</span><span class='line'>  train_set.append((ds_data, had_panic))</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Note that the features listed here are binary. I use my daily goals as
-thresholds on caffeine, sweets, and alcohol.</p>
-
-<p>(If you know how to get float-valued features working with NLTK, let me know!
-Otherwise, there’s always <a href="http://www.cs.utah.edu/~hal/megam/">megam</a> or
-<a href="http://www-i6.informatik.rwth-aachen.de/web/Software/YASMET.html">YASMET</a>.</p>
-
-<h3 id="the-data-2">The Data</h3>
-
-<p>You can see the code for this analysis <a href="https://github.com/candu/quantified-savagery-files/blob/master/Panic/recovery-journal/panic_maxent.py">here</a>.
-This time I don’t care about having consecutive dates, so I use all of the
-samples.</p>
-
-<p>After building a <code>MaxentClassifier</code>, I print out the most informative features
-with <code>show_most_informative_features()</code>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-2.204 exercise==True and label is ‘panic’
-</span><span class='line'>   1.821 caffeine==True and label is ‘panic’
-</span><span class='line'>  -0.867 relaxation==True and label is ‘panic’
-</span><span class='line'>   0.741 alcohol==True and label is ‘panic’
-</span><span class='line'>  -0.615 caffeine==True and label is ‘no-panic’
-</span><span class='line'>  -0.537 supplements==True and label is ‘panic’
-</span><span class='line'>   0.439 sweets==True and label is ‘panic’
-</span><span class='line'>   0.430 exercise==True and label is ‘no-panic’
-</span><span class='line'>   0.284 relaxation==True and label is ‘no-panic’
-</span><span class='line'>   0.233 supplements==True and label is ‘no-panic’</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Exercise, relaxation breathing, and vitamin supplements help with panic.
-Caffeine, alcohol, and sweets do not. I knew that already, but this suggests 
-<em>which treatments or dietary factors have greatest impact.</em></p>
-
-<p>Let’s consider the supplements finding more closely. Of the 45 days, I took
-supplements on all but two. It’s <em>dangerous</em> to draw any conclusions from a
-feature for which there are very few negative samples.
-This points out some important points about data analysis:</p>
-
-<ul>
-  <li><strong>Know your data</strong>: otherwise, you may <em>ascribe undue meaning to outliers or noise.</em></li>
-  <li><strong>Know your features:</strong> supplements are probably not a good feature here.
-A <em>feature inclusion threshold</em> on number of positive and negative samples 
-might be helpful here.</li>
-  <li><strong>Beware magic:</strong> even when you understand their inner workings, <em>machine
-learning algorithms can produce results that are difficult to interpret.</em></li>
-</ul>
-
-<h2 id="up-next">Up Next</h2>
-
-<p>In my next post, I look at a panic recovery dataset gathered using
-<a href="https://github.com/candu/qs-counters">qs-counters</a>, a simple utility I built to reduce friction in
-self-tracking. I perform these same three analyses on the
-<a href="https://github.com/candu/quantified-savagery-files/tree/master/Panic/qs-counters">qs-counters dataset</a>, then compare it to the
-<a href="https://github.com/candu/quantified-savagery-files/tree/master/Panic/recovery-journal">recovery-journal dataset</a>.</p>
 ]]></content>
   </entry>
   
