@@ -28,14 +28,14 @@ closer look at that trip:
 
 {% img https://lh4.googleusercontent.com/-YJQip0zWnxQ/UJgVlFc_7pI/AAAAAAAAAMA/DjlCRjxouzo/s640/map-monadnock-trip.jpg %}
 
-Ouch. The data is noisy in some areas, sparse in others. It's fairly clear that
-we took Hwy 2 over, but some of the GPS readings are miles off. Let's zoom in
+Ouch. The data is *noisy in some areas, sparse in others.* It's fairly clear that
+we took Hwy 2 over, but *some of the GPS readings are miles off.* Let's zoom in
 on that hike:
 
 {% img https://lh5.googleusercontent.com/-bg3DxaZTe6k/UJgVlqpW7ZI/AAAAAAAAAMI/t2Kn3hrhWJM/s640/map-monadnock-hike.jpg %}
 
 Only five data points actually lie within the park/mountain boundaries. That's
-five data points for a four-hour hike. Our Boston data is somewhat more
+*five data points for a four-hour hike.* Our Boston data is somewhat more
 accurate:
 
 {% img https://lh3.googleusercontent.com/-6RFwbwjBEtI/UJgVmQk1KCI/AAAAAAAAAMQ/-Nhyp0LtoLw/s640/map-monadnock-boston.jpg %}
@@ -61,7 +61,7 @@ with the Mount Monadnock hike data, I tried another quick drive up into
 
 {% img https://lh5.googleusercontent.com/-MCZ55KYjgcE/UJgVjNWQ0FI/AAAAAAAAALo/pibM6xiJmUE/s640/map-drive-test.jpg %}
 
-Google Latitude captured just four points during the 20-minute drive.
+Google Latitude captured *just four points during the 20-minute drive.*
 
 ## Exhibit B: Some Analysis
 
@@ -77,26 +77,26 @@ This data isn't that useful.
 {% endblockquote %}
 
 This impression deserves further analysis, so I grab the KML to answer some
-of my questions. First off: how often is Google Latitude checking my location?
+of my questions. First off: *how often is Google Latitude checking my location?*
 
 {% img https://lh5.googleusercontent.com/-A7we5G7pYIw/UJb-xhCk_oI/AAAAAAAAAKk/O7ZwpxF_uQs/s640/timings-frequency.jpg %}
 
-About every two minutes. GPS is a [huge battery drain](/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/);
+*About every two minutes.* GPS is a [huge battery drain](/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/);
 increasing the time between updates can help by allowing the GPS radio to
-enter an idle state. How are those location readings scheduled?
+enter an idle state. *How are those location readings scheduled?*
 
 {% img https://lh6.googleusercontent.com/-PMYu61X440I/UJb-yCEbuBI/AAAAAAAAAKs/umbJNuuVfo0/s640/timings-second-histogram.jpg %}
 
-Google Latitude really likes spacing its readings out by a whole number of
-minutes.
+Google Latitude really likes spacing its readings out by a *whole number of
+minutes.*
 
-How accurate is the data? The KML doesn't provide [accuracy estimates](http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS))
+*How accurate is the data?* The KML doesn't provide [accuracy estimates](http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS))
 for its locations. Fortunately, the [Google Latitude API](https://developers.google.com/latitude/) does, so
 I retrieve my data using [this script](https://github.com/candu/quantified-savagery-files/blob/master/Location/api/scrape.py) and look at the accuracy readings:
 
 {% img https://lh3.googleusercontent.com/-p5senVUtgqM/UJb-ybk3zEI/AAAAAAAAAK0/qUvLSvog15E/s640/accuracy-histogram.jpg %}
 
-Actually, the readings have fairly high accuracy. Only 7% of readings have a
+Actually, *the readings have fairly high accuracy.* Only 7% of readings have a
 reported error radius greater than 100m.
 
 The maps above suggest that location readings are less accurate while
@@ -136,12 +136,12 @@ I use this distance formula to get a plot of accuracy versus travelling speed:
 
 {% img https://lh5.googleusercontent.com/-ba4lES16aCU/UJb-ytwI4OI/AAAAAAAAAK8/-OZvTHzgZjk/s144/accuracy-vs-speed.jpg %}
 
-No clear correlation here; there are low-quality readings at both low and high
+*No clear correlation here*; there are low-quality readings at both low and high
 speeds. There are several possible explanations:
 
 - **Confirmation bias:** I mistakenly extrapolated a small handful of
   low-quality readings taken at high speeds to a general pattern.
-- **Misinterpretation:** Some of the Mount Monadnock readings look *way* off;
+- **Misinterpretation:** Some of the Mount Monadnock readings look way off;
   perhaps the error radius doesn't mean what I think it does.
 - **Different location sources:** Location accuracy is
   [relatively well-defined](http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS)) for GPS, but I'm not sure what happens when
@@ -149,7 +149,7 @@ speeds. There are several possible explanations:
 - **Longer sampling interval:** Maybe Google Latitude assumes that precise
   location tracking is less important when driving.
 
-To test this last hypothesis, I also plot sampling interval versus speed:
+To test this last hypothesis, I also *plot sampling interval versus speed:*
 
 {% img https://lh5.googleusercontent.com/-__3m3z_oQfQ/UJcC4GeNhyI/AAAAAAAAALQ/HI6XQdHjtns/s640/timings-vs-speed.jpg %}
 
@@ -157,8 +157,8 @@ Nothing conclusive there.
 
 ## Conclusion
 
-The problem appears to be sampling frequency. To reduce battery usage, Google
-Latitude polls about once every two minutes. While it has some mechanism for
+*The problem appears to be sampling frequency.* To reduce battery usage, *Google
+Latitude polls about once every two minutes.* While it has some mechanism for
 polling more often in periods of high activity, it's unclear how that works.
 
 Reliance on fixes from cell towers and WiFi may be reducing location quality
@@ -174,15 +174,15 @@ involve manual labelling.
 Accuracy is not binary.
 {% endblockquote %}
 
-In Quantified Self applications, we use personal data to drive changes in our
-lives. We put a lot of trust in the accuracy and relevance of that data, and
-we extend that trust to the tools and services that collect it.
+In Quantified Self applications, we *use personal data to drive changes in our
+lives.* We put a lot of trust in the accuracy and relevance of that data, and
+*we extend that trust to the tools and services that collect it.*
 We trust [Fitbit](http://www.fitbit.com/) to track our fitness.
 We trust [Zeo](http://www.myzeo.com/sleep/) to improve our sleep.
 We trust [Lumosity](http://www.lumosity.com/) to train our perception and attentiveness.
 
-In giving so much trust to these tools, we sometimes forget that data are not
-infallible.
+In giving so much trust to these tools, we sometimes forget that *data are not
+infallible.*
 [Physics guarantees](http://www.pbs.org/wgbh/aso/databank/entries/dp27un.html) that there is no such thing as perfect data. *All
 data contain error.* As a system consisting of geosynchronous satellites that
 travel at relativistically significant speeds and beam data
