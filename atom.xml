@@ -4,7 +4,7 @@
   <title><![CDATA[Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-10-30T14:30:02-07:00</updated>
+  <updated>2012-11-05T12:48:40-08:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -12,6 +12,215 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Persistent Location Tracking: Looking For A Few Good Data Points]]></title>
+    <link href="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/"/>
+    <updated>2012-11-02T16:38:00-07:00</updated>
+    <id>http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points</id>
+    <content type="html"><![CDATA[<p>In this post, I revisit the question of whether Google Latitude meets my
+persistent location tracking needs. In <a href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">my previous post</a>, I compared
+Google Latitude to InstaMapper and concluded that the latter is too
+battery-intensive. By looking at maps and base-level insights from the data,
+I suggest that Google Latitude optimizes for battery life at the expense of
+data quality.</p>
+
+<!-- more -->
+
+<h2 id="exhibit-a-some-maps">Exhibit A: Some Maps</h2>
+
+<p>I started gathering data on Oct. 3, 2012:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-kyl-kUDWe_M/UJgVi3pls3I/AAAAAAAAALg/zGsaBfNzY7s/s640/map-monthly.jpg" /></p>
+
+<p>Since then, <a href="http://www.eecs.berkeley.edu/~valkyrie/">Valkyrie Savage</a> and I have travelled to Boston and Chicago.
+Our stopover in Phoenix is clearly visible at this scale. You can barely make
+out our day trip to <a href="http://goo.gl/maps/rLfNu">Mount Monadnock, NH</a> over near Boston. Here’s a
+closer look at that trip:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-YJQip0zWnxQ/UJgVlFc_7pI/AAAAAAAAAMA/DjlCRjxouzo/s640/map-monadnock-trip.jpg" /></p>
+
+<p>Ouch. The data is <em>noisy in some areas, sparse in others.</em> It’s fairly clear that
+we took Hwy 2 over, but <em>some of the GPS readings are miles off.</em> Let’s zoom in
+on that hike:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-bg3DxaZTe6k/UJgVlqpW7ZI/AAAAAAAAAMI/t2Kn3hrhWJM/s640/map-monadnock-hike.jpg" /></p>
+
+<p>Only five data points actually lie within the park/mountain boundaries. That’s
+<em>five data points for a four-hour hike.</em> Our Boston data is somewhat more
+accurate:</p>
+
+<p><img src="https://lh3.googleusercontent.com/-6RFwbwjBEtI/UJgVmQk1KCI/AAAAAAAAAMQ/-Nhyp0LtoLw/s640/map-monadnock-boston.jpg" /></p>
+
+<p>Still, the red line cuts through city blocks with reckless abandon. Either 
+we’re flying, or we’re packing some incredibly efficient demolition equipment.</p>
+
+<p>Here’s the map for one of my more itinerant Bay Area days:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-xNNR5dnNV44/UJgVj3SZAEI/AAAAAAAAALw/6KvtDZYWel0/s640/map-busy-day.jpg" /></p>
+
+<p>I cycled to a doctor’s appointment, visited
+<a href="http://bid.berkeley.edu/">BiD</a> to hear <a href="http://research.microsoft.com/en-us/people/marycz/">Mary Czerwinski</a> speak about emotion tracking, worked
+from <a href="http://goo.gl/maps/z7EuA">home</a> for a bit, went into San Francisco to meet up with
+<a href="http://www.linkedin.com/in/levpopov">Lev Popov</a>, and finally dragged myself home again.</p>
+
+<p>The BART ride into San Francisco is understandably sparse: most of it is
+separated from cell towers and GPS satellites by rock and/or water.</p>
+
+<p>Most of my travel is on foot, by bike, or via public transit. Not content
+with the Mount Monadnock hike data, I tried another quick drive up into
+<a href="http://goo.gl/maps/zk3AD">Tilden</a>:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-MCZ55KYjgcE/UJgVjNWQ0FI/AAAAAAAAALo/pibM6xiJmUE/s640/map-drive-test.jpg" /></p>
+
+<p>Google Latitude captured <em>just four points during the 20-minute drive.</em></p>
+
+<h2 id="exhibit-b-some-analysis">Exhibit B: Some Analysis</h2>
+
+<p>You can see the code for this analysis
+<a href="https://github.com/candu/quantified-savagery-files/tree/master/Location/kml">here</a>
+and <a href="https://github.com/candu/quantified-savagery-files/tree/master/Location/api">here</a>.</p>
+
+<p>After trudging through several lackluster map views, I’m left with a
+nagging impression:</p>
+
+<blockquote><p>This data isn&#8217;t that useful.</p></blockquote>
+
+<p>This impression deserves further analysis, so I grab the KML to answer some
+of my questions. First off: <em>how often is Google Latitude checking my location?</em></p>
+
+<p><img src="https://lh5.googleusercontent.com/-A7we5G7pYIw/UJb-xhCk_oI/AAAAAAAAAKk/O7ZwpxF_uQs/s640/timings-frequency.jpg" /></p>
+
+<p><em>About every two minutes.</em> GPS is a <a href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">huge battery drain</a>;
+increasing the time between updates can help by allowing the GPS radio to
+enter an idle state. <em>How are those location readings scheduled?</em></p>
+
+<p><img src="https://lh6.googleusercontent.com/-PMYu61X440I/UJb-yCEbuBI/AAAAAAAAAKs/umbJNuuVfo0/s640/timings-second-histogram.jpg" /></p>
+
+<p>Google Latitude really likes spacing its readings out by a <em>whole number of
+minutes.</em></p>
+
+<p><em>How accurate is the data?</em> The KML doesn’t provide <a href="http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS)">accuracy estimates</a>
+for its locations. Fortunately, the <a href="https://developers.google.com/latitude/">Google Latitude API</a> does, so
+I retrieve my data using <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/api/scrape.py">this script</a> and look at the accuracy readings:</p>
+
+<p><img src="https://lh3.googleusercontent.com/-p5senVUtgqM/UJb-ybk3zEI/AAAAAAAAAK0/qUvLSvog15E/s640/accuracy-histogram.jpg" /></p>
+
+<p>Actually, <em>the readings have fairly high accuracy.</em> Only 7% of readings have a
+reported error radius greater than 100m.</p>
+
+<p>The maps above suggest that location readings are less accurate while
+travelling at high speed. Is that true? The API provides speed estimates
+for some readings, but this data is kind of sparse:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ python speed.py &lt; history.api 
+</span><span class="line">found 7429 speed values among 20898 readings</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I try a different method: the <a href="http://mathforum.org/library/drmath/view/51879.html">Haversine distance formula</a>, which
+gives me the distance between two points on the Earth’s surface:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="py"><span class="line"><span class="k">def</span> <span class="nf">haversineDistance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+</span><span class="line">  <span class="sd">&quot;&quot;&quot;</span>
+</span><span class="line"><span class="sd">  Distance (in meters) between two Locations. Uses the Haversine formula.</span>
+</span><span class="line">
+</span><span class="line"><span class="sd">  See http://www.movable-type.co.uk/scripts/latlong.html for corresponding</span>
+</span><span class="line"><span class="sd">  JavaScript implementation.</span>
+</span><span class="line"><span class="sd">  &quot;&quot;&quot;</span>
+</span><span class="line">  <span class="c"># Earth&#39;s radius in meters</span>
+</span><span class="line">  <span class="n">R</span> <span class="o">=</span> <span class="mi">6371009</span>
+</span><span class="line">  <span class="n">dLat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="n">A</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+</span><span class="line">  <span class="n">dLon</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lng</span> <span class="o">-</span> <span class="n">A</span><span class="o">.</span><span class="n">lng</span><span class="p">)</span>
+</span><span class="line">  <span class="n">lat1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+</span><span class="line">  <span class="n">lat2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+</span><span class="line">  <span class="n">sLat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dLat</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+</span><span class="line">  <span class="n">sLon</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dLon</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+</span><span class="line">  <span class="n">a</span> <span class="o">=</span> <span class="n">sLat</span> <span class="o">*</span> <span class="n">sLat</span> <span class="o">+</span> <span class="n">sLon</span> <span class="o">*</span> <span class="n">sLon</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span>
+</span><span class="line">  <span class="n">c</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">a</span><span class="p">))</span>
+</span><span class="line">  <span class="k">return</span> <span class="n">R</span> <span class="o">*</span> <span class="n">c</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I use this distance formula to get a plot of accuracy versus travelling speed:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-ba4lES16aCU/UJb-ytwI4OI/AAAAAAAAAK8/-OZvTHzgZjk/s144/accuracy-vs-speed.jpg" /></p>
+
+<p><em>No clear correlation here</em>; there are low-quality readings at both low and high
+speeds. There are several possible explanations:</p>
+
+<ul>
+  <li><strong>Confirmation bias:</strong> I mistakenly extrapolated a small handful of
+low-quality readings taken at high speeds to a general pattern.</li>
+  <li><strong>Misinterpretation:</strong> Some of the Mount Monadnock readings look way off;
+perhaps the error radius doesn’t mean what I think it does.</li>
+  <li><strong>Different location sources:</strong> Location accuracy is
+<a href="http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS)">relatively well-defined</a> for GPS, but I’m not sure what happens when
+cell towers or WiFi access points are incorporated into location fixes.</li>
+  <li><strong>Longer sampling interval:</strong> Maybe Google Latitude assumes that precise
+location tracking is less important when driving.</li>
+</ul>
+
+<p>To test this last hypothesis, I also <em>plot sampling interval versus speed:</em></p>
+
+<p><img src="https://lh5.googleusercontent.com/-__3m3z_oQfQ/UJcC4GeNhyI/AAAAAAAAALQ/HI6XQdHjtns/s640/timings-vs-speed.jpg" /></p>
+
+<p>Nothing conclusive there.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p><em>The problem appears to be sampling frequency.</em> To reduce battery usage, <em>Google
+Latitude polls about once every two minutes.</em> While it has some mechanism for
+polling more often in periods of high activity, it’s unclear how that works.</p>
+
+<p>Reliance on fixes from cell towers and WiFi may be reducing location quality
+in more remote areas. Testing this hypothesis is difficult: how do you
+quantify remote? One possibility is to compute nearest-neighbor distance
+against <a href="http://www.maxmind.com/en/worldcities">a database of cities</a>. Another confounding factor is the
+reliability of those <code>accuracy</code> values. Improving upon that would likely
+involve manual labelling.</p>
+
+<h2 id="why-do-this">Why Do This?</h2>
+
+<blockquote><p>Accuracy is not binary.</p></blockquote>
+
+<p>In Quantified Self applications, we <em>use personal data to drive changes in our
+lives.</em> We put a lot of trust in the accuracy and relevance of that data, and
+<em>we extend that trust to the tools and services that collect it.</em>
+We trust <a href="http://www.fitbit.com/">Fitbit</a> to track our fitness.
+We trust <a href="http://www.myzeo.com/sleep/">Zeo</a> to improve our sleep.
+We trust <a href="http://www.lumosity.com/">Lumosity</a> to train our perception and attentiveness.</p>
+
+<p>In giving so much trust to these tools, we sometimes forget that <em>data are not
+infallible.</em>
+<a href="http://www.pbs.org/wgbh/aso/databank/entries/dp27un.html">Physics guarantees</a> that there is no such thing as perfect data. <em>All
+data contain error.</em> As a system consisting of geosynchronous satellites that
+travel at relativistically significant speeds and beam data
+through our multilayered atmosphere to tiny chip radios sandwiched between
+layers of dense circuitry, GPS is understandably <a href="http://www.kowoma.de/en/gps/errors.htm">error-prone.</a>
+When your chosen tools and services add noise on top of that, it’s reasonable
+to ask:</p>
+
+<blockquote><p>How much trust should I place in the output?</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Persistent Location Tracking: Picking The Right Tool]]></title>

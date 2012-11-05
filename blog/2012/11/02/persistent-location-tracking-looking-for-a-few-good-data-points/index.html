@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,500,500italic' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8">
+  <title>Persistent Location Tracking: Looking For A Few Good Data Points - Quantified Savagery</title>
+  <meta name="author" content="Evan Savage">
+
+  
+  <meta name="description" content="In this post, I revisit the question of whether Google Latitude meets my
+persistent location tracking needs. In my previous post, I compared
+Google &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!-- see http://luikore.github.com/2011/09/good-things-learned-from-octopress/ -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+  </script>
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <link href="/atom.xml" rel="alternate" title="Quantified Savagery" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34927069-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Quantified Savagery</a></h1>
+  
+    <h2>Where Personal Data Runs Wild</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.savageevan.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Persistent Location Tracking: Looking for a Few Good Data Points</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-02T16:38:00-07:00" pubdate data-updated="true">Nov 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In this post, I revisit the question of whether Google Latitude meets my
+persistent location tracking needs. In <a href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">my previous post</a>, I compared
+Google Latitude to InstaMapper and concluded that the latter is too
+battery-intensive. By looking at maps and base-level insights from the data,
+I suggest that Google Latitude optimizes for battery life at the expense of
+data quality.</p>
+
+<!-- more -->
+
+<h2 id="exhibit-a-some-maps">Exhibit A: Some Maps</h2>
+
+<p>I started gathering data on Oct. 3, 2012:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-kyl-kUDWe_M/UJgVi3pls3I/AAAAAAAAALg/zGsaBfNzY7s/s640/map-monthly.jpg" /></p>
+
+<p>Since then, <a href="http://www.eecs.berkeley.edu/~valkyrie/">Valkyrie Savage</a> and I have travelled to Boston and Chicago.
+Our stopover in Phoenix is clearly visible at this scale. You can barely make
+out our day trip to <a href="http://goo.gl/maps/rLfNu">Mount Monadnock, NH</a> over near Boston. Here’s a
+closer look at that trip:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-YJQip0zWnxQ/UJgVlFc_7pI/AAAAAAAAAMA/DjlCRjxouzo/s640/map-monadnock-trip.jpg" /></p>
+
+<p>Ouch. The data is <em>noisy in some areas, sparse in others.</em> It’s fairly clear that
+we took Hwy 2 over, but <em>some of the GPS readings are miles off.</em> Let’s zoom in
+on that hike:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-bg3DxaZTe6k/UJgVlqpW7ZI/AAAAAAAAAMI/t2Kn3hrhWJM/s640/map-monadnock-hike.jpg" /></p>
+
+<p>Only five data points actually lie within the park/mountain boundaries. That’s
+<em>five data points for a four-hour hike.</em> Our Boston data is somewhat more
+accurate:</p>
+
+<p><img src="https://lh3.googleusercontent.com/-6RFwbwjBEtI/UJgVmQk1KCI/AAAAAAAAAMQ/-Nhyp0LtoLw/s640/map-monadnock-boston.jpg" /></p>
+
+<p>Still, the red line cuts through city blocks with reckless abandon. Either 
+we’re flying, or we’re packing some incredibly efficient demolition equipment.</p>
+
+<p>Here’s the map for one of my more itinerant Bay Area days:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-xNNR5dnNV44/UJgVj3SZAEI/AAAAAAAAALw/6KvtDZYWel0/s640/map-busy-day.jpg" /></p>
+
+<p>I cycled to a doctor’s appointment, visited
+<a href="http://bid.berkeley.edu/">BiD</a> to hear <a href="http://research.microsoft.com/en-us/people/marycz/">Mary Czerwinski</a> speak about emotion tracking, worked
+from <a href="http://goo.gl/maps/z7EuA">home</a> for a bit, went into San Francisco to meet up with
+<a href="http://www.linkedin.com/in/levpopov">Lev Popov</a>, and finally dragged myself home again.</p>
+
+<p>The BART ride into San Francisco is understandably sparse: most of it is
+separated from cell towers and GPS satellites by rock and/or water.</p>
+
+<p>Most of my travel is on foot, by bike, or via public transit. Not content
+with the Mount Monadnock hike data, I tried another quick drive up into
+<a href="http://goo.gl/maps/zk3AD">Tilden</a>:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-MCZ55KYjgcE/UJgVjNWQ0FI/AAAAAAAAALo/pibM6xiJmUE/s640/map-drive-test.jpg" /></p>
+
+<p>Google Latitude captured <em>just four points during the 20-minute drive.</em></p>
+
+<h2 id="exhibit-b-some-analysis">Exhibit B: Some Analysis</h2>
+
+<p>You can see the code for this analysis
+<a href="https://github.com/candu/quantified-savagery-files/tree/master/Location/kml">here</a>
+and <a href="https://github.com/candu/quantified-savagery-files/tree/master/Location/api">here</a>.</p>
+
+<p>After trudging through several lackluster map views, I’m left with a
+nagging impression:</p>
+
+<blockquote><p>This data isn&#8217;t that useful.</p></blockquote>
+
+<p>This impression deserves further analysis, so I grab the KML to answer some
+of my questions. First off: <em>how often is Google Latitude checking my location?</em></p>
+
+<p><img src="https://lh5.googleusercontent.com/-A7we5G7pYIw/UJb-xhCk_oI/AAAAAAAAAKk/O7ZwpxF_uQs/s640/timings-frequency.jpg" /></p>
+
+<p><em>About every two minutes.</em> GPS is a <a href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">huge battery drain</a>;
+increasing the time between updates can help by allowing the GPS radio to
+enter an idle state. <em>How are those location readings scheduled?</em></p>
+
+<p><img src="https://lh6.googleusercontent.com/-PMYu61X440I/UJb-yCEbuBI/AAAAAAAAAKs/umbJNuuVfo0/s640/timings-second-histogram.jpg" /></p>
+
+<p>Google Latitude really likes spacing its readings out by a <em>whole number of
+minutes.</em></p>
+
+<p><em>How accurate is the data?</em> The KML doesn’t provide <a href="http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS)">accuracy estimates</a>
+for its locations. Fortunately, the <a href="https://developers.google.com/latitude/">Google Latitude API</a> does, so
+I retrieve my data using <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/api/scrape.py">this script</a> and look at the accuracy readings:</p>
+
+<p><img src="https://lh3.googleusercontent.com/-p5senVUtgqM/UJb-ybk3zEI/AAAAAAAAAK0/qUvLSvog15E/s640/accuracy-histogram.jpg" /></p>
+
+<p>Actually, <em>the readings have fairly high accuracy.</em> Only 7% of readings have a
+reported error radius greater than 100m.</p>
+
+<p>The maps above suggest that location readings are less accurate while
+travelling at high speed. Is that true? The API provides speed estimates
+for some readings, but this data is kind of sparse:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ python speed.py &lt; history.api 
+</span><span class="line">found 7429 speed values among 20898 readings</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I try a different method: the <a href="http://mathforum.org/library/drmath/view/51879.html">Haversine distance formula</a>, which
+gives me the distance between two points on the Earth’s surface:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="py"><span class="line"><span class="k">def</span> <span class="nf">haversineDistance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+</span><span class="line">  <span class="sd">&quot;&quot;&quot;</span>
+</span><span class="line"><span class="sd">  Distance (in meters) between two Locations. Uses the Haversine formula.</span>
+</span><span class="line">
+</span><span class="line"><span class="sd">  See http://www.movable-type.co.uk/scripts/latlong.html for corresponding</span>
+</span><span class="line"><span class="sd">  JavaScript implementation.</span>
+</span><span class="line"><span class="sd">  &quot;&quot;&quot;</span>
+</span><span class="line">  <span class="c"># Earth&#39;s radius in meters</span>
+</span><span class="line">  <span class="n">R</span> <span class="o">=</span> <span class="mi">6371009</span>
+</span><span class="line">  <span class="n">dLat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="n">A</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+</span><span class="line">  <span class="n">dLon</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lng</span> <span class="o">-</span> <span class="n">A</span><span class="o">.</span><span class="n">lng</span><span class="p">)</span>
+</span><span class="line">  <span class="n">lat1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+</span><span class="line">  <span class="n">lat2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+</span><span class="line">  <span class="n">sLat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dLat</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+</span><span class="line">  <span class="n">sLon</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dLon</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+</span><span class="line">  <span class="n">a</span> <span class="o">=</span> <span class="n">sLat</span> <span class="o">*</span> <span class="n">sLat</span> <span class="o">+</span> <span class="n">sLon</span> <span class="o">*</span> <span class="n">sLon</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span>
+</span><span class="line">  <span class="n">c</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">a</span><span class="p">))</span>
+</span><span class="line">  <span class="k">return</span> <span class="n">R</span> <span class="o">*</span> <span class="n">c</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I use this distance formula to get a plot of accuracy versus travelling speed:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-ba4lES16aCU/UJb-ytwI4OI/AAAAAAAAAK8/-OZvTHzgZjk/s144/accuracy-vs-speed.jpg" /></p>
+
+<p><em>No clear correlation here</em>; there are low-quality readings at both low and high
+speeds. There are several possible explanations:</p>
+
+<ul>
+  <li><strong>Confirmation bias:</strong> I mistakenly extrapolated a small handful of
+low-quality readings taken at high speeds to a general pattern.</li>
+  <li><strong>Misinterpretation:</strong> Some of the Mount Monadnock readings look way off;
+perhaps the error radius doesn’t mean what I think it does.</li>
+  <li><strong>Different location sources:</strong> Location accuracy is
+<a href="http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS)">relatively well-defined</a> for GPS, but I’m not sure what happens when
+cell towers or WiFi access points are incorporated into location fixes.</li>
+  <li><strong>Longer sampling interval:</strong> Maybe Google Latitude assumes that precise
+location tracking is less important when driving.</li>
+</ul>
+
+<p>To test this last hypothesis, I also <em>plot sampling interval versus speed:</em></p>
+
+<p><img src="https://lh5.googleusercontent.com/-__3m3z_oQfQ/UJcC4GeNhyI/AAAAAAAAALQ/HI6XQdHjtns/s640/timings-vs-speed.jpg" /></p>
+
+<p>Nothing conclusive there.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p><em>The problem appears to be sampling frequency.</em> To reduce battery usage, <em>Google
+Latitude polls about once every two minutes.</em> While it has some mechanism for
+polling more often in periods of high activity, it’s unclear how that works.</p>
+
+<p>Reliance on fixes from cell towers and WiFi may be reducing location quality
+in more remote areas. Testing this hypothesis is difficult: how do you
+quantify remote? One possibility is to compute nearest-neighbor distance
+against <a href="http://www.maxmind.com/en/worldcities">a database of cities</a>. Another confounding factor is the
+reliability of those <code>accuracy</code> values. Improving upon that would likely
+involve manual labelling.</p>
+
+<h2 id="why-do-this">Why Do This?</h2>
+
+<blockquote><p>Accuracy is not binary.</p></blockquote>
+
+<p>In Quantified Self applications, we <em>use personal data to drive changes in our
+lives.</em> We put a lot of trust in the accuracy and relevance of that data, and
+<em>we extend that trust to the tools and services that collect it.</em>
+We trust <a href="http://www.fitbit.com/">Fitbit</a> to track our fitness.
+We trust <a href="http://www.myzeo.com/sleep/">Zeo</a> to improve our sleep.
+We trust <a href="http://www.lumosity.com/">Lumosity</a> to train our perception and attentiveness.</p>
+
+<p>In giving so much trust to these tools, we sometimes forget that <em>data are not
+infallible.</em>
+<a href="http://www.pbs.org/wgbh/aso/databank/entries/dp27un.html">Physics guarantees</a> that there is no such thing as perfect data. <em>All
+data contain error.</em> As a system consisting of geosynchronous satellites that
+travel at relativistically significant speeds and beam data
+through our multilayered atmosphere to tiny chip radios sandwiched between
+layers of dense circuitry, GPS is understandably <a href="http://www.kowoma.de/en/gps/errors.htm">error-prone.</a>
+When your chosen tools and services add noise on top of that, it’s reasonable
+to ask:</p>
+
+<blockquote><p>How much trust should I place in the output?</p></blockquote>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Evan Savage</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-02T16:38:00-07:00" pubdate data-updated="true">Nov 2<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/location/'>Location</a>, <a class='category' href='/blog/categories/technical/'>Technical</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/" title="Previous Post: Persistent Location Tracking: Picking The Right Tool">&laquo; Persistent Location Tracking: Picking The Right Tool</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/">Persistent Location Tracking: Looking For A Few Good Data Points</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">Persistent Location Tracking: Picking The Right Tool</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/22/dont-hate-cross-correlate/">Don't Hate, Cross-Correlate</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/">Track Your Happiness: An Adventure In Data Extraction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/">Fitbit: APIs, crossfilter, and d3.js</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/candu">@candu</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'candu',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("candusavage", 5, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/candusavage" class="twitter-follow-button" data-show-count="false">Follow @candusavage</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Evan Savage -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
