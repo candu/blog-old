@@ -3,7 +3,7 @@ layout: post
 title: "Welcome to Quantified Savagery"
 date: 2012-10-02 21:34
 comments: true
-categories: [Non-Technical]
+categories: [Thoughts, Non-Technical]
 ---
 
 I'm [Evan Savage](http://cv.savageevan.com/) and I'd like to welcome you
