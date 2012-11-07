@@ -8,6 +8,8 @@ categories: [Thoughts, Non-Technical]
 
 In this post, I expand on some [earlier thoughts](/blog/2012/10/02/welcome-to-quantified-savagery/) about the
 nature and purpose of the [Quantified Self movement](http://quantifiedself.com/).
+In looking at personal identity from a Quantified Self perspective, I argue
+that self-tracking gives us a means for reclaiming control of that identity.
 
 <!-- more -->
 
@@ -53,7 +55,7 @@ insofar as it allows you to be grouped together with similar patients.
 That grouping is a *pattern profile* in your doctor's mind, and it informs their
 *expert other-knowledge* of you.
 
-By contrast, you have intimate knowledge of your body and its symptoms.
+By contrast, you have intimate *self-knowledge* of your body and its symptoms.
 When do they occur? After eating which foods? In which locations?
 How often? How severe? The doctor will often ask these more *technical
 questions* to fill in the data missing from their patterns. There are,
@@ -82,8 +84,8 @@ This is not to say that experts are without value. In their current
 incarnation, they fulfill much of the promise of the [Quantified Mass](/blog/2012/10/02/welcome-to-quantified-savagery/).
 Their (hopefully) extensive training equips them with powerful insights
 rooted in centuries of scientific inquiry.
-Powerful as those insights are, however, they are ill-suited to address 
-more personal questions in a way that is meaningful to you.
+Powerful as those insights are, however, *they are ill-suited to address 
+more personal questions* in a way that is meaningful to you.
 
 ## Personal Identity And Place-Ism
 
@@ -106,7 +108,13 @@ devoid of identity, knobs we go elsewhere to have others tweak for us. For
 lack of a better term, I'll call this place-ism.
 
 This isn't just philosophical posturing. There is [growing inquiry](https://www.google.com/search?q=behavior+change+and+identity)
-into the hypothesis that [behavior and belief change are linked](http://wayoftheduck.com/belief-change). If that's the
+into the hypothesis that [behavior and belief change are linked](http://wayoftheduck.com/belief-change).
+A number of theories, such as
+[self-determination theory](http://www.selfdeterminationtheory.org/theory) and the
+[Transtheoretical Model](http://www.uri.edu/research/cprc/TTM/detailedoverview.htm),
+have sprung up in an attempt to rigorously define these processes of change.
+
+If that's the
 case, training ourselves to externalize behavior change can't be good, as it
 necessarily *reduces our capacity for belief change.*
 
@@ -121,8 +129,9 @@ our own lives.*
 What role do experts have in this cycle? The point is not to exclude them
 entirely, but rather to *change their role from identity gatekeepers
 identity consultants.* By treating them as consultants, you seek advice
-of your own free will and with the understanding that some of it won't
-work for you.
+of your own free will and with the understanding that some of it may not
+be applicable to you. You decide what role the consultant plays in your
+health, your education, your overall identity.
 
 {% blockquote %}
 What if learning were not a place, but a state of being?
@@ -133,8 +142,8 @@ This reminds of
 [Feynman's spinning plates](http://www.thinkjarcollective.com/2012/07/richard-feynman-spinning-plates-and-serious-play/),
 yet another demonstration of the power of *pervasive learning.* That word
 pervasive is crucial. {" In this state, there are no boundaries on when, where,
-or from what learning arises. "} There is no schedule for learning. There is no
-switching between learning on and off modes, only a variation in intensity.
+or from what learning arises. "} There is *no schedule for learning.* There is no
+switching between learning on and off modes, only a *variation in intensity.*
 {% endpullquote %}
 
 ## ...And Back To Gameplay
