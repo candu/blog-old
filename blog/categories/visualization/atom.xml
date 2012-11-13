@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Technical | Quantified Savagery]]></title>
-  <link href="http://blog.savageevan.com/blog/categories/technical/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Visualization | Quantified Savagery]]></title>
+  <link href="http://blog.savageevan.com/blog/categories/visualization/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
   <updated>2012-11-13T15:24:45-08:00</updated>
   <id>http://blog.savageevan.com/</id>
@@ -634,657 +634,6 @@ more detail. Keep posted!</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Persistent Location Tracking: Looking For A Few Good Data Points]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/"/>
-    <updated>2012-11-02T16:38:00-07:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points</id>
-    <content type="html"><![CDATA[<p>In this post, I revisit the question of whether Google Latitude meets my
-persistent location tracking needs. In <a href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">my previous post</a>, I compared
-Google Latitude to InstaMapper and concluded that the latter is too
-battery-intensive. By looking at maps and base-level insights from the data,
-I suggest that Google Latitude optimizes for battery life at the expense of
-data quality.</p>
-
-<!-- more -->
-
-<h2 id="exhibit-a-some-maps">Exhibit A: Some Maps</h2>
-
-<p>I started gathering data on Oct. 3, 2012:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-kyl-kUDWe_M/UJgVi3pls3I/AAAAAAAAALg/zGsaBfNzY7s/s640/map-monthly.jpg"></p>
-
-<p>Since then, <a href="http://www.eecs.berkeley.edu/~valkyrie/">Valkyrie Savage</a> and I have travelled to Boston and Chicago.
-Our stopover in Phoenix is clearly visible at this scale. You can barely make
-out our day trip to <a href="http://goo.gl/maps/rLfNu">Mount Monadnock, NH</a> over near Boston. Here’s a
-closer look at that trip:</p>
-
-<p><img src="https://lh4.googleusercontent.com/-YJQip0zWnxQ/UJgVlFc_7pI/AAAAAAAAAMA/DjlCRjxouzo/s640/map-monadnock-trip.jpg"></p>
-
-<p>Ouch. The data is <em>noisy in some areas, sparse in others.</em> It’s fairly clear that
-we took Hwy 2 over, but <em>some of the GPS readings are miles off.</em> Let’s zoom in
-on that hike:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-bg3DxaZTe6k/UJgVlqpW7ZI/AAAAAAAAAMI/t2Kn3hrhWJM/s640/map-monadnock-hike.jpg"></p>
-
-<p>Only five data points actually lie within the park/mountain boundaries. That’s
-<em>five data points for a four-hour hike.</em> Our Boston data is somewhat more
-accurate:</p>
-
-<p><img src="https://lh3.googleusercontent.com/-6RFwbwjBEtI/UJgVmQk1KCI/AAAAAAAAAMQ/-Nhyp0LtoLw/s640/map-monadnock-boston.jpg"></p>
-
-<p>Still, the red line cuts through city blocks with reckless abandon. Either 
-we’re flying, or we’re packing some incredibly efficient demolition equipment.</p>
-
-<p>Here’s the map for one of my more itinerant Bay Area days:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-xNNR5dnNV44/UJgVj3SZAEI/AAAAAAAAALw/6KvtDZYWel0/s640/map-busy-day.jpg"></p>
-
-<p>I cycled to a doctor’s appointment, visited
-<a href="http://bid.berkeley.edu/">BiD</a> to hear <a href="http://research.microsoft.com/en-us/people/marycz/">Mary Czerwinski</a> speak about emotion tracking, worked
-from <a href="http://goo.gl/maps/z7EuA">home</a> for a bit, went into San Francisco to meet up with
-<a href="http://www.linkedin.com/in/levpopov">Lev Popov</a>, and finally dragged myself home again.</p>
-
-<p>The BART ride into San Francisco is understandably sparse: most of it is
-separated from cell towers and GPS satellites by rock and/or water.</p>
-
-<p>Most of my travel is on foot, by bike, or via public transit. Not content
-with the Mount Monadnock hike data, I tried another quick drive up into
-<a href="http://goo.gl/maps/zk3AD">Tilden</a>:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-MCZ55KYjgcE/UJgVjNWQ0FI/AAAAAAAAALo/pibM6xiJmUE/s640/map-drive-test.jpg"></p>
-
-<p>Google Latitude captured <em>just four points during the 20-minute drive.</em></p>
-
-<h2 id="exhibit-b-some-analysis">Exhibit B: Some Analysis</h2>
-
-<p>You can see the code for this analysis
-<a href="https://github.com/candu/quantified-savagery-files/tree/master/Location/kml">here</a>
-and <a href="https://github.com/candu/quantified-savagery-files/tree/master/Location/api">here</a>.</p>
-
-<p>After trudging through several lackluster map views, I’m left with a
-nagging impression:</p>
-
-<p><blockquote><p>This data isn’t that useful.</p></blockquote></p>
-
-<p>This impression deserves further analysis, so I grab the KML to answer some
-of my questions. First off: <em>how often is Google Latitude checking my location?</em></p>
-
-<p><img src="https://lh5.googleusercontent.com/-A7we5G7pYIw/UJb-xhCk_oI/AAAAAAAAAKk/O7ZwpxF_uQs/s640/timings-frequency.jpg"></p>
-
-<p><em>About every two minutes.</em> GPS is a <a href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">huge battery drain</a>;
-increasing the time between updates can help by allowing the GPS radio to
-enter an idle state. <em>How are those location readings scheduled?</em></p>
-
-<p><img src="https://lh6.googleusercontent.com/-PMYu61X440I/UJb-yCEbuBI/AAAAAAAAAKs/umbJNuuVfo0/s640/timings-second-histogram.jpg"></p>
-
-<p>Google Latitude really likes spacing its readings out by a <em>whole number of
-minutes.</em></p>
-
-<p><em>How accurate is the data?</em> The KML doesn’t provide <a href="http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS)">accuracy estimates</a>
-for its locations. Fortunately, the <a href="https://developers.google.com/latitude/">Google Latitude API</a> does, so
-I retrieve my data using <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/api/scrape.py">this script</a> and look at the accuracy readings:</p>
-
-<p><img src="https://lh3.googleusercontent.com/-p5senVUtgqM/UJb-ybk3zEI/AAAAAAAAAK0/qUvLSvog15E/s640/accuracy-histogram.jpg"></p>
-
-<p>Actually, <em>the readings have fairly high accuracy.</em> Only 7% of readings have a
-reported error radius greater than 100m.</p>
-
-<p>The maps above suggest that location readings are less accurate while
-travelling at high speed. Is that true? The API provides speed estimates
-for some readings, but this data is kind of sparse:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ python speed.py &lt; history.api 
-</span><span class='line'>found 7429 speed values among 20898 readings</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I try a different method: the <a href="http://mathforum.org/library/drmath/view/51879.html">Haversine distance formula</a>, which
-gives me the distance between two points on the Earth’s surface:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">haversineDistance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
-</span><span class='line'>  <span class="err">“””</span>
-</span><span class='line'>  <span class="n">Distance</span> <span class="p">(</span><span class="ow">in</span> <span class="n">meters</span><span class="p">)</span> <span class="n">between</span> <span class="n">two</span> <span class="n">Locations</span><span class="o">.</span> <span class="n">Uses</span> <span class="n">the</span> <span class="n">Haversine</span> <span class="n">formula</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">See</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">movable</span><span class="o">-</span><span class="nb">type</span><span class="o">.</span><span class="n">co</span><span class="o">.</span><span class="n">uk</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">latlong</span><span class="o">.</span><span class="n">html</span> <span class="k">for</span> <span class="n">corresponding</span>
-</span><span class='line'>  <span class="n">JavaScript</span> <span class="n">implementation</span><span class="o">.</span>
-</span><span class='line'>  <span class="err">“””</span>
-</span><span class='line'>  <span class="c"># Earth’s radius in meters</span>
-</span><span class='line'>  <span class="n">R</span> <span class="o">=</span> <span class="mi">6371009</span>
-</span><span class='line'>  <span class="n">dLat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lat</span> <span class="o">-</span> <span class="n">A</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">dLon</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lng</span> <span class="o">-</span> <span class="n">A</span><span class="o">.</span><span class="n">lng</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">lat1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">lat2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">sLat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dLat</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">sLon</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dLon</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="n">sLat</span> <span class="o">*</span> <span class="n">sLat</span> <span class="o">+</span> <span class="n">sLon</span> <span class="o">*</span> <span class="n">sLon</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">c</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">a</span><span class="p">))</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">R</span> <span class="o">*</span> <span class="n">c</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I use this distance formula to get a plot of accuracy versus travelling speed:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-ba4lES16aCU/UJb-ytwI4OI/AAAAAAAAAK8/-OZvTHzgZjk/s144/accuracy-vs-speed.jpg"></p>
-
-<p><em>No clear correlation here</em>; there are low-quality readings at both low and high
-speeds. There are several possible explanations:</p>
-
-<ul>
-  <li><strong>Confirmation bias:</strong> I mistakenly extrapolated a small handful of
-low-quality readings taken at high speeds to a general pattern.</li>
-  <li><strong>Misinterpretation:</strong> Some of the Mount Monadnock readings look way off;
-perhaps the error radius doesn’t mean what I think it does.</li>
-  <li><strong>Different location sources:</strong> Location accuracy is
-<a href="http://en.wikipedia.org/wiki/Dilution_of_precision_(GPS)">relatively well-defined</a> for GPS, but I’m not sure what happens when
-cell towers or WiFi access points are incorporated into location fixes.</li>
-  <li><strong>Longer sampling interval:</strong> Maybe Google Latitude assumes that precise
-location tracking is less important when driving.</li>
-</ul>
-
-<p>To test this last hypothesis, I also <em>plot sampling interval versus speed:</em></p>
-
-<p><img src="https://lh5.googleusercontent.com/-__3m3z_oQfQ/UJcC4GeNhyI/AAAAAAAAALQ/HI6XQdHjtns/s640/timings-vs-speed.jpg"></p>
-
-<p>Nothing conclusive there.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p><em>The problem appears to be sampling frequency.</em> To reduce battery usage, <em>Google
-Latitude polls about once every two minutes.</em> While it has some mechanism for
-polling more often in periods of high activity, it’s unclear how that works.</p>
-
-<p>Reliance on fixes from cell towers and WiFi may be reducing location quality
-in more remote areas. Testing this hypothesis is difficult: how do you
-quantify remote? One possibility is to compute nearest-neighbor distance
-against <a href="http://www.maxmind.com/en/worldcities">a database of cities</a>. Another confounding factor is the
-reliability of those <code>accuracy</code> values. Improving upon that would likely
-involve manual labelling.</p>
-
-<h2 id="why-do-this">Why Do This?</h2>
-
-<p><blockquote><p>Accuracy is not binary.</p></blockquote></p>
-
-<p>In Quantified Self applications, we <em>use personal data to drive changes in our
-lives.</em> We put a lot of trust in the accuracy and relevance of that data, and
-<em>we extend that trust to the tools and services that collect it.</em>
-We trust <a href="http://www.fitbit.com/">Fitbit</a> to track our fitness.
-We trust <a href="http://www.myzeo.com/sleep/">Zeo</a> to improve our sleep.
-We trust <a href="http://www.lumosity.com/">Lumosity</a> to train our perception and attentiveness.</p>
-
-<p>In giving so much trust to these tools, we sometimes forget that <em>data are not
-infallible.</em>
-<a href="http://www.pbs.org/wgbh/aso/databank/entries/dp27un.html">Physics guarantees</a> that there is no such thing as perfect data. <em>All
-data contain error.</em> As a system consisting of geosynchronous satellites that
-travel at relativistically significant speeds and beam data
-through our multilayered atmosphere to tiny chip radios sandwiched between
-layers of dense circuitry, GPS is understandably <a href="http://www.kowoma.de/en/gps/errors.htm">error-prone.</a>
-When your chosen tools and services add noise on top of that, it’s reasonable
-to ask:</p>
-
-<p><blockquote><p>How much trust should I place in the output?</p></blockquote></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Persistent Location Tracking: Picking The Right Tool]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/"/>
-    <updated>2012-10-29T18:37:00-07:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool</id>
-    <content type="html"><![CDATA[<p>In this post, I compare Google Latitude and InstaMapper, two popular services
-for persistent location tracking. I walk through installation and data
-extraction via API for each service, then provide some subjective first
-impressions as to which one better suits my location-tracking needs.</p>
-
-<!-- more -->
-
-<h2 id="evaluating-tools">Evaluating Tools</h2>
-
-<p>As the ecosystem of self-tracking tools <a href="http://quantifiedself.com/2011/03/the-state-of-quantified-self-a-year-of-growth/">grows exponentially</a>,
-choosing the right tool is becoming an increasingly daunting task.
-To add to the complexity of this decision, self-tracking tools are
-<em>highly personal.</em></p>
-
-<p><blockquote><p>How do I pick the best tool for me?</p></blockquote></p>
-
-<p>This question is far from monolithic:</p>
-
-<ul>
-  <li>Do I want <strong>manual</strong> or <strong>automatic</strong> tracking?
-    <ul>
-      <li>How much <em>time and effort</em> am I willing to spend on self-tracking?</li>
-      <li>Is a hybrid <em>automatic plus manual annotation</em> approach workable?</li>
-    </ul>
-  </li>
-  <li>Do I want <strong>persistent</strong> tracking?
-    <ul>
-      <li><em>All day?</em> Or only at predetermined times?</li>
-      <li><em>Every day?</em> What if I’m on vacation?</li>
-    </ul>
-  </li>
-  <li>Do I want <strong>raw data access?</strong>
-    <ul>
-      <li>How do I want to access that data? Through <em>Excel CSV files?</em>
-Via a <em>developer-friendly API?</em></li>
-      <li>What <em>granularity</em> do I want? Sub-second? Daily?</li>
-      <li>What <em>parameters</em> do I want? For location, is <code>(lat, long)</code> enough?
-Do I want <em>altitude</em> as well? GPS fix <em>accuracy?</em></li>
-    </ul>
-  </li>
-</ul>
-
-<p>Without a <em>searchable database of self-tracking tools</em>, these questions can be
-difficult to answer. The main <a href="http://quantifiedself.com/">Quantified Self website</a> includes a
-<a href="http://quantifiedself.com/guide/">Guide to Self-Tracking Tools</a>, but their implementation is subject to
-criticism:</p>
-
-<p><blockquote><p>In a report to RWJF, Project Director Alexandra C. Carmichael noted that the guide was more a catalog of tools than a useful manual for people wanting to choose and use these tools.</p><footer><strong>Robert Wood Johnson Foundation</strong> <cite><a href='http://www.rwjf.org/content/dam/farm/reports/program_results_reports/2012/rwjf400733'>www.rwjf.org/content/dam/farm/&hellip;</a></cite></footer></blockquote></p>
-
-<p>This is a point worth repeating. Simply listing tools is <em>not enough</em>; a
-database of tools <em>must answer these basic questions</em> to be useful. A quick
-search on the Guide for <a href="http://quantifiedself.com/guide/tag/location">location-related tools</a>
-comes up short:</p>
-
-<p><img src="https://lh6.googleusercontent.com/-1r1swg9oBxo/UJA_is6HMSI/AAAAAAAAAIQ/zoiBG4fRAPU/s640/qs-guide-location-apps.jpg"></p>
-
-<p>Why is <a href="http://moodpanda.com/">MoodPanda</a> listed? I suppose it must location-tag mood entries,
-but <em>that isn’t made explicit in the description.</em>
-<a href="http://www.momentoapp.com/">Momento</a> makes a bit more sense, but it’s primarily a journalling app.
-<a href="https://foursquare.com/">Foursquare</a> is definitely location-based, but anyone unfamiliar with
-it <em>must read its description closely</em> to realize that it relies on
-manual check-ins.</p>
-
-<p>In lieu of a useful tool database, the only effective option is direct
-evaluation. By investigating two popular location tracking tools, I’ll
-demonstrate how such an evaluation might be carried out.</p>
-
-<h2 id="the-tools">The Tools</h2>
-
-<h3 id="google-latitude">Google Latitude</h3>
-
-<p>Google Latitude bills itself primarily as a social location sharing service:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-ZGGebfguFEk/UJA_hShHXRI/AAAAAAAAAH4/kziP-01pI_g/s800/banner-glatitude.jpg"></p>
-
-<p>Social capacities aside, the <a href="https://maps.google.com/locationhistory/b/0">Location History</a>
-functionality can be used as a persistent location-tracking tool.</p>
-
-<h3 id="instamapper">InstaMapper</h3>
-
-<p>I first heard of InstaMapper from
-<a href="http://vimeo.com/8545134">Ted Power’s talk on geo-tracking</a>. Unlike Google
-Latitude, InstaMapper focuses more on personal tracking:</p>
-
-<p><img src="https://lh4.googleusercontent.com/-dOIGJWcJ7uc/UJA_h8QM2FI/AAAAAAAAAIA/0owDXIrD6Ro/s800/banner-instamapper.jpg"></p>
-
-<h3 id="the-criteria">The Criteria</h3>
-
-<p>My ideal location tracking tool is:</p>
-
-<ul>
-  <li><strong>Android-compatible:</strong> It should work with my <a href="www.razr.com/RAZR-M">RAZR M</a> running
-<a href="http://www.android.com/about/ice-cream-sandwich/">Android 4.0.4 (Ice Cream Sandwich)</a>.</li>
-  <li><strong>Battery-friendly:</strong> It should allow me to go at least a day <em>without
-recharging.</em></li>
-  <li><strong>Automatic:</strong> It should track my location <em>without requiring check-ins</em>
-or other manual input.</li>
-  <li><strong>Persistent:</strong> It should track my location <em>constantly.</em></li>
-  <li><strong>Fine-grained:</strong> It should be capable of <em>per-minute resolution or better.</em></li>
-  <li><strong>Developer-friendly:</strong> It should <em>provide an API</em> for fetching location
-history, and the data offered through that API should be <em>as complete as
-possible.</em></li>
-</ul>
-
-<p>Both tools are <em>Android-compatible</em>, <em>automatic</em>, and <em>persistent</em> already,
-which narrows down the list of criteria to evaluate.</p>
-
-<h2 id="installation">Installation</h2>
-
-<h3 id="google-latitude-1">Google Latitude</h3>
-
-<p>Enabling automatic location tracking on Android requires <em>only a single
-setting change:</em></p>
-
-<p><img src="https://lh4.googleusercontent.com/-lGwyff6IKAQ/UJA_jzsY3CI/AAAAAAAAAIw/qgFZr8kT1xE/s288/install-glatitude-step1.jpg">
-<img src="https://lh5.googleusercontent.com/-v-7rvy4kAk4/UJA_kbfLddI/AAAAAAAAAI4/MLzFAjPXgR8/s288/install-glatitude-step2.jpg">
-<img src="https://lh3.googleusercontent.com/-rooAhkMibWg/UJA_kjz8o1I/AAAAAAAAAJA/sCnrK_yNHbE/s288/install-glatitude-step3.jpg">
-<img src="https://lh5.googleusercontent.com/-8jz3N_5HkUA/UJA_k6mNTAI/AAAAAAAAAJI/qerZyoCzXbo/s288/install-glatitude-step4.jpg"></p>
-
-<h3 id="instamapper-1">InstaMapper</h3>
-
-<p>I followed the Android installation directions <a href="http://www.instamapper.com/android_howto.html">here</a>.
-After you <a href="https://www.instamapper.com/fe?page=register">register for an InstaMapper account</a>, you install
-InstaMapper’s <a href="https://play.google.com/store/apps/details?id=com.instamapper.gpstracker&amp;hl=en">GPS Tracker app</a>:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-FJZ7CxlpWSE/UJA_lDw4OVI/AAAAAAAAAJQ/pCreIS9emn0/s288/install-instamapper-step1.jpg"></p>
-
-<h3 id="comparison">Comparison</h3>
-
-<p>Both tools are easily installed, but <em>Google Latitude</em> wins on simplicity. This
-is unsurprising, as Google Latitude comes pre-installed.</p>
-
-<h2 id="data-export">Data Export</h2>
-
-<h3 id="google-latitude-2">Google Latitude</h3>
-
-<p>To export data from the Location History dashboard, click on <em>Export KML</em>
-under the calendar widget:</p>
-
-<p><img src="https://lh3.googleusercontent.com/-N_E7GC01k3I/UJA_lY310cI/AAAAAAAAAJY/B6qCcqCAPm0/s800/export-glatitude.jpg"></p>
-
-<h3 id="instamapper-2">InstaMapper</h3>
-
-<p>Head to the <em>data page</em> for your device:</p>
-
-<p><img src="https://lh4.googleusercontent.com/-WiPRLpRcC9Q/UJA_l7UA-cI/AAAAAAAAAJg/ienRb1xYY2o/s400/export-instamapper-step1.jpg">
-<img src="https://lh4.googleusercontent.com/-kvWTFuAZoJ8/UJA_mK_zsbI/AAAAAAAAAJk/aG-iJs2Sfp8/s400/export-instamapper-step2.jpg"></p>
-
-<p>Here’s where this process gets weird. To export your data, you first have to
-<em>define a track:</em></p>
-
-<p><img src="https://lh3.googleusercontent.com/-0j8AdUIinoU/UJA_msnEnLI/AAAAAAAAAKM/LfOZOnEyOJA/s400/export-instamapper-step3.jpg">
-<img src="https://lh5.googleusercontent.com/-aiXmPGeKOxo/UJA_nRZr93I/AAAAAAAAAJ0/wWNddc34ZXo/s400/export-instamapper-step4.jpg">
-<img src="https://lh6.googleusercontent.com/-tgipa_V9TfU/UJA_ncU8LeI/AAAAAAAAAJ8/2HIvGJ_ycfY/s400/export-instamapper-step5.jpg"></p>
-
-<p>Once the track is created, you can <em>visit the Track Manager</em> to
-export your track data in a variety of formats:</p>
-
-<p><img src="https://lh6.googleusercontent.com/-OyteTDJcqYk/UJA_n7L2QvI/AAAAAAAAAKE/tvEkdMbB-Ik/s400/export-instamapper-step6.jpg">
-<img src="https://lh5.googleusercontent.com/-e52trEcnN0I/UJA_ob4XGgI/AAAAAAAAAKI/REcryQodFq0/s400/export-instamapper-step7.jpg"></p>
-
-<h3 id="comparison-1">Comparison</h3>
-
-<p>This one goes to <em>Google Latitude</em>. Aside from the terrible UI flow,
-InstaMapper has some other problems:</p>
-
-<ul>
-  <li>The <code>accuracy</code> field is missing, making it harder to <em>filter out noisy
-readings.</em></li>
-  <li>As stated in the <a href="http://www.instamapper.com/faq.html">InstaMapper FAQ</a>,
-data access is <em>limited to the
-previous 30 days or 100 000 locations.</em></li>
-</ul>
-
-<h2 id="api-fetching">API Fetching</h2>
-
-<h3 id="tailers-and-streams">Tailers and Streams</h3>
-
-<p>Many real-time APIs provide <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> endpoints for fetching
-time-bounded chunks of data:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>https://www.googleapis.com/latitude/v1/location?key=INSERT-YOUR-KEY&amp;min-time=1111&amp;max-time=2222&amp;max-results=10</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>By keeping track of a <code>since</code> time to fetch after, we can easily turn this
-into a stream:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="n">since</span><span class="p">):</span>
-</span><span class='line'>  <span class="c"># TODO: actually fetch data</span>
-</span><span class='line'>  <span class="k">pass</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="n">since</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">since</span>
-</span><span class='line'>  <span class="n">wait</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">-</span> <span class="n">elapsed</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">wait</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span>
-</span><span class='line'>  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">poll</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">since</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">sleep</span><span class="p">(</span><span class="n">since</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">locations</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">since</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">locations</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">continue</span>
-</span><span class='line'>    <span class="n">doSomething</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">since</span> <span class="o">=</span> <span class="n">locations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>This pattern is often referred to as a <em>tailer.</em> Why? Suppose we have a simple
-implementation of <code>doSomething()</code>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">doSomething</span><span class="p">(</span><span class="n">locations</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">print</span> <span class="n">location</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>This prints out locations as they are received, similar to UNIX <code>tail -F</code>. By
-adjusting <code>freq</code> I can make different real-time guarantees, although at some
-point the upstream API will start throttling my requests.</p>
-
-<h3 id="google-latitude-3">Google Latitude</h3>
-
-<p>You can see a working tailer implementation <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/tail_glatitude.py">here</a>.</p>
-
-<p>To access the <a href="https://developers.google.com/latitude/">Google Latitude API</a>, you first need to
-<a href="https://code.google.com/apis/console/b/0/">register an application</a>. This gives you the necessary
-parameters <code>YOUR_KEY</code>, <code>YOUR_SECRET</code> for stepping through the OAuth flow.</p>
-
-<p>With the Python library <a href="http://code.google.com/p/google-api-python-client/wiki/OAuth2Client">oauthclient2</a>, retrieving OAuth credentials is
-relatively painless:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.client</span> <span class="kn">import</span> <span class="n">OAuth2WebServerFlow</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.file</span> <span class="kn">import</span> <span class="n">Storage</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.tools</span> <span class="kn">import</span> <span class="n">run</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">getCredentials</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">flow</span> <span class="o">=</span> <span class="n">OAuth2WebServerFlow</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">client_id</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">client_secret</span><span class="o">=</span><span class="n">secret</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">scope</span><span class="o">=</span><span class="err">’</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">latitude</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">best</span><span class="err">’</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">redirect_uri</span><span class="o">=</span><span class="err">’</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">oauth2callback</span><span class="err">’</span>
-</span><span class='line'>  <span class="p">)</span>
-</span><span class='line'>  <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span><span class="err">‘</span><span class="o">.</span><span class="n">creds</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><code>oauth2client.tools.run()</code> invokes a browser window and starts an HTTP server
-to receive the OAuth callback. With the credentials, we can <em>make a signed API
-request:</em></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">httplib2</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">json</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">http</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">credentials</span> <span class="o">=</span> <span class="n">getCredentials</span><span class="p">(</span><span class="n">YOUR_KEY</span><span class="p">,</span> <span class="n">YOUR_SECRET</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">credentials</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">latitude</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">location</span><span class="err">?</span><span class="o">%</span><span class="n">s</span><span class="err">’</span> <span class="o">%</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span>
-</span><span class='line'>    <span class="err">‘</span><span class="nb">max</span><span class="o">-</span><span class="n">results</span><span class="err">’</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="nb">min</span><span class="o">-</span><span class="n">time</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="nb">max</span><span class="o">-</span><span class="n">time</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">),</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">granularity</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">best</span><span class="err">’</span>
-</span><span class='line'>  <span class="p">})</span>
-</span><span class='line'>  <span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="err">‘</span><span class="n">error</span><span class="err">’</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="err">‘</span><span class="n">data</span><span class="err">’</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="err">‘</span><span class="n">items</span><span class="err">’</span><span class="p">,</span> <span class="p">[])</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>There are some minor details:</p>
-
-<ul>
-  <li>The API <em>uses milliseconds for its timestamps</em>, so my <code>since</code> values take
-this into account.</li>
-  <li>Without <code>max-time</code>, the API <em>returns the most recent</em> <code>max-results</code> locations.
-I supply a 150-second window.</li>
-  <li>If there are no locations within the given time range, the API <strong>does not</strong>
-populate <code>data['data']['items']</code>. I use <code>get()</code> to work around the resulting
-<code>KeyError</code>.</li>
-  <li>In the event of an error, the API populates <code>data['error']</code>. I use <code>None</code> as
-a <em>sentinel value</em> to indicate that an error has occurred.</li>
-</ul>
-
-<h3 id="instamapper-3">InstaMapper</h3>
-
-<p>You can see a working tailer implementation <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/tail_instamapper.py">here</a>.</p>
-
-<p>InstaMapper doesn’t use OAuth; instead, it uses a unique key
-<code>YOUR_KEY</code> that is passed as a GET parameter to the REST API:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">httplib</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">json</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">action</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">getPositions</span><span class="err">’</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">key</span><span class="err">’</span><span class="p">:</span> <span class="n">YOUR_KEY</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">num</span><span class="err">’</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">from_ts</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">format</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">json</span><span class="err">’</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">instamapper</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">api</span><span class="err">?</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">APIHOST</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
-</span><span class='line'>  <span class="n">conn</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPConnection</span><span class="p">(</span><span class="err">‘</span><span class="n">www</span><span class="o">.</span><span class="n">instamapper</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="err">‘</span><span class="n">GET</span><span class="err">’</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">resp</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="err">‘</span><span class="n">HTTP</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">reason</span><span class="p">))</span>
-</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="err">‘</span><span class="n">positions</span><span class="err">’</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3 id="comparison-2">Comparison</h3>
-
-<p>Although InstaMapper’s API is arguably simpler to use, I’ll award this one to
-<em>Google Latitude:</em></p>
-
-<ul>
-  <li><strong>Security:</strong> InstaMapper uses unencrypted HTTP GET requests, so anyone
-running a <a href="http://www.wireshark.org/">packet sniffer</a> on my network has <em>complete access to my
-location data.</em> Google Latitude uses HTTPS and OAuth. No contest.</li>
-  <li><strong>Support:</strong> I can <em>leverage the community of Google API users</em> to help resolve
-any issues I encounter.</li>
-  <li><strong>Data:</strong> again, InstaMapper is <em>missing location accuracy.</em></li>
-  <li><strong>Request Volume:</strong> InstaMapper permits one request every 10 seconds. Google
-Latitude allows 1 000 000 requests per day, or <em>one request every 0.0864
-seconds.</em></li>
-</ul>
-
-<h2 id="battery-usage">Battery Usage</h2>
-
-<p>To find out how battery-friendly the two Android apps are, I <em>check the
-Battery Manager:</em></p>
-
-<p><img src="https://lh6.googleusercontent.com/-B246p7a_vbg/UJA_i7iGdyI/AAAAAAAAAIU/Q6U6hLdc2hg/s288/battery-overview.jpg">
-<img src="https://lh5.googleusercontent.com/-X6ClOm7t-8s/UJA_jVwjgrI/AAAAAAAAAIk/V1lOfjmpO2o/s288/battery-maps.jpg">
-<img src="https://lh5.googleusercontent.com/-r7N176E75z0/UJA_jdJfs_I/AAAAAAAAAIg/XQnPc0Q2lgY/s288/battery-gps-tracker.jpg"></p>
-
-<h3 id="comparison-3">Comparison</h3>
-
-<p><em>Google Latitude</em> wins this one as well. InstaMapper keeps the GPS radio
-running almost constantly, whereas Google Latitude manages to sip radio
-access. I’m guessing that it uses WiFi, cell towers, and other non-GPS sources
-where possible.</p>
-
-<p>Without these power consumption improvements, InstaMapper’s GPS Tracker <em>uses
-an order of magnitude more energy</em> than Google Latitude. Ouch.</p>
-
-<h2 id="first-impressions">First Impressions</h2>
-
-<p>After a day of persistent location tracking with both Google Latitude and
-InstaMapper, <em>Google Latitude wins hands-down.</em> It’s <em>easy to install</em>, it
-provides <em>simple and secure data access</em> via <code>oauth2client</code>, and it <em>preserves
-battery life nicely.</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Don't Hate, Cross-Correlate]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/"/>
     <updated>2012-10-22T13:41:00-07:00</updated>
@@ -1517,170 +866,73 @@ is something that can be meaningfully tracked over time.</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Track Your Happiness: An Adventure In Data Extraction]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/"/>
-    <updated>2012-10-18T15:41:00-07:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction</id>
-    <content type="html"><![CDATA[<p>In this post, I go over my first report from
-<a href="https://www.trackyourhappiness.org/">Track Your Happiness</a>, a tool that uses
-the <a href="https://www.trackyourhappiness.org/">Experience Sampling Method</a> for mood
-tracking.</p>
+    <title type="html"><![CDATA[Fitbit: APIs, crossfilter, and d3.js]]></title>
+    <link href="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/"/>
+    <updated>2012-10-17T08:30:00-07:00</updated>
+    <id>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3</id>
+    <content type="html"><![CDATA[<p>In this post, I present
+<a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a>, which uses
+the <a href="http://dev.fitbit.com/">Fitbit API</a>, <a href="http://square.github.com/crossfilter/">crossfilter</a> and <a href="http://d3js.org/">d3.js</a>
+to provide an interactive visualization for exploratory analysis.</p>
 
 <!-- more -->
 
-<h2 id="my-report">My Report</h2>
+<h2 id="the-inspiration">The Inspiration</h2>
 
-<h3 id="charts">Charts</h3>
+<p>It was early April 2012. By this point, I’d been through a stint of pen-and-paper
+self-tracking for <a href="/blog/2012/10/03/panic/">panic recovery</a>.
+I’d <a href="/blog/2012/10/16/fitbit-my-brief-experience/">just received my Fitbit in the mail</a>. </p>
 
-<p>My happiness is <em>relatively constant across days of the week.</em></p>
+<p>Earlier that year, I applied to the <a href="http://www.eecs.berkeley.edu/Gradadm/">EECS PhD program at UC Berkeley</a> with
+<a href="https://docs.google.com/document/d/10PupOF0RLa54o6y9_xBGnj7VbjtQNPab0-HdoVfT6gA/edit">this statement of purpose</a>. I was fascinated by this idea that <em>pervasive
+gameplay really could make us all better</em>, that somewhere beyond the rat wheel
+of gamification was hidden a Shangri-La of game-driven awesome.</p>
 
-<p><img src="https://chart.googleapis.com/chart?chs=310x200&amp;cht=bvg&amp;chco=0088cc&amp;chxt=x%2Cy&amp;chxl=0%3A%7CSun%7CMon%7CTue%7CWed%7CThu%7CFri%7CSat&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Aolpkmkp&amp;chbh=30" title="Weekday" ></p>
+<p>That unfortunately didn’t pan out, and I was left with the age-old question:</p>
 
-<p>I’m <em>happiest at the gym or in parks</em>, with vacations and restaurants close
-behind. “At Home” is mid-pack, with <em>“At Work” near the bottom.</em></p>
+<p><blockquote><p>What do I do with this idea?</p></blockquote></p>
 
-<p><img src="https://chart.googleapis.com/chart?chs=310x338&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CBus+Stoo%7CPlane%7CAt+Work%7CIn+A+Car%7CDentist%7CAt+Home%7CAirport%7CRestaurant%7CVacation%7CPark%7CGym&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Auusroonliee&amp;chbh=20" title="Location" ></p>
+<p>It was around this time that, in a moment of exquisite
+digital serendipity, <a href="http://www.meetup.com/">Meetup</a> suggested I check out the
+<a href="http://www.meetup.com/quantifiedself/">Bay Area Quantified Self Meetup Group</a>.</p>
 
-<p><em>Fun, exercise, and food</em> generate the most happiness. <em>Passive actions</em> such as
-watching TV, commuting, and waiting rank much lower. <em>Work is least
-happiness-inducing.</em></p>
+<p>Quantified Self? <a href="/blog/2012/10/02/welcome-to-quantified-savagery/">What’s that?</a>. As I explored the group page, I felt
+a rush of clarity: <em>this was exactly what I’d been doing!</em> There’s a whole
+community of people turning their lives into games in the name of
+self-betterment!</p>
 
-<p><img src="https://chart.googleapis.com/chart?chs=310x422&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CWorking%7CCommuting%2C+Traveling%7CWaiting%7CWatching+Television%7CReading%7CHome+Computer%7CGrooming%2C+Self+Care%7CShopping%2C+Errands%7CRelaxing%2C+Nothing+Special%7CTalking%2C+Conversation%7CEating%7CPlaying%7CPreparing+Food%7CExercising&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Autrrrqpnnnmlkj&amp;chbh=20" title="What are you doing?" ></p>
+<p>I bit the bullet and forked over hard cash to sign up for
+<a href="http://www.meetup.com/quantifiedself/events/58370532/">QS Show&amp;Tell #25</a> at the
+<a href="http://goo.gl/maps/fn8H4">California College of the Arts</a>. It was everything I’d hoped for.
+One presenter dissected 30 years of medical data and correlated it with
+his marital status. Another showed off a cyclist threat detection system
+cobbled together by mounting a webcam and sonar unit to his handlebars.
+There was a <em>rich vein of inquiry into awesome here.</em> I was hooked.</p>
 
-<p><em>Whether I want to perform a task</em> is a much stronger determinant of happiness
-than whether I have to:</p>
+<p><a href="http://www.beaugunderson.com/">Beau Gunderson</a> of
+<a href="https://singly.com/">Singly</a> presented <a href="https://github.com/beaugunderson/zeo-crossfilter">zeo-crossfilter</a>.
+That was the turning point. I saw what he had done and said</p>
 
-<p><img src="https://chart.googleapis.com/chart?chs=310x200&amp;cht=bvg&amp;chco=0088cc&amp;chxt=x%2Cx%2Cy&amp;chxl=0%3A%7CDon%27t+want+to%7CWant+to%7CWant+to%7CDon%27t+want+to%7C1%3A%7CHave+to%7CHave+to%7CDon%27t+have+to%7CDon%27t+have+to&amp;chxr=2%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10%7C2%2C666666%2C10&amp;chd=s%3Agope&amp;chbh=51" title="Want to / Have to" ></p>
+<p><blockquote><p>Hey, I can build that!</p></blockquote></p>
 
-<p>I’m <em>happier when outside.</em></p>
+<p>And so <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a> was born.</p>
 
-<p><img src="https://chart.googleapis.com/chart?chs=310x126&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CNo%7CYes&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Apj&amp;chbh=40" title="Outside?" ></p>
+<h2 id="the-tools">The Tools</h2>
 
-<p>I’m <em>happier when alone.</em></p>
+<p>As mentioned, <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a> is a mashup between
+the <a href="http://dev.fitbit.com/">Fitbit API</a>,
+<a href="http://square.github.com/crossfilter/">crossfilter</a>,
+and <a href="http://d3js.org/">d3.js</a>.
+I’ll go over each part with examples.</p>
 
-<p><img src="https://chart.googleapis.com/chart?chs=310x126&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CNo%7CYes&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Apl&amp;chbh=40" title="Alone" ></p>
+<h3 id="fitbit-api">Fitbit API</h3>
 
-<p>Given that, it seems counterintuitive that <em>I’m happier when interacting with
-multiple people.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x132&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CThree+Or+More%7CTwo%7COne&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Aorq&amp;chbh=26" title="Number of people interacting with" ></p>
-
-<p>I was also surprised by this one: I’m happiest when <em>talking with acquaintances
-or friends</em> and least happy when <em>talking with family.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x198&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7COther+Relatives%7CSpouse%2FPartner%2FSignificant+Other%7CStrangers%7CCo+Workers%7CFriends%7CAcquaintances&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Autsrpo&amp;chbh=20" title="Who talking with" ></p>
-
-<h3 id="what-does-it-mean">What Does It Mean?</h3>
-
-<p>Even without considering the specific results, I have a few <em>unanswered
-questions:</em></p>
-
-<ul>
-  <li>What is <em>happiness</em>? How do I judge it at a particular moment? Is my
-judgment <em>accurate and consistent?</em></li>
-  <li>Is it necessarily better to be happier, or is there a
-threshold past which additional happiness doesn’t improve the quality of life?</li>
-  <li>Are these results <em>significant?</em> They’re computed from just 50 samples, which
-seems low for drawing such broad conclusions.</li>
-  <li>Do these activities make me more or less happy, or <em>do these readings reflect
-my pre-existing mental state?</em></li>
-</ul>
-
-<p>There’s also the issue of those surprising findings. Am I really less happy
-when talking with <a href="http://www.eecs.berkeley.edu/~valkyrie/">Valkyrie Savage</a>? To me, the most likely
-explanation is <em>trust</em>: around her, <em>I feel free to discuss negative aspects
-of my life.</em> Doing so would necessarily involve fixating on those aspects,
-which could account for some happiness reduction.</p>
-
-<p>During this period, I was confronting <em>doubt and frustration in
-my job.</em> According to my personal data, I was also <a href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">drinking heavily</a>,
-possibly as a means for coping with that negative emotion. (It doesn’t help.)
-Guilt is a potential factor; perhaps I felt
-that I was always offloading that doubt and frustration onto her.</p>
-
-<p>The problem, though, is that <em>none of these explanations are testable</em>. They seem
-reasonable to me, but from a scientific standpoint they <em>fail a simple criterion:</em></p>
-
-<p><blockquote><p>Upon viewing only my data, would an impartial stranger reach similar conclusions?</p></blockquote></p>
-
-<p>I can’t see how they would, since <em>my explanations involve
-intricate self-knowledge</em> that is not represented in the data.</p>
-
-<h3 id="a-further-note-on-significance">A Further Note On Significance</h3>
-
-<p>Let’s take a more critical look at this chart:</p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x198&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7COther+Relatives%7CSpouse%2FPartner%2FSignificant+Other%7CStrangers%7CCo+Workers%7CFriends%7CAcquaintances&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Autsrpo&amp;chbh=20" title="Who talking with" ></p>
-
-<p>I mentioned that this data was drawn from a total of 50 samples. I’m assuming
-that these bars represent <em>average reported happiness</em> in each category. But:</p>
-
-<ul>
-  <li><strong>Which average?</strong> Probably the mean, but that’s not made explicit
-anywhere.</li>
-  <li><strong>Where are the error bars?</strong> I have no idea whether the ranking is significant.</li>
-  <li><strong>How many samples go into each bar?</strong> Maybe “Acquaintances” and
-“Other Relatives” are outliers because I rarely talk to people in those
-categories.</li>
-</ul>
-
-<p>This leads to an important point:</p>
-
-<p><blockquote><p>Never present uncertain information as certain.</p></blockquote></p>
-
-<h2 id="digging-deeper">Digging Deeper</h2>
-
-<p>Consider this chart:</p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x200&amp;cht=s&amp;chco=0088cc&amp;chxt=x%2Cy&amp;chxr=0%2C0%2C100%7C1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3AaUXKPnmomsWw0tSQnXaVrk%2CslrjjuZtXvZotualhrmepm" title="Focused" ></p>
-
-<p><em>Am I happier when I’m more focused?</em> It’s hard to tell from looking at this
-chart. This is a prime use case for <em>linear regression</em>, but I don’t have the
-data! They <a href="http://support.trackyourhappiness.org/customer/portal/questions/302357-combine-categories-">claim to have plans for data export</a>, but I haven’t seen those
-come to fruition. What now?</p>
-
-<h3 id="data-extraction">Data Extraction</h3>
-
-<p>Fortunately, the chart was generated using the 
-(now deprecated) <a href="https://developers.google.com/chart/image/">Image Charts</a> functionality of the
-<a href="https://developers.google.com/chart/">Google Charts API</a>. With Image Charts, you <em>make requests to specially
-encoded URLs:</em></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>https://chart.googleapis.com/chart
-</span><span class='line'>  ?chs=310x200
-</span><span class='line'>  &amp;cht=s
-</span><span class='line'>  &amp;chco=0088cc
-</span><span class='line'>  &amp;chxt=x%2Cy
-</span><span class='line'>  &amp;chxr=0%2C0%2C100%7C1%2C0%2C100
-</span><span class='line'>  &amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10
-</span><span class='line'>  &amp;chd=s%3AaUXKPnmomsWw0tSQnXaVrk%2CslrjjuZtXvZotualhrmepm</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>You can see what all those parameters do <a href="https://developers.google.com/chart/image/docs/chart_params">here</a>,
-but the one I really care about is <code>chd</code>. This <em>encodes the chart data</em>
-in the <a href="https://developers.google.com/chart/image/docs/data_formats#simple">Simple Encoding Format</a>. I’ll walk through <em>how to decode
-this data.</em></p>
-
-<p>As it stands, the value of <code>chd</code> is <a href="http://tools.ietf.org/html/rfc3986#section-2.1">URL-encoded</a>.
-We need to decode those <code>%3A</code> and <code>%2C</code> escape sequences.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">urlparse</span>
-</span><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="err">‘</span><span class="n">chd</span><span class="o">=</span><span class="n">s</span><span class="o">%</span><span class="mi">3</span><span class="n">AaUXKPnmomsWw0tSQnXaVrk</span><span class="o">%</span><span class="mi">2</span><span class="n">CslrjjuZtXvZotualhrmepm</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'><span class="n">chd</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="err">‘</span><span class="n">chd</span><span class="err">’</span><span class="p">]</span> <span class="c"># ‘s:aUXKPnmomsWw0tSQnXaVrk,slrjjuZtXvZotualhrmepm’</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>The <code>s:</code> at the front means <em>use the simple encoding</em>. In that encoding, the
-characters <code>A-Za-z0-9</code> are mapped to values 0-61 in a, well, simple manner:</p>
+<p>The Fitbit API uses <a href="http://oauth.net/">OAuth</a> for authentication. If you’ve never
+confronted OAuth before, it can be confusing. To compound the confusion, <em>every
+API provider seems to do it slightly differently.</em> The
+<a href="https://wiki.fitbit.com/display/API/OAuth+Authentication+in+the+Fitbit+API">official Fitbit docs</a> are opaque, the
+<a href="http://tools.ietf.org/html/rfc5849">OAuth specs</a> are even more opaque, and
+the <a href="http://apis.io/Fitbit">unofficial apis.io listing</a> is just wrong:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1692,27 +944,20 @@ characters <code>A-Za-z0-9</code> are mapped to values 0-61 in a, well, simple m
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="err">&lt;</span><span class="nf">em</span><span class="o">&gt;</span><span class="n">get_simple_value</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="err">‘</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="k">if</span> <span class="err">‘</span><span class="n">A</span><span class="err">’</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">c</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="err">‘</span><span class="n">Z</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="err">‘</span><span class="n">A</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="err">‘</span><span class="n">a</span><span class="err">’</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">c</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="err">‘</span><span class="n">z</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">26</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="err">‘</span><span class="n">a</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="err">‘</span><span class="mi">0</span><span class="err">’</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">c</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="err">‘</span><span class="mi">9</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">52</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="err">‘</span><span class="mi">0</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="err">‘</span><span class="n">invalid</span> <span class="n">character</span> <span class="k">for</span> <span class="n">simple</span> <span class="n">encoding</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>curl -X GET -u ‘&lt;username&gt;:&lt;password&gt;<span class="err">&#39;</span> http://api.fitbit.com/1/user/-/profile.json 2&amp;gt;/dev/null | jsonpp
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="s2">&quot;errors&quot;</span>: <span class="o">[</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>      <span class="s2">&quot;errorType&quot;</span>: <span class="s2">&quot;oauth&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;fieldName&quot;</span>: <span class="s2">&quot;n/a&quot;</span>,
+</span><span class='line'>      <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;No Authorization header provided in the request. Each call to Fitbit API should be OAuth signed&quot;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">]</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></password></username></p>
 
-<p>Here the underscores <code>_</code> indicate missing or <code>null</code> values. With this function,
-recovering the original data from the <code>chd</code> param is a quick one-liner:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">map</span><span class="p">(</span><span class="n">_get_simple_value</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chd</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="err">‘</span><span class="p">,</span><span class="err">’</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>By default, the simple encoding maps onto an effective range of 1-100, so the
-last step is to normalize this and <code>zip()</code> the lists into pairs:</p>
+<p>I turned to <a href="https://github.com/simplegeo/python-oauth2">oauth2</a>, a Python library that makes it easier to carry out
+this handshake. First, we get a <em>temporary access token:</em></p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1724,41 +969,283 @@ last step is to normalize this and <code>zip()</code> the lists into pairs:</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">fitSimpleToRange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">61.0</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">nx</span><span class="p">)</span> <span class="o">*</span> <span class="n">xmin</span> <span class="o">+</span> <span class="n">nx</span> <span class="o">*</span> <span class="n">xmax</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="c"># Fill in your app parameters here.</span>
+</span><span class='line'><span class="n">FITBIT_APP_KEY</span> <span class="o">=</span> <span class="err">‘</span><span class="o">&lt;</span><span class="n">app</span> <span class="n">key</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span><span class="s">&#39;</span>
+</span><span class='line'><span class="n">FITBIT_APP_SECRET</span> <span class="o">=</span> <span class="s">&#39;&lt;app secret=&quot;&quot;&gt;&#39;</span><span class="o">&lt;/</span><span class="n">app</span><span class="o">&gt;&lt;/</span><span class="n">app</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">points</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">fitSimpleToRange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">fitSimpleToRange</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">oauth2</span>
+</span><span class='line'><span class="n">consumer</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Consumer</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">FITBIT_APP_KEY</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="n">FITBIT_APP_SECRET</span><span class="p">)</span>
+</span><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+</span><span class='line'><span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">oauth</span><span class="o">/</span><span class="n">request_token</span><span class="p">,</span> <span class="err">‘</span><span class="n">GET</span><span class="err">’</span><span class="p">)</span>
+</span><span class='line'><span class="n">token</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Token</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span><span class='line'><span class="c"># NOTE: the auth URL uses www.fitbit.com as the domain, NOT api.fitbit.com</span>
+</span><span class='line'><span class="n">auth_url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">oauth</span><span class="o">/</span><span class="n">authorize</span><span class="err">?</span><span class="n">oauth_token</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="n">auth_url</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Done! I’ve packaged this up as <a href="https://github.com/candu/quantified-savagery-files/blob/master/lib/py/chdecode.py">chdecode</a>,
-which also deals with the
-<a href="https://developers.google.com/chart/image/docs/data_formats#text">Basic Text</a> and <a href="https://developers.google.com/chart/image/docs/data_formats#extended">Extended Encoding</a> formats.</p>
+<p>Now we need an <a href="http://wiki.oauth.net/w/page/12238555/Signed%20Callback%20URLs">OAuth verifier</a>. This will be used to retrieve the real
+access credentials. Visit <code>auth_url</code> in your browser,
+log into Fitbit, and click Allow. You’ll be redirected to the OAuth callback
+specified in your app. Use the value of the <code>oauth_verifier</code> GET param on your
+<code>token</code> from before to keep going:</p>
 
-<h3 id="lets-see-those-charts-again">Let’s See Those Charts Again</h3>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">token</span><span class="o">.</span><span class="n">set_verifier</span><span class="p">(</span><span class="err">‘</span><span class="o">&lt;</span><span class="n">oauth_verifier</span><span class="o">&gt;</span><span class="s">&#39;)</span>
+</span><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">consumer</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+</span><span class='line'><span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;http://api.fitbit.com/oauth/access_token&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">access_token</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Token</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></oauth_verifier></p>
 
-<p>You can see the code for this analysis <a href="https://github.com/candu/quantified-savagery-files/blob/master/Panic/track-your-happiness/linregress.py">here</a>.</p>
+<p>With this, we can now <em>retrieve useful information:</em></p>
 
-<p>Focus, productivity, and sleep quality all have <em>minor positive correlations</em>
-with happiness:</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">request_url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">user</span><span class="o">/-/</span><span class="n">profile</span><span class="o">.</span><span class="n">json</span><span class="err">’</span>
+</span><span class='line'><span class="n">oauth_request</span> <span class="o">=</span> <span class="n">oauth2</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">from_consumer_and_token</span><span class="p">(</span><span class="n">consumer</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">access_token</span><span class="p">,</span> <span class="n">http_url</span><span class="o">=</span><span class="n">request_url</span><span class="p">)</span>
+</span><span class='line'><span class="c"># Despite what the docs say, you need to generate a plaintext signature.</span>
+</span><span class='line'><span class="n">oauth_request</span><span class="o">.</span><span class="n">sign_request</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">SignatureMethod_PLAINTEXT</span><span class="p">(),</span> <span class="n">consumer</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+</span><span class='line'><span class="n">headers</span> <span class="o">=</span> <span class="n">oauth_request</span><span class="o">.</span><span class="n">to_header</span><span class="p">(</span><span class="n">realm</span><span class="o">=</span><span class="err">’</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">httplib</span>
+</span><span class='line'><span class="n">connection</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="err">‘</span><span class="n">api</span><span class="o">.</span><span class="n">fitbit</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="p">)</span>
+</span><span class='line'><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="err">‘</span><span class="n">GET</span><span class="err">’</span><span class="p">,</span> <span class="n">request_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</span><span class='line'><span class="n">resp</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">json</span>
+</span><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p><img src="https://lh4.googleusercontent.com/-DG51p79XNtk/UIGcRjGMLQI/AAAAAAAAAG4/mk1xaar0yJM/s640/happiness-focus.jpg" title="Focus" >
-<img src="https://lh6.googleusercontent.com/-85nu0a-MBJw/UIGcRyutW9I/AAAAAAAAAG8/psRbjq12PLw/s640/happiness-productivity.jpg" title="Productivity" >
-<img src="https://lh3.googleusercontent.com/-bjcS4-21xIw/UIGcSLK9mCI/AAAAAAAAAHA/EVJ1qonZvks/s640/happiness-sleep-quality.jpg" title="Sleep Quality" ></p>
+<p>I encountered a few difficulties in figuring this out:</p>
 
-<p>The <em>most significant one is focus,</em> but with $ p = 0.0927 $ it doesn’t quite
-make the 5% significance threshold.</p>
+<ul>
+  <li>For the authorize step, you need to use <code>www.fitbit.com</code> as the URL domain.
+<code>api.fitbit.com</code> will NOT work.</li>
+  <li>You need to <em>sign all requests with the access token.</em></li>
+  <li>No, <code>oauth2.SignatureMethod_HMAC_SHA1</code> will <strong>NOT</strong> work. Yes, they explicitly
+claim to use HMAC-SHA1 in the documentation. Don’t believe everything you
+read. Use <a href="http://oauth.net/core/1.0/#anchor35">plaintext signatures</a> instead.</li>
+  <li>Fitbit expects both the URI and Authorization header to be set, but
+<code>oauth2</code> will only set <strong>ONE</strong> of them properly.
+See <a href="https://github.com/candu/fitbit-crossfilter/commit/1d094cecaa6c78bc8d5c295a797d96b7e1687493">this commit message</a>
+for more details.</li>
+</ul>
 
-<h2 id="up-next">Up Next</h2>
+<p>You can see the full implementation <a href="https://github.com/candu/fitbit-crossfilter/blob/master/fitbit_crossfilter/foo/lib/fitbit.py">here</a>, along with
+<a href="https://github.com/candu/fitbit-crossfilter/blob/master/fitbit_crossfilter/foo/views/__init__.py">an example of its use</a>.</p>
 
-<p>This ends my series of posts on data collection and analysis for dealing
-with panic disorder. In my next few posts, I’ll talk about my plans for future
-experiments.</p>
+<h3 id="crossfilter">crossfilter</h3>
+
+<p>Square’s <a href="http://square.github.com/crossfilter/">crossfilter</a> is a JavaScript library for efficiently performing
+<em>multidimensional range queries.</em> I’ve included an interactive example
+<a href="#quick-demo">below</a>.</p>
+
+<p>crossfilter uses two types of objects to <em>represent a multidimensional dataset:</em></p>
+
+<ul>
+  <li><strong>dimension:</strong> a map function that returns totally-ordered <em>dimension values</em>
+(e.g. numbers, dates);</li>
+  <li><strong>group:</strong> a reduce function on those dimension values.</li>
+</ul>
+
+<p>The <em>totally-ordered</em> part is essential, since that makes it possible to
+perform range queries. A quick code snippet might help explain this further:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">L</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">N</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">M</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">N</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">L</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">i</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">M</span> <span class="o">*</span> <span class="p">(</span><span class="nx">N</span> <span class="o">-</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">N</span><span class="p">)]);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">crossfilter</span><span class="p">(</span><span class="nx">L</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">d0</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">dimension</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">g0</span> <span class="o">=</span> <span class="nx">d0</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">d1</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">dimension</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">g1</span> <span class="o">=</span> <span class="nx">d1</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+</span><span class='line'><span class="nx">d0</span><span class="p">.</span><span class="nx">filterRange</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>At this point, we can <em>inspect the dimensions and groups</em> to understand the
+effect of <code>filterRange()</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">d1</span><span class="p">.</span><span class="nx">top</span><span class="p">(</span><span class="kc">Infinity</span><span class="p">))</span>
+</span><span class='line'><span class="err">‘</span><span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span><span class="err">’</span>
+</span><span class='line'><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">g1</span><span class="p">.</span><span class="nx">all</span><span class="p">())</span>
+</span><span class='line'><span class="err">‘</span><span class="p">[{</span><span class="err">“</span><span class="nx">key</span><span class="err">”</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span><span class="err">”</span><span class="nx">value</span><span class="err">”</span><span class="o">:</span><span class="mi">3</span><span class="p">},{</span><span class="err">“</span><span class="nx">key</span><span class="err">”</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span><span class="err">”</span><span class="nx">value</span><span class="err">”</span><span class="o">:</span><span class="mi">2</span><span class="p">}]</span><span class="err">’</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Note that the range <code>[3, 8]</code> is actually interpreted as the semi-open interval
+$ [3, 8) $. Note also that the elements of <code>g1.all()</code> are of the form
+<code>{key: k, value: v}</code> where <code>v</code> is the number of elements <code>x</code> with
+<code>3 &lt;= x[0] &amp;&amp; x[0] &lt; 8 &amp;&amp; x[1] == k</code>.</p>
+
+<h3 id="d3js">d3.js</h3>
+
+<p><blockquote><p>D3.js is a JavaScript library for manipulating documents based on data.</p><footer><strong>D3.js</strong> <cite><a href='http://d3js.org/'>d3js.org/&hellip;</a></cite></footer></blockquote></p>
+
+<p>Using HTML, SVG, CSS, and JavaScript, you can build some pretty stunning
+visualizations.
+Again, check out the interactive example <a href="#quick-demo">below</a>. For more
+examples, the <a href="https://github.com/mbostock/d3/wiki/Gallery">D3 Gallery</a> is
+many kinds of awesome.</p>
+
+<h3 id="a-quick-demo">A Quick Demo</h3>
+
+<div id="quick-demo">
+  <style type="text/css">
+    .chart {
+      display: inline-block;
+      height: 151px;
+      margin-bottom: 20px;
+    }
+    
+    .reset {
+      margin-left: 1em;
+      font-size: smaller;
+    }
+    
+    .background.bar {
+      fill: #ccc;
+    }
+    
+    .foreground.bar {
+      fill: steelblue;
+    }
+    
+    .axis path, .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+    
+    .axis text {
+      font: 10px sans-serif;
+    }
+    
+    .brush rect.extent {
+      fill: steelblue;
+      fill-opacity: .125;
+    }
+    
+    .brush .resize path {
+      fill: #eee;
+      stroke: #666;
+    }
+
+    #chartA {
+      width: 610px;
+    }
+    
+    #chartB {
+      width: 610px;
+    }
+  </style>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/crossfilter.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/d3.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/chart.js"></script>
+  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/demo.js"></script>
+  <div id="charts">
+    <div id="chartA" class="chart">
+      <div class="title">A</div>
+    </div>
+    <div id="chartB" class="chart">
+      <div class="title">B</div>
+    </div>
+  </div>
+</div>
+
+<p>If you’re viewing this through an RSS reader, the above demo won’t show
+correctly. You can view it <a href="/blog/2012/10/17/fitbit-apis-crossfilter-and-d3#quick-demo">on my blog</a>.</p>
+
+<h2 id="insights-from-my-data">Insights From My Data</h2>
+
+<p>You can see the live dashboard <a href="http://fitbit.savageevan.com/">here</a>. Some of the highlights:</p>
+
+<ul>
+  <li>During this tracking period, I was <em>most active during the 8-10 am and 6-9 pm
+timeslots.</em> (The former was my morning walk to the employee shuttle; the
+latter was the evening walk back plus <a href="http://soccerfours.com/">Soccer Fours</a>.</li>
+  <li>The more sleep I get, the more bipolar my exercise habits become.</li>
+  <li>Unlike Beau Gunderson, I’m not seeing a correlation between number of times
+awoken and duration of sleep.</li>
+  <li>There is, however, a clear positive correlation between steps per minute
+and calories burned per minute, as expected.</li>
+</ul>
+
+<p>Again, you can play around with the dashboard <a href="http://fitbit.savageevan.com/">here</a>
+to find patterns in my Fitbit data.</p>
+
+<h2 id="how-to-use-fitbit-crossfilter">How To Use fitbit-crossfilter</h2>
+
+<p>I’ve placed my live fitbit-crossfilter dashboard into demo mode, but <em>you can
+fetch and view your data as follows.</em></p>
+
+<p>First, you will need a Fitbit app <em>with Partner API access</em>; see
+<a href="https://wiki.fitbit.com/display/API/Fitbit+Partner+API">this page</a> for more details on setting that up. Use the following
+application settings:</p>
+
+<ul>
+  <li><strong>Application Type:</strong> Website</li>
+  <li><strong>Callback URL:</strong> <code>http://localhost:9001/oauth</code></li>
+  <li><strong>Default Access Type:</strong> Read-Only</li>
+</ul>
+
+<p>Now copy <code>settings.py.nopasswd</code> to create your settings file:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cp settings.py.nopasswd settings.py
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Edit the bottom of <code>settings.py</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">SYNC_ENABLED</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class='line'><span class="n">DEFAULT_USER</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="n">FITBIT_CONSUMER_KEY</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">app</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="n">key</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">FITBIT_CONSUMER_SECRET</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">app</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="n">secret</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></your></your></p>
+
+<p>Start the server, login, and sync your data:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python manage.py runserver 9001
+</span><span class='line'><span class="c"># visit localhost:9001/login in the browser to do the OAuth handshake</span>
+</span><span class='line'><span class="c"># visit localhost:9001/sync-user-data in the browser to sync data</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>When the syncing completes, you’ll be redirected to your dashboard.</p>
 ]]></content>
   </entry>
   
