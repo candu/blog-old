@@ -3,7 +3,7 @@ layout: post
 title: "Don't Hate, Cross-Correlate"
 date: 2012-10-22 13:41
 comments: true
-categories: [Algorithms, Technical]
+categories: [Algorithms, Technical, Visualization]
 ---
 
 In this post, I discuss cross-correlation. Although commonly used in signal

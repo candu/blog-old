@@ -3,7 +3,7 @@ layout: post
 title: "Fitbit: APIs, crossfilter, and d3.js"
 date: 2012-10-17 08:30
 comments: true
-categories: [Panic, Technical]
+categories: [Panic, Technical, Visualization]
 ---
 
 In this post, I present
