@@ -4,7 +4,7 @@
   <title><![CDATA[Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-11-14T13:57:20-08:00</updated>
+  <updated>2012-12-21T00:48:51-05:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -14,9 +14,112 @@
 
   
   <entry>
+    <title type="html"><![CDATA[datafist: Exploration And Analysis]]></title>
+    <link href="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/"/>
+    <updated>2012-12-21T07:00:00-05:00</updated>
+    <id>http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis</id>
+    <content type="html"><![CDATA[<p>In this post I introduce datafist, an in-browser tool for visually exploring
+your data. </p>
+
+<!-- more -->
+
+<h2 id="first-a-quote">First, A Quote</h2>
+
+<blockquote><p>Are we analyzing data? Then we should be manipulating the data themselves; or if we are designing an analysis of data, we should be manipulating the analytic structures themselves.</p><footer><strong>Direct Manipulation Interfaces</strong> <cite><a href="http://cleo.ics.uci.edu/teaching/Winter10/231/readings/1-HutchinsHollanNorman-DirectManipulation-HCI.pdf">cleo.ics.uci.edu/teaching/231/&hellip;</a></cite></footer></blockquote>
+
+<h2 id="the-sixfold-path-of-self-tracking">The Sixfold Path Of Self-Tracking</h2>
+
+<p>Self-tracking is a complex process. It can be broken down into stages:</p>
+
+<ul>
+  <li><em>Intent:</em> our initial goals or motivations in deciding to self-track.</li>
+  <li><em>Tools:</em> the devices or methods we use for tracking.</li>
+  <li><em>Measurement:</em> collecting our data using those tools.</li>
+  <li><em>Analysis:</em> extracting insights from our data.</li>
+  <li><em>Interpretation:</em> creating personal meaning from those insights.</li>
+  <li><em>Action:</em> responding to that personal meaning.</li>
+</ul>
+
+<p>Thanks to smartphones and cheap sensors, many of us already have the tools
+necessary for measurement. The psychology of intent and action is rapidly
+being explored through <a href="http://www.meetup.com/habitdesign/">Habit Design</a> and <a href="http://captology.stanford.edu/">Captology</a>, with
+startups like <a href="http://lift.do/">Lift</a> and <a href="https://www.beeminder.com/">Beeminder</a> harnessing the findings
+to great effect.</p>
+
+<p><em>What are the technologies of analysis and interpretation?</em></p>
+
+<h3 id="visualization">Visualization</h3>
+
+<p>Visualizations, even interactive ones, are usually designed to <em>answer
+specific questions</em> such as <a href="http://www.nytimes.com/interactive/2012/11/07/us/politics/obamas-diverse-base-of-support.html">how did Obama win re-election?</a>
+Within the context of those questions, they help us understand our data
+intuitively. Outside that context, however, they are often useless.</p>
+
+<h3 id="statisticalmathematical-software">Statistical/Mathematical Software</h3>
+
+<p>Environments like <a href="http://www.r-project.org/">R</a> and <a href="http://www.wolfram.com/mathematica/">Mathematica</a> allow you to <em>explore
+your data in meticulous detail.</em> In the hands of people like
+<a href="http://blog.stephenwolfram.com/2012/03/the-personal-analytics-of-my-life/">Stephen Wolfram</a>, they are the holy grail of data analysis. For the
+less technically inclined, they remain hopelessly unintuitive.</p>
+
+<h2 id="a-middle-road">A Middle Road</h2>
+
+<p>What we need is <em>something between the two</em>, a hybrid that exposes the
+exploratory power of the latter through the intuitive interface of the former.
+Such a tool would give us the opportunity to <em>explore our data as we see fit.</em>
+We could ask our data questions, iterating quickly on those questions until
+we reach useful insights.</p>
+
+<p>Until we can all converse with our data with the fluency of <a href="http://www.ted.com/talks/hans_rosling_the_good_news_of_the_decade.html">Hans Rosling</a>,
+there’s still room for improvement!</p>
+
+<h2 id="datafist">datafist</h2>
+
+<p>datafist tries to bridge this gap by providing <em>visual and gestural actions</em>
+for data manipulation. This is probably easier to demonstrate than describe,
+so here’s a screencast that shows an early development version of datafist
+in action:</p>
+
+<div>
+  <iframe width="560" height="315" src="http://www.youtube.com/embed/ypitHPXKa8M" frameborder="0" allowfullscreen=""></iframe>
+</div>
+
+<p>As you use datafist, <em>you’re constantly modifying the analysis itself.</em>
+This modification takes place through <em>visual and gestural actions:</em> you
+move channels to the viewer, drag out ranges of time to zoom in on, and draw
+regions around interesting clusters. As you do this, the view is
+<em>updated in real-time</em>, allowing you to see the effects of your actions.</p>
+
+<h3 id="try-datafist-out">Try datafist Out!</h3>
+
+<p>I’m hosting a version of datafist <a href="http://datafist.savageevan.com">here at savageevan.com</a>.
+Note that this is still a very early development version!</p>
+
+<h3 id="contribute-to-datafist">Contribute to datafist!</h3>
+
+<p>If you’re interested in making datafist better, <a href="https://github.com/candu/datafist">fork me on github!</a>
+Bug reports should be submitted <a href="https://github.com/candu/datafist/issues">via the issue tracker</a>.
+In particular, if you have a CSV file that won’t import properly, please attach
+it for testing purposes!</p>
+
+<h2 id="inspiration">Inspiration</h2>
+
+<ul>
+  <li><a href="http://www.audiomulch.com/">AudioMulch</a> is an awesome graphical audio synthesis tool.</li>
+  <li><a href="http://puredata.info/">PureData</a> and <a href="http://cycling74.com/products/max/">Max/MSP</a> are visual signal processing languages.</li>
+  <li><a href="http://cleo.ics.uci.edu/teaching/Winter10/231/readings/1-HutchinsHollanNorman-DirectManipulation-HCI.pdf">Direct Manipulation Interfaces</a> is a classic paper on the design of
+natural-seeming interfaces. You’ll recognize some of the interface concepts
+from the analysis package design mocks at the beginning.</li>
+  <li><a href="http://www.startuplessonslearned.com/2011/11/startup-is-vision.html">FAKEGRIMLOCK</a> is a fountain of poorly-Englished wisdom on
+entrepreneurship.</li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Sober Thoughts On Willpower And Decision Making]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making/"/>
-    <updated>2012-11-14T07:00:00-08:00</updated>
+    <updated>2012-11-14T07:00:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making</id>
     <content type="html"><![CDATA[<p>In this post, I discuss my ongoing experiment with eliminating alcohol from my
 diet. I use this experience to address a question: why do we find some forms of
@@ -227,7 +330,7 @@ under your belt can be enormously helpful in <em>making behavior change stick.</
   <entry>
     <title type="html"><![CDATA[Financial Tracking: Mint Bubbles]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/12/financial-tracking-mint-bubbles/"/>
-    <updated>2012-11-12T07:00:00-08:00</updated>
+    <updated>2012-11-12T07:00:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/12/financial-tracking-mint-bubbles</id>
     <content type="html"><![CDATA[<p>In this post I present Mint Bubbles, a <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html">force-directed bubble chart</a>
 visualization of exported Mint data. I explain how to use
@@ -847,7 +950,7 @@ more detail. Keep posted!</p>
   <entry>
     <title type="html"><![CDATA[Healthy Isn't A Place You Go To]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/07/healthy-isnt-a-place-you-go-to/"/>
-    <updated>2012-11-07T07:00:00-08:00</updated>
+    <updated>2012-11-07T07:00:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/07/healthy-isnt-a-place-you-go-to</id>
     <content type="html"><![CDATA[<p>In this post, I expand on some <a href="http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery/">earlier thoughts</a> about the
 nature and purpose of the <a href="http://quantifiedself.com/">Quantified Self movement</a>.
@@ -1007,7 +1110,7 @@ that’s awesome.</p>
   <entry>
     <title type="html"><![CDATA[Persistent Location Tracking: Looking For A Few Good Data Points]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/"/>
-    <updated>2012-11-02T16:38:00-07:00</updated>
+    <updated>2012-11-02T16:38:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points</id>
     <content type="html"><![CDATA[<p>In this post, I revisit the question of whether Google Latitude meets my
 persistent location tracking needs. In <a href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">my previous post</a>, I compared
@@ -1216,7 +1319,7 @@ to ask:</p>
   <entry>
     <title type="html"><![CDATA[Persistent Location Tracking: Picking The Right Tool]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/"/>
-    <updated>2012-10-29T18:37:00-07:00</updated>
+    <updated>2012-10-29T18:37:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool</id>
     <content type="html"><![CDATA[<p>In this post, I compare Google Latitude and InstaMapper, two popular services
 for persistent location tracking. I walk through installation and data
@@ -1658,7 +1761,7 @@ battery life nicely.</em></p>
   <entry>
     <title type="html"><![CDATA[Don't Hate, Cross-Correlate]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/"/>
-    <updated>2012-10-22T13:41:00-07:00</updated>
+    <updated>2012-10-22T13:41:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate</id>
     <content type="html"><![CDATA[<p>In this post, I discuss cross-correlation. Although commonly used in signal
 processing, cross-correlation can be useful in a Quantified Self context.
@@ -1890,7 +1993,7 @@ is something that can be meaningfully tracked over time.</li>
   <entry>
     <title type="html"><![CDATA[Track Your Happiness: An Adventure In Data Extraction]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/"/>
-    <updated>2012-10-18T15:41:00-07:00</updated>
+    <updated>2012-10-18T15:41:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction</id>
     <content type="html"><![CDATA[<p>In this post, I go over my first report from
 <a href="https://www.trackyourhappiness.org/">Track Your Happiness</a>, a tool that uses
@@ -2136,7 +2239,7 @@ experiments.</p>
   <entry>
     <title type="html"><![CDATA[Fitbit: APIs, crossfilter, and d3.js]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/"/>
-    <updated>2012-10-17T08:30:00-07:00</updated>
+    <updated>2012-10-17T08:30:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3</id>
     <content type="html"><![CDATA[<p>In this post, I present
 <a href="https://github.com/candu/fitbit-crossfilter">fitbit-crossfilter</a>, which uses
@@ -2520,7 +2623,7 @@ application settings:</p>
   <entry>
     <title type="html"><![CDATA[Self-Tracking for Panic: Another Dataset]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/"/>
-    <updated>2012-10-14T21:23:00-07:00</updated>
+    <updated>2012-10-14T21:23:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset</id>
     <content type="html"><![CDATA[<p>In this post, I perform the same analyses presented in
 <a href="http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/">my last post</a> using data from my second panic tracking period.
@@ -2788,7 +2891,7 @@ suggest I should?</em></p>
   <entry>
     <title type="html"><![CDATA[Self-Tracking For Panic: A Deeper Look]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/"/>
-    <updated>2012-10-09T07:00:00-07:00</updated>
+    <updated>2012-10-09T07:00:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look</id>
     <content type="html"><![CDATA[<p>In this post, I apply three statistical and machine learning tools to my panic
 recovery journal data: linear regression/correlation, the Fast Fourier
@@ -3158,7 +3261,7 @@ self-tracking. I perform these same three analyses on the
   <entry>
     <title type="html"><![CDATA[Self-Tracking For Panic: A bash-ful Look At Some Data]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/"/>
-    <updated>2012-10-08T10:00:00-07:00</updated>
+    <updated>2012-10-08T10:00:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look</id>
     <content type="html"><![CDATA[<p>In this post, I perform initial exploratory analysis on my panic recovery
 journal data using basic UNIX/bash commands.</p>
@@ -3682,7 +3785,7 @@ reduce friction in the recording process.</p>
   <entry>
     <title type="html"><![CDATA[Panic!]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/03/panic/"/>
-    <updated>2012-10-03T17:47:00-07:00</updated>
+    <updated>2012-10-03T17:47:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/03/panic</id>
     <content type="html"><![CDATA[<p>In this post, I’ll tell the story of how I got started with self-tracking
 and talk briefly about my first experiment.</p>
@@ -3842,7 +3945,7 @@ thrive</em>.</p>
   <entry>
     <title type="html"><![CDATA[Welcome to Quantified Savagery]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery/"/>
-    <updated>2012-10-02T21:34:00-07:00</updated>
+    <updated>2012-10-02T21:34:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery</id>
     <content type="html"><![CDATA[<p>I’m <a href="http://cv.savageevan.com/">Evan Savage</a> and I’d like to welcome you
 to Quantified Savagery. I recently left my job at Facebook to focus on

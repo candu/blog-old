@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,500,500italic' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8">
+  <title>datafist: Exploration And Analysis - Quantified Savagery</title>
+  <meta name="author" content="Evan Savage">
+
+  
+  <meta name="description" content="In this post I introduce datafist, an in-browser tool for visually exploring
+your data. First, A Quote Are we analyzing data? Then we should be &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!-- see http://luikore.github.com/2011/09/good-things-learned-from-octopress/ -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+  </script>
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <link href="/atom.xml" rel="alternate" title="Quantified Savagery" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34927069-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Quantified Savagery</a></h1>
+  
+    <h2>Where Personal Data Runs Wild</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.savageevan.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Datafist: Exploration and Analysis</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-21T07:00:00-05:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In this post I introduce datafist, an in-browser tool for visually exploring
+your data. </p>
+
+<!-- more -->
+
+<h2 id="first-a-quote">First, A Quote</h2>
+
+<blockquote><p>Are we analyzing data? Then we should be manipulating the data themselves; or if we are designing an analysis of data, we should be manipulating the analytic structures themselves.</p><footer><strong>Direct Manipulation Interfaces</strong> <cite><a href="http://cleo.ics.uci.edu/teaching/Winter10/231/readings/1-HutchinsHollanNorman-DirectManipulation-HCI.pdf">cleo.ics.uci.edu/teaching/231/&hellip;</a></cite></footer></blockquote>
+
+<h2 id="the-sixfold-path-of-self-tracking">The Sixfold Path Of Self-Tracking</h2>
+
+<p>Self-tracking is a complex process. It can be broken down into stages:</p>
+
+<ul>
+  <li><em>Intent:</em> our initial goals or motivations in deciding to self-track.</li>
+  <li><em>Tools:</em> the devices or methods we use for tracking.</li>
+  <li><em>Measurement:</em> collecting our data using those tools.</li>
+  <li><em>Analysis:</em> extracting insights from our data.</li>
+  <li><em>Interpretation:</em> creating personal meaning from those insights.</li>
+  <li><em>Action:</em> responding to that personal meaning.</li>
+</ul>
+
+<p>Thanks to smartphones and cheap sensors, many of us already have the tools
+necessary for measurement. The psychology of intent and action is rapidly
+being explored through <a href="http://www.meetup.com/habitdesign/">Habit Design</a> and <a href="http://captology.stanford.edu/">Captology</a>, with
+startups like <a href="http://lift.do/">Lift</a> and <a href="https://www.beeminder.com/">Beeminder</a> harnessing the findings
+to great effect.</p>
+
+<p><em>What are the technologies of analysis and interpretation?</em></p>
+
+<h3 id="visualization">Visualization</h3>
+
+<p>Visualizations, even interactive ones, are usually designed to <em>answer
+specific questions</em> such as <a href="http://www.nytimes.com/interactive/2012/11/07/us/politics/obamas-diverse-base-of-support.html">how did Obama win re-election?</a>
+Within the context of those questions, they help us understand our data
+intuitively. Outside that context, however, they are often useless.</p>
+
+<h3 id="statisticalmathematical-software">Statistical/Mathematical Software</h3>
+
+<p>Environments like <a href="http://www.r-project.org/">R</a> and <a href="http://www.wolfram.com/mathematica/">Mathematica</a> allow you to <em>explore
+your data in meticulous detail.</em> In the hands of people like
+<a href="http://blog.stephenwolfram.com/2012/03/the-personal-analytics-of-my-life/">Stephen Wolfram</a>, they are the holy grail of data analysis. For the
+less technically inclined, they remain hopelessly unintuitive.</p>
+
+<h2 id="a-middle-road">A Middle Road</h2>
+
+<p>What we need is <em>something between the two</em>, a hybrid that exposes the
+exploratory power of the latter through the intuitive interface of the former.
+Such a tool would give us the opportunity to <em>explore our data as we see fit.</em>
+We could ask our data questions, iterating quickly on those questions until
+we reach useful insights.</p>
+
+<p>Until we can all converse with our data with the fluency of <a href="http://www.ted.com/talks/hans_rosling_the_good_news_of_the_decade.html">Hans Rosling</a>,
+there’s still room for improvement!</p>
+
+<h2 id="datafist">datafist</h2>
+
+<p>datafist tries to bridge this gap by providing <em>visual and gestural actions</em>
+for data manipulation. This is probably easier to demonstrate than describe,
+so here’s a screencast that shows an early development version of datafist
+in action:</p>
+
+<div>
+  <iframe width="560" height="315" src="http://www.youtube.com/embed/ypitHPXKa8M" frameborder="0" allowfullscreen=""></iframe>
+</div>
+
+<p>As you use datafist, <em>you’re constantly modifying the analysis itself.</em>
+This modification takes place through <em>visual and gestural actions:</em> you
+move channels to the viewer, drag out ranges of time to zoom in on, and draw
+regions around interesting clusters. As you do this, the view is
+<em>updated in real-time</em>, allowing you to see the effects of your actions.</p>
+
+<h3 id="try-datafist-out">Try datafist Out!</h3>
+
+<p>I’m hosting a version of datafist <a href="http://datafist.savageevan.com">here at savageevan.com</a>.
+Note that this is still a very early development version!</p>
+
+<h3 id="contribute-to-datafist">Contribute to datafist!</h3>
+
+<p>If you’re interested in making datafist better, <a href="https://github.com/candu/datafist">fork me on github!</a>
+Bug reports should be submitted <a href="https://github.com/candu/datafist/issues">via the issue tracker</a>.
+In particular, if you have a CSV file that won’t import properly, please attach
+it for testing purposes!</p>
+
+<h2 id="inspiration">Inspiration</h2>
+
+<ul>
+  <li><a href="http://www.audiomulch.com/">AudioMulch</a> is an awesome graphical audio synthesis tool.</li>
+  <li><a href="http://puredata.info/">PureData</a> and <a href="http://cycling74.com/products/max/">Max/MSP</a> are visual signal processing languages.</li>
+  <li><a href="http://cleo.ics.uci.edu/teaching/Winter10/231/readings/1-HutchinsHollanNorman-DirectManipulation-HCI.pdf">Direct Manipulation Interfaces</a> is a classic paper on the design of
+natural-seeming interfaces. You’ll recognize some of the interface concepts
+from the analysis package design mocks at the beginning.</li>
+  <li><a href="http://www.startuplessonslearned.com/2011/11/startup-is-vision.html">FAKEGRIMLOCK</a> is a fountain of poorly-Englished wisdom on
+entrepreneurship.</li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Evan Savage</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-21T07:00:00-05:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/non-technical/'>Non-Technical</a>, <a class='category' href='/blog/categories/datafist/'>datafist</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making/" title="Previous Post: Sober Thoughts On Willpower And Decision Making">&laquo; Sober Thoughts On Willpower And Decision Making</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/21/datafist-exploration-and-analysis/">datafist: Exploration And Analysis</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making/">Sober Thoughts On Willpower And Decision Making</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/12/financial-tracking-mint-bubbles/">Financial Tracking: Mint Bubbles</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/healthy-isnt-a-place-you-go-to/">Healthy Isn't A Place You Go To</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/">Persistent Location Tracking: Looking For A Few Good Data Points</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/candu">@candu</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'candu',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("candusavage", 5, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/candusavage" class="twitter-follow-button" data-show-count="false">Follow @candusavage</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Evan Savage -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

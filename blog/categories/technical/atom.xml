@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technical | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/technical/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-11-14T13:57:20-08:00</updated>
+  <updated>2012-12-21T00:48:51-05:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Financial Tracking: Mint Bubbles]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/12/financial-tracking-mint-bubbles/"/>
-    <updated>2012-11-12T07:00:00-08:00</updated>
+    <updated>2012-11-12T07:00:00-05:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/12/financial-tracking-mint-bubbles</id>
     <content type="html"><![CDATA[<p>In this post I present Mint Bubbles, a <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html">force-directed bubble chart</a>
 visualization of exported Mint data. I explain how to use
@@ -636,7 +636,7 @@ more detail. Keep posted!</p>
   <entry>
     <title type="html"><![CDATA[Persistent Location Tracking: Looking For A Few Good Data Points]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/"/>
-    <updated>2012-11-02T16:38:00-07:00</updated>
+    <updated>2012-11-02T16:38:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points</id>
     <content type="html"><![CDATA[<p>In this post, I revisit the question of whether Google Latitude meets my
 persistent location tracking needs. In <a href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">my previous post</a>, I compared
@@ -845,7 +845,7 @@ to ask:</p>
   <entry>
     <title type="html"><![CDATA[Persistent Location Tracking: Picking The Right Tool]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/"/>
-    <updated>2012-10-29T18:37:00-07:00</updated>
+    <updated>2012-10-29T18:37:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool</id>
     <content type="html"><![CDATA[<p>In this post, I compare Google Latitude and InstaMapper, two popular services
 for persistent location tracking. I walk through installation and data
@@ -1287,7 +1287,7 @@ battery life nicely.</em></p>
   <entry>
     <title type="html"><![CDATA[Don't Hate, Cross-Correlate]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/"/>
-    <updated>2012-10-22T13:41:00-07:00</updated>
+    <updated>2012-10-22T13:41:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate</id>
     <content type="html"><![CDATA[<p>In this post, I discuss cross-correlation. Although commonly used in signal
 processing, cross-correlation can be useful in a Quantified Self context.
@@ -1519,7 +1519,7 @@ is something that can be meaningfully tracked over time.</li>
   <entry>
     <title type="html"><![CDATA[Track Your Happiness: An Adventure In Data Extraction]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/"/>
-    <updated>2012-10-18T15:41:00-07:00</updated>
+    <updated>2012-10-18T15:41:00-04:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction</id>
     <content type="html"><![CDATA[<p>In this post, I go over my first report from
 <a href="https://www.trackyourhappiness.org/">Track Your Happiness</a>, a tool that uses
