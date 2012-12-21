@@ -1,15 +1,13 @@
 ---
 layout: post
 title: "datafist: Exploration And Analysis"
-date: 2012-11-26 21:25
+date: 2012-12-21 07:00
 comments: true
 categories: [datafist, Non-Technical]
 ---
 
-In this post I introduce datafist, a tool for interactive data analysis.
-datafist provides visual and gestural actions for building analysis
-pipelines, making the process of analysis more accessible to
-non-programmers.
+In this post I introduce datafist, an in-browser tool for visually exploring
+your data. 
 
 <!-- more -->
 
@@ -65,51 +63,32 @@ there's still room for improvement!
 
 ## datafist
 
-In an attempt to demonstrate what this might look like, I've started
-working on an HTML5-based in-browser tool called
-[datafist](https://github.com/candu/datafist). Rather than explain datafist in
-words, I'll *walk through a sample flow* in screenshots and design mocks.
+datafist tries to bridge this gap by providing *visual and gestural actions*
+for data manipulation. This is probably easier to demonstrate than describe,
+so here's a screencast that shows an early development version of datafist
+in action:
 
-First, you import your personal data:
-
-{% img https://lh3.googleusercontent.com/-JCtNtNaRc2w/ULRaPWjpW1I/AAAAAAAAAPA/-2dDxgnwRiI/s800/1-channels-import.jpg %}
-
-Your data is broken into channels, which appear in the palette:
-
-{% img https://lh5.googleusercontent.com/-m2bQ50wZyYQ/ULRaJnLSCdI/AAAAAAAAAOI/rTk3IFCWhYQ/s800/2-channels-appear.jpg %}
-
-You drag the channels from the palette to the viewer:
-
-{% img https://lh4.googleusercontent.com/-n4rHxwwQyBc/ULRaLBPT8XI/AAAAAAAAAOQ/yuaCkCsK0cw/s800/3-channels-dragged.jpg %}
-
-You then connect the channels to a view:
-
-{% img https://lh3.googleusercontent.com/-zc8CaVt66dI/ULRaLsqUkYI/AAAAAAAAAOY/KdLY8mT7mjI/s800/4-channels-connected-to-view.jpg %}
-
-By clicking `show`, you see the channel data rendered as a sparkline graph:
-
-{% img https://lh3.googleusercontent.com/-zc8CaVt66dI/ULRaLsqUkYI/AAAAAAAAAOY/KdLY8mT7mjI/s800/4-channels-connected-to-view.jpg %}
-
-You decide to zoom in on a specific time range:
-
-{% img https://lh6.googleusercontent.com/-BcQxYKzQg6E/ULRaO0kqszI/AAAAAAAAAPE/1WNp8Jdw-dg/s800/6-view-sparkline-zooming.jpg %}
-
-Switching back to the box-and-arrow diagram with `hide`, you see that it has
-changed to include the time range filter. You swap `view-channel` for a different
-view, `view-regress`:
-
-{% img https://lh3.googleusercontent.com/-Fk75BTYvEZY/ULRaOQkBY8I/AAAAAAAAAOo/dOiNIYwz-5g/s800/8-view-changed.jpg %}
-
-This view renders your data as a linear regression. You're curious about the
-data near top-right, so you drag a region around them:
-
-{% img https://lh3.googleusercontent.com/-7qipp4xp3mU/ULRaRHbm_PI/AAAAAAAAAPM/IZFkSMML7OY/s800/10-region-select.jpg %}
+<div markdown="0">
+  <iframe width="560" height="315" src="http://www.youtube.com/embed/ypitHPXKa8M" frameborder="0" allowfullscreen></iframe>
+</div>
 
 As you use datafist, *you're constantly modifying the analysis itself.*
 This modification takes place through *visual and gestural actions:* you
 move channels to the viewer, drag out ranges of time to zoom in on, and draw
-regions around interesting clusters. As you do this, you can *see the effects* of
-those actions on the analysis diagram.
+regions around interesting clusters. As you do this, the view is
+*updated in real-time*, allowing you to see the effects of your actions.
+
+### Try datafist Out!
+
+I'm hosting a version of datafist [here at savageevan.com](http://datafist.savageevan.com).
+Note that this is still a very early development version!
+
+### Contribute to datafist!
+
+If you're interested in making datafist better, [fork me on github!](https://github.com/candu/datafist)
+Bug reports should be submitted [via the issue tracker](https://github.com/candu/datafist/issues).
+In particular, if you have a CSV file that won't import properly, please attach
+it for testing purposes!
 
 ## Inspiration
 
