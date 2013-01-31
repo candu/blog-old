@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Non-Technical | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/non-technical/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-12-21T00:48:51-05:00</updated>
+  <updated>2013-01-31T14:43:08-08:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -14,9 +14,291 @@
 
   
   <entry>
+    <title type="html"><![CDATA[What I'll Look Like In 50 Years]]></title>
+    <link href="http://blog.savageevan.com/blog/2013/01/31/what-ill-look-like-in-50-years/"/>
+    <updated>2013-01-31T12:43:00-08:00</updated>
+    <id>http://blog.savageevan.com/blog/2013/01/31/what-ill-look-like-in-50-years</id>
+    <content type="html"><![CDATA[<p>I spent a few weeks in the not-so-frozen Canadian northlands over the winter
+holidays. While there, I had the chance to visit an old childhood favorite:
+the <a href="http://ontariosciencecentre.ca/">Ontario Science Centre</a>, six floors of science-based awesomeness.
+One of their current exhibits, the <a href="http://ontariosciencecentre.ca/aging/">Amazing Aging Machine</a>, uses a
+computer vision software package called <a href="http://aprilage.com/">APRIL</a> to predict how your
+face will change over the next 50 years.</p>
+
+<p>In this post, I explore my results from that exhibit alongside a customized
+aging I performed using the <a href="http://www.aprilage.com/AprilAPI_V2.pdf">APRIL API</a>.</p>
+
+<!-- more -->
+
+<h2 id="present-me">Present Me</h2>
+
+<p>It’s not the most flattering photo, but here I am at 26:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-8qaAivSLFrI/UQrbKiU3JZI/AAAAAAAAARY/9e7IvKZUB00/s288/aging1.jpg"></p>
+
+<h2 id="future-me">Future Me</h2>
+
+<h3 id="take-one-amazing-aging-machine">Take One: Amazing Aging Machine</h3>
+
+<p>First, my face balloons out massively:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-LCFkNNtDiJg/UQrbKwGOIQI/AAAAAAAAARg/SS9o98axBtU/s288/aging2.jpg"></p>
+
+<p>Next, my cheek bones set downwards:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-VZhuI1uOVQk/UQrbLTKdBXI/AAAAAAAAARo/LHKV6cGEBGA/s288/aging3.jpg">
+<img src="https://lh6.googleusercontent.com/-aNcc-FC_4yk/UQrbL53IPpI/AAAAAAAAARs/DRf3ySCxPs4/s288/aging4.jpg"></p>
+
+<p>Finally, my face leans up and wrinkles a tiny bit:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-F8xBzpDWsM4/UQrbMUOukwI/AAAAAAAAAR0/cRqPDd_wYPM/s288/aging5.jpg"></p>
+
+<h3 id="take-two-april-api">Take Two: APRIL API</h3>
+
+<p>For this run, I had access to the raw aging metadata, so I could see
+exactly how old APRIL thought I was at each point in the aging sequence.</p>
+
+<p>From 26 to 28, there’s not much change:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-u36fDGLeI0Y/UQrbNrKtZyI/AAAAAAAAASE/NQSn0Y5uCng/s288/age28.jpg"></p>
+
+<p>Then, by age 35, my face elongates slightly:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-cRxKskiAyos/UQrbOiA_OjI/AAAAAAAAASM/GBFlRfZtXnc/s288/age35.jpg"></p>
+
+<p>I while away the next couple of decades in relative facial stasis. The
+most pronounced change is in my skin, which pales gradually with age:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-gYCoSmKbBDw/UQrbO46gohI/AAAAAAAAASY/X8RoWKpGT_8/s288/age47.jpg">
+<img src="https://lh6.googleusercontent.com/-dWkaa-neumY/UQrbPgkBVtI/AAAAAAAAASg/ebWh4i14qYk/s288/age55.jpg"></p>
+
+<p>Finally, age catches up with me, and I wrinkle into a haunted
+septuagenarian:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-JNBO6QMu-Xg/UQrbP9uzUUI/AAAAAAAAASo/Dj43_1l46Zo/s288/age61.jpg">
+<img src="https://lh4.googleusercontent.com/-w7zx8Ql3PnM/UQrbQO2pqVI/AAAAAAAAASw/9HJrW1EUz2c/s288/age67.jpg">
+<img src="https://lh5.googleusercontent.com/-RNgo0CglAjs/UQrbQtlY69I/AAAAAAAAAS0/OXD8Yqf63og/s288/age72.jpg"></p>
+
+<p>A few changes, each very minor, contribute to my forlorn expression over
+these last three photos.</p>
+
+<ul>
+  <li>The <em>eyes get slightly rounder</em>, as though they’re welling up.</li>
+  <li><em>Wrinkling above the eyes</em> gives the impression of a furrowed brow.</li>
+  <li>The face <em>elongates yet again</em>, creating a drawn expression.</li>
+  <li>As part of the elongation of the face, the <em>mouth corners sag downwards</em>
+into the merest hint of a frown.</li>
+</ul>
+
+<p>Note the lack of deep forehead and upper nose creases which normally
+accompany the furrowed brow expression. The mere suggestion of it on the eyes
+is enough to trigger our expression recognition! It’s amazing how sensitive
+we are to minute variations in facial muscle position.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>These images provide two divergent visions for my distant future:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-F8xBzpDWsM4/UQrbMUOukwI/AAAAAAAAAR0/cRqPDd_wYPM/s288/aging5.jpg">
+<img src="https://lh5.googleusercontent.com/-RNgo0CglAjs/UQrbQtlY69I/AAAAAAAAAS0/OXD8Yqf63og/s288/age72.jpg"></p>
+
+<p>For comparison, here’s my father in his late 50s, looking quite a bit happier:</p>
+
+<p><img src="http://farm4.staticflickr.com/3177/2828216200_5846e31c4a_z.jpg"></p>
+
+<h2 id="why-were-those-so-different">Why Were Those So Different?</h2>
+
+<p><blockquote><p>…the machine uses state-of-the-art aging software developed in partnership with Aprilage Development Inc. of Toronto to add decades to the faces of 8-12 year olds.</p><footer><strong>The Amazing Aging Machine</strong> <cite><a href='http://ontariosciencecentre.ca/aging/'>ontariosciencecentre.ca/aging/&hellip;</a></cite></footer></blockquote></p>
+
+<p>The Amazing Aging Machine is calibrated for ages 8-12, likely to match 
+the Ontario Science Centre’s target demographic. (Sadly, I couldn’t find
+detailed visitor demographic data!) In my case, this creates an awkward
+puffy look: it’s applying changes in facial structure through adolescence,
+when much of our bone growth occurs.</p>
+
+<p>By contrast, the APRIL API asks for your current age, allowing it to more
+correctly calibrate its models. As a result, the second set of faces exhibits
+relatively little change in shape.</p>
+
+<h2 id="what-do-i-get-out-of-this">What Do I Get Out Of This?</h2>
+
+<p>Although my face is unlikely to match either of these faces at 72, this
+experiment provides some insight into how our faces change with age. After
+all, the APRIL face aging models are based on real face data. They represent
+a sort of statistical average of the aging process.</p>
+
+<p>Also, I get the vaguely warm feeling that comes with having contributed to our
+<a href="http://vimeo.com/29052688">collective intelligence</a>. I provided APRIL
+with a real age-labelled face, which will likely be used to help train future
+models.</p>
+
+<h2 id="appendix-how-to-use-the-april-api">Appendix: How To Use The APRIL API</h2>
+
+<p>For the more technically-minded, I’ve provided a quick walkthrough of the
+API aging pipeline. For all the gritty details, consult the <a href="http://www.aprilage.com/AprilAPI_V2.pdf">API docs</a>.</p>
+
+<p>Before starting, I highly recommend installing a tool like <a href="https://github.com/jmhodges/jsonpp">jsonpp</a>;
+it makes it much easier to read API results.</p>
+
+<p>The first step is manual: you need to register at <a href="http://www.ageme.com/">ageme.com</a>, then
+click the confirmation link in your email.</p>
+
+<p><img src="https://lh5.googleusercontent.com/-wuu_sRDb7qQ/UQrtRmoofNI/AAAAAAAAATE/l7CAexc1_ZY/s400/ageme_register.jpg"></p>
+
+<p>The next step is uploading an image, but let’s check first that the API
+works by retrieving our user info:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/userInfo
+</span><span class='line'>{“result_code”:0,”message”:”Unauthorized”}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Oops! We haven’t authenticated ourselves. The Authorization header uses a
+brain-dead and highly insecure <code>base64</code> encoding:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ python -c “import base64; print base64.encodestring(‘username:password’)”
+</span><span class='line'>dXNlcm5hbWU6cGFzc3dvcmQ=</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>(Obviously this isn’t my real username/password. Substitute yours above and
+use the resulting <code>base64</code>-encoded string in the <code>Authorization</code> headers
+below. I’ll use this bogus value to illustrate the flow.)</p>
+
+<p>With the correct header, we can try fetching the user info again:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/userInfo | jsonpp 
+</span><span class='line'>{
+</span><span class='line'>  “uri”: “http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com”,
+</span><span class='line'>  “email”: “savage.evan@gmail.com”,
+</span><span class='line'>  “tokens”: 0,
+</span><span class='line'>  “numOfAgings”: 1,
+</span><span class='line'>  “role”: “user”
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Great! Now we can POST an image to the uploading endpoint with <code>curl</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -F ‘filename=aging1.jpg’ -F ‘image=@/Users/candu/Desktop/aging1.jpg’ -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/images</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Another manual step: before proceeding, you’ll need to purchase a token on
+the <a href="http://www.ageme.com/">ageme.com</a> site. At time of writing, this cost $3.99; I looked for
+active promotion codes, but couldn’t find any.</p>
+
+<p><img src="https://lh6.googleusercontent.com/-co9vyFu4uJQ/UQrtSM1T8mI/AAAAAAAAATM/8ozrK3aiGjk/s400/ageme_buytokens.jpg"></p>
+
+<p>With your aging token purchased, you can now create an aging document. This
+lets APRIL know your age and ethnicity, which helps it to select the
+appropriate models for your particular aging sequence. It also identifies the
+starting image of that sequence via the <code>imageId</code> returned during image upload.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -H ‘Content-Type: application/json’ -d ‘{“document”: {“gender”: “male”, “age”: 26, “name”: “Evan”, “ethnicity”: “Caucasian”}, “imageId”: 2371944}}’ -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/documents</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We’re ready to run the aging process. There’s a single method <code>detectMatchAge</code>
+for performing all three steps, but I’ll break it down into the component
+steps here:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -X POST -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/pointDetection
+</span><span class='line'>$ while true; do curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/status; done
+</span><span class='line'>$ curl -X POST -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/match
+</span><span class='line'>$ while true; do curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/status; done
+</span><span class='line'>$ curl -H ‘Content-Type: application/json’ -d ‘{“sequenceType”: “Max72”, “sequences”: [{“smoking”: 0, “sunExposure”: 0, “multiplier”: 1}]}’ -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/aging
+</span><span class='line'>$ while true; do curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/status; done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Note the <code>while</code> loops, which wait for each step to complete. Once all steps
+are completed, we retrieve the aging results:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/results &gt; aging_results.json
+</span><span class='line'>$ cat aging_results.json | jsonpp | head -15
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    “uri”: “http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/results/76647”,
+</span><span class='line'>    “status”: “done”,
+</span><span class='line'>    “sequenceType”: “Max72”,
+</span><span class='line'>    “sequences”: [
+</span><span class='line'>      {
+</span><span class='line'>        “smoking”: 0.0,
+</span><span class='line'>        “sunExposure”: 0.0,
+</span><span class='line'>        “multiplier”: 1.0,
+</span><span class='line'>        “images”: [
+</span><span class='line'>          {
+</span><span class='line'>            “age”: 26,
+</span><span class='line'>            “uri”: “http://www.ageme.com/AprilAPI/images/IhLAo8Sp”
+</span><span class='line'>          },</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Finally, I wrote a bit of <a href="https://github.com/candu/quantified-savagery-files/blob/master/Aging/fetch_aging.py">Python glue</a> to fetch the URLs and name
+them by age:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">json</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span class='line'><span class="n">images</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="err">‘</span><span class="n">sequences</span><span class="err">’</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="err">‘</span><span class="n">images</span><span class="err">’</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="err">‘</span><span class="n">uri</span><span class="err">’</span><span class="p">])</span>
+</span><span class='line'>  <span class="n">path</span> <span class="o">=</span> <span class="err">‘</span><span class="n">age</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="o">.</span><span class="n">jpg</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="err">‘</span><span class="n">age</span><span class="err">’</span><span class="p">])</span>
+</span><span class='line'>  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="err">‘</span><span class="n">w</span><span class="err">’</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>With this, we can fetch the images:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ python fetch_aging.py &lt; aging_results.json</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And that’s it! Most of the process uses <code>curl</code>, with minimal leaning
+on Python for its <code>base64</code> module.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[datafist: Exploration And Analysis]]></title>
     <link href="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/"/>
-    <updated>2012-12-21T07:00:00-05:00</updated>
+    <updated>2012-12-21T07:00:00-08:00</updated>
     <id>http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis</id>
     <content type="html"><![CDATA[<p>In this post I introduce datafist, an in-browser tool for visually exploring
 your data. </p>
@@ -119,7 +401,7 @@ entrepreneurship.</li>
   <entry>
     <title type="html"><![CDATA[Sober Thoughts On Willpower And Decision Making]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making/"/>
-    <updated>2012-11-14T07:00:00-05:00</updated>
+    <updated>2012-11-14T07:00:00-08:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making</id>
     <content type="html"><![CDATA[<p>In this post, I discuss my ongoing experiment with eliminating alcohol from my
 diet. I use this experience to address a question: why do we find some forms of
@@ -330,7 +612,7 @@ under your belt can be enormously helpful in <em>making behavior change stick.</
   <entry>
     <title type="html"><![CDATA[Healthy Isn't A Place You Go To]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/07/healthy-isnt-a-place-you-go-to/"/>
-    <updated>2012-11-07T07:00:00-05:00</updated>
+    <updated>2012-11-07T07:00:00-08:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/07/healthy-isnt-a-place-you-go-to</id>
     <content type="html"><![CDATA[<p>In this post, I expand on some <a href="/blog/2012/10/02/welcome-to-quantified-savagery/">earlier thoughts</a> about the
 nature and purpose of the <a href="http://quantifiedself.com/">Quantified Self movement</a>.
@@ -477,7 +759,7 @@ that’s awesome.</p>
   <entry>
     <title type="html"><![CDATA[Panic!]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/03/panic/"/>
-    <updated>2012-10-03T17:47:00-04:00</updated>
+    <updated>2012-10-03T17:47:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/03/panic</id>
     <content type="html"><![CDATA[<p>In this post, I’ll tell the story of how I got started with self-tracking
 and talk briefly about my first experiment.</p>
@@ -631,166 +913,6 @@ yourself. The blessing is that you might not care!</p>
 <a href="http://en.wikipedia.org/wiki/Reinforcement_learning">reinforcement learning</a>
 system, the Quantified Self community <em>needs both modes of self-tracking to
 thrive</em>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Welcome to Quantified Savagery]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery/"/>
-    <updated>2012-10-02T21:34:00-04:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery</id>
-    <content type="html"><![CDATA[<p>I’m <a href="http://cv.savageevan.com/">Evan Savage</a> and I’d like to welcome you
-to Quantified Savagery. I recently left my job at Facebook to focus on
-exploring the
-<a href="http://quantifiedself.com/">Quantified Self</a>,
-and I’m super-excited to share those explorations here on my new blog.</p>
-
-<p>In this first post, I’ll explain the Quantified Self, give you a sense of
-what I’ll be posting in the near future, and provide some helpful tips on
-reading this blog.</p>
-
-<!--more-->
-
-<h2 id="what-is-the-quantified-self">What is the Quantified Self?</h2>
-
-<p>I’ve had to explain this countless times to friends, family, and
-co-workers: why did I leave
-<a href="http://www.glassdoor.com/Reviews/Facebook-Reviews-E40772.htm">one of the world’s best employers</a>
-to explore a field most people haven’t even heard of?
-I usually start by name-dropping
-<a href="http://www.fitbit.com/">Fitbit</a> or <a href="http://nikeplus.nike.com/plus/">Nike+</a> as
-prominent examples of personal data collection and analysis. I then do some
-semi-coherent hand-waving about the vast potential of data collection and
-analysis. All of this is really just an attempt to cover up the fact
-that <em>I don’t really know</em>.</p>
-
-<p>That doesn’t really cut it as an explanation for a major life decision,
-though, so let’s look a bit deeper.</p>
-
-<p>The Quantified Self
-<a href="http://quantifiedself.com/">community website</a> has this tagline:</p>
-
-<p><blockquote><p>self knowledge through numbers</p></blockquote></p>
-
-<ul>
-  <li><strong>self:</strong> you seek to answer <em>your</em> questions.</li>
-  <li><strong>knowledge:</strong> in doing this, you gain an <em>awareness</em> of your behaviors and
-motivations.</li>
-  <li><strong>through numbers:</strong> this process is driven by <em>data</em> gathered from sensors,
-journals, and any other tools at your disposal.</li>
-</ul>
-
-<p>This is a good first-level approximation: you <em>gather</em> your data, <em>analyze</em> it,
-and <em>interpret</em> the analysis to become more <em>self-aware</em>.</p>
-
-<p>Surround your pullquote like this {" text to be quoted "}</p>
-
-<p>As I said before, though, this is only a first-level approximation. There are
-two main ways in which Quantified Self can achieve greater awesomeness:
-<em>Quantified Mass</em> and <em>Qualified Self</em>.</p>
-
-<h3 id="quantified-mass">Quantified Mass</h3>
-
-<p>As Gary Wolf pointed out in his
-<a href="http://www.onthemedia.org/people/gary-wolf/">interview with On the Media</a>,
-self-tracking doesn’t lead to self-obsession but rather to group-awareness.
-In asking our own questions, we find that these questions are important to
-others as well. When many people gather comparable datasets to answer the
-same questions, there’s an opportunity to extract insights
-that could benefit us all.</p>
-
-<p>Scalable <em>mass</em> insights have massive power. Taking a 1% chunk out of the
-American obesity epidemic might not sound impressive, but that’s potentially
-a <a href="http://www.forbes.com/sites/bethhoffman/2012/08/16/what-the-obesity-epidemic-costs-us-infographic/">$6 billion impact</a>
-on direct and indirect costs. And that’s just in the United States, which
-counts for a tiny slice of the global mobile userbase.</p>
-
-<p>Many of the requisite data mining tools already
-exist, but they’re being employed to increase advertising click-through rates
-by 1%. The engineers building these tools aren’t indifferent to societal
-problems; rather, <em>the datasets to solve those problems largely don’t exist yet.</em>
-Once they do, the quantified mass can start driving these massive-scale
-incremental wins.</p>
-
-<h3 id="qualified-self">Qualified Self</h3>
-
-<p><blockquote><p>Not everything that counts can be counted,<br/>and not everything that can be counted counts.</p></blockquote></p>
-
-<p>Our perception of life is rarely numerical. Much more often, it is visual,
-auditory, tactile, or experiential. 
-The problem with data is that you can’t
-<a href="http://worrydream.com/#!/KillMath">see</a> or
-<a href="http://blog.makezine.com/2009/02/08/haptic-compass/">feel</a> them.
-Even the best data scientists use
-data only as a means of
-<a href="http://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen.html">telling a story</a>.</p>
-
-<p>Put another way, this awareness process starts with qualitative questions
-and ends with qualitative answers. Data is the intermediate representation,
-one we use for its unique ability to permit detailed analysis. Ultimately,
-though, we’re going to ask questions like</p>
-
-<p><blockquote><p>How can I improve my fitness?</p></blockquote></p>
-
-<p>and expect answers like</p>
-
-<p><blockquote><p>By finding training partners. By doing more engaging athletic<br/>activities. By setting aside regularly scheduled time.</p></blockquote></p>
-
-<p>We’re going to need moral support. We’re going to give and receive advice.
-We’re going to have conversations and <em>tell stories</em> about our personal
-struggles with fitness.</p>
-
-<p>These qualified aspects of self-awareness are arguably the most important
-to us. <em>Data provide a stepping-stone</em>, something we can build upon
-to address these aspects. By building systems designed for the qualified self,
-we can bring the benefits of the quantified self to everyone.</p>
-
-<h3 id="back-to-the-quantified-self">Back to the Quantified Self</h3>
-
-<p>That sums up why I’m so excited about Quantified Self: there really is an
-enormous potential here to revolutionize our lives on both the global/societal
-and individual levels.
-It’s also a fantastically diverse field, one that connects hackers and 
-doctors and entrepreneurs and teachers and artists through mutual pursuit of
-insanely lofty goals.</p>
-
-<h2 id="upcoming-content">Upcoming Content</h2>
-
-<p>The next few posts will detail my experiences <em>dealing with panic
-disorder through self-tracking</em>. I gave a talk about this to the Bay Area
-Quantified Self community, which you can
-<a href="http://quantifiedself.com/2012/07/evan-savage-on-panic-tracking/">view here</a>
-for some initial context.</p>
-
-<h2 id="how-to-read-this-blog">How To Read This Blog</h2>
-
-<p>Although this is a blog about personal data, one of my primary goals is to
-make the thoughts and insights shared here accessible to a broad audience.
-You can filter what you read with these categories:</p>
-
-<ul>
-  <li><a href="http://blog.savageevan.com/blog/categories/non-technical/" class="category">Non-Technical</a>:
-expect to see insights, thoughts, discussions, descriptions
-of planned experiments, and post-mortems. I might link to articles, studies,
-or books that provide context, but I’ll try to summarize the relevant
-parts.</li>
-  <li><a href="http://blog.savageevan.com/blog/categories/technical/" class="category">Technical</a>:
-expect to see code, statistical analysis, $ \LaTeX $ formulae,
-links to <a href="https://github.com/candu">Github</a> repos, and algorithm
-descriptions. I’ll assume familiarity with programming and mathematics, or
-at least a willingness to learn.</li>
-</ul>
-
-<p>In addition, many of my posts will be connected to one or more experiments.
-For instance, my upcoming posts on self-tracking to address panic disorder will
-fall under the <a href="http://blog.savageevan.com/blog/categories/panic/" class="category">Panic</a> category.
-For every experiment, I’ll attempt to post
-content in both the
-<a href="http://blog.savageevan.com/blog/categories/non-technical/" class="category">Non-Technical</a> and
-<a href="http://blog.savageevan.com/blog/categories/technical/" class="category">Technical</a> categories.</p>
-
-<p>Of course, I’ll be glad to answer any questions you have, technical or
-otherwise!</p>
 ]]></content>
   </entry>
   

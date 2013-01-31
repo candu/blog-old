@@ -4,7 +4,7 @@
   <title><![CDATA[Category: datafist | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/datafist/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-12-21T00:48:51-05:00</updated>
+  <updated>2013-01-31T14:43:08-08:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[datafist: Exploration And Analysis]]></title>
     <link href="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/"/>
-    <updated>2012-12-21T07:00:00-05:00</updated>
+    <updated>2012-12-21T07:00:00-08:00</updated>
     <id>http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis</id>
     <content type="html"><![CDATA[<p>In this post I introduce datafist, an in-browser tool for visually exploring
 your data. </p>

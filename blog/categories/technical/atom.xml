@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technical | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/technical/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2012-12-21T00:48:51-05:00</updated>
+  <updated>2013-01-31T14:43:08-08:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -14,9 +14,291 @@
 
   
   <entry>
+    <title type="html"><![CDATA[What I'll Look Like In 50 Years]]></title>
+    <link href="http://blog.savageevan.com/blog/2013/01/31/what-ill-look-like-in-50-years/"/>
+    <updated>2013-01-31T12:43:00-08:00</updated>
+    <id>http://blog.savageevan.com/blog/2013/01/31/what-ill-look-like-in-50-years</id>
+    <content type="html"><![CDATA[<p>I spent a few weeks in the not-so-frozen Canadian northlands over the winter
+holidays. While there, I had the chance to visit an old childhood favorite:
+the <a href="http://ontariosciencecentre.ca/">Ontario Science Centre</a>, six floors of science-based awesomeness.
+One of their current exhibits, the <a href="http://ontariosciencecentre.ca/aging/">Amazing Aging Machine</a>, uses a
+computer vision software package called <a href="http://aprilage.com/">APRIL</a> to predict how your
+face will change over the next 50 years.</p>
+
+<p>In this post, I explore my results from that exhibit alongside a customized
+aging I performed using the <a href="http://www.aprilage.com/AprilAPI_V2.pdf">APRIL API</a>.</p>
+
+<!-- more -->
+
+<h2 id="present-me">Present Me</h2>
+
+<p>It’s not the most flattering photo, but here I am at 26:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-8qaAivSLFrI/UQrbKiU3JZI/AAAAAAAAARY/9e7IvKZUB00/s288/aging1.jpg"></p>
+
+<h2 id="future-me">Future Me</h2>
+
+<h3 id="take-one-amazing-aging-machine">Take One: Amazing Aging Machine</h3>
+
+<p>First, my face balloons out massively:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-LCFkNNtDiJg/UQrbKwGOIQI/AAAAAAAAARg/SS9o98axBtU/s288/aging2.jpg"></p>
+
+<p>Next, my cheek bones set downwards:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-VZhuI1uOVQk/UQrbLTKdBXI/AAAAAAAAARo/LHKV6cGEBGA/s288/aging3.jpg">
+<img src="https://lh6.googleusercontent.com/-aNcc-FC_4yk/UQrbL53IPpI/AAAAAAAAARs/DRf3ySCxPs4/s288/aging4.jpg"></p>
+
+<p>Finally, my face leans up and wrinkles a tiny bit:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-F8xBzpDWsM4/UQrbMUOukwI/AAAAAAAAAR0/cRqPDd_wYPM/s288/aging5.jpg"></p>
+
+<h3 id="take-two-april-api">Take Two: APRIL API</h3>
+
+<p>For this run, I had access to the raw aging metadata, so I could see
+exactly how old APRIL thought I was at each point in the aging sequence.</p>
+
+<p>From 26 to 28, there’s not much change:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-u36fDGLeI0Y/UQrbNrKtZyI/AAAAAAAAASE/NQSn0Y5uCng/s288/age28.jpg"></p>
+
+<p>Then, by age 35, my face elongates slightly:</p>
+
+<p><img src="https://lh4.googleusercontent.com/-cRxKskiAyos/UQrbOiA_OjI/AAAAAAAAASM/GBFlRfZtXnc/s288/age35.jpg"></p>
+
+<p>I while away the next couple of decades in relative facial stasis. The
+most pronounced change is in my skin, which pales gradually with age:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-gYCoSmKbBDw/UQrbO46gohI/AAAAAAAAASY/X8RoWKpGT_8/s288/age47.jpg">
+<img src="https://lh6.googleusercontent.com/-dWkaa-neumY/UQrbPgkBVtI/AAAAAAAAASg/ebWh4i14qYk/s288/age55.jpg"></p>
+
+<p>Finally, age catches up with me, and I wrinkle into a haunted
+septuagenarian:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-JNBO6QMu-Xg/UQrbP9uzUUI/AAAAAAAAASo/Dj43_1l46Zo/s288/age61.jpg">
+<img src="https://lh4.googleusercontent.com/-w7zx8Ql3PnM/UQrbQO2pqVI/AAAAAAAAASw/9HJrW1EUz2c/s288/age67.jpg">
+<img src="https://lh5.googleusercontent.com/-RNgo0CglAjs/UQrbQtlY69I/AAAAAAAAAS0/OXD8Yqf63og/s288/age72.jpg"></p>
+
+<p>A few changes, each very minor, contribute to my forlorn expression over
+these last three photos.</p>
+
+<ul>
+  <li>The <em>eyes get slightly rounder</em>, as though they’re welling up.</li>
+  <li><em>Wrinkling above the eyes</em> gives the impression of a furrowed brow.</li>
+  <li>The face <em>elongates yet again</em>, creating a drawn expression.</li>
+  <li>As part of the elongation of the face, the <em>mouth corners sag downwards</em>
+into the merest hint of a frown.</li>
+</ul>
+
+<p>Note the lack of deep forehead and upper nose creases which normally
+accompany the furrowed brow expression. The mere suggestion of it on the eyes
+is enough to trigger our expression recognition! It’s amazing how sensitive
+we are to minute variations in facial muscle position.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>These images provide two divergent visions for my distant future:</p>
+
+<p><img src="https://lh6.googleusercontent.com/-F8xBzpDWsM4/UQrbMUOukwI/AAAAAAAAAR0/cRqPDd_wYPM/s288/aging5.jpg">
+<img src="https://lh5.googleusercontent.com/-RNgo0CglAjs/UQrbQtlY69I/AAAAAAAAAS0/OXD8Yqf63og/s288/age72.jpg"></p>
+
+<p>For comparison, here’s my father in his late 50s, looking quite a bit happier:</p>
+
+<p><img src="http://farm4.staticflickr.com/3177/2828216200_5846e31c4a_z.jpg"></p>
+
+<h2 id="why-were-those-so-different">Why Were Those So Different?</h2>
+
+<p><blockquote><p>…the machine uses state-of-the-art aging software developed in partnership with Aprilage Development Inc. of Toronto to add decades to the faces of 8-12 year olds.</p><footer><strong>The Amazing Aging Machine</strong> <cite><a href='http://ontariosciencecentre.ca/aging/'>ontariosciencecentre.ca/aging/&hellip;</a></cite></footer></blockquote></p>
+
+<p>The Amazing Aging Machine is calibrated for ages 8-12, likely to match 
+the Ontario Science Centre’s target demographic. (Sadly, I couldn’t find
+detailed visitor demographic data!) In my case, this creates an awkward
+puffy look: it’s applying changes in facial structure through adolescence,
+when much of our bone growth occurs.</p>
+
+<p>By contrast, the APRIL API asks for your current age, allowing it to more
+correctly calibrate its models. As a result, the second set of faces exhibits
+relatively little change in shape.</p>
+
+<h2 id="what-do-i-get-out-of-this">What Do I Get Out Of This?</h2>
+
+<p>Although my face is unlikely to match either of these faces at 72, this
+experiment provides some insight into how our faces change with age. After
+all, the APRIL face aging models are based on real face data. They represent
+a sort of statistical average of the aging process.</p>
+
+<p>Also, I get the vaguely warm feeling that comes with having contributed to our
+<a href="http://vimeo.com/29052688">collective intelligence</a>. I provided APRIL
+with a real age-labelled face, which will likely be used to help train future
+models.</p>
+
+<h2 id="appendix-how-to-use-the-april-api">Appendix: How To Use The APRIL API</h2>
+
+<p>For the more technically-minded, I’ve provided a quick walkthrough of the
+API aging pipeline. For all the gritty details, consult the <a href="http://www.aprilage.com/AprilAPI_V2.pdf">API docs</a>.</p>
+
+<p>Before starting, I highly recommend installing a tool like <a href="https://github.com/jmhodges/jsonpp">jsonpp</a>;
+it makes it much easier to read API results.</p>
+
+<p>The first step is manual: you need to register at <a href="http://www.ageme.com/">ageme.com</a>, then
+click the confirmation link in your email.</p>
+
+<p><img src="https://lh5.googleusercontent.com/-wuu_sRDb7qQ/UQrtRmoofNI/AAAAAAAAATE/l7CAexc1_ZY/s400/ageme_register.jpg"></p>
+
+<p>The next step is uploading an image, but let’s check first that the API
+works by retrieving our user info:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/userInfo
+</span><span class='line'>{“result_code”:0,”message”:”Unauthorized”}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Oops! We haven’t authenticated ourselves. The Authorization header uses a
+brain-dead and highly insecure <code>base64</code> encoding:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ python -c “import base64; print base64.encodestring(‘username:password’)”
+</span><span class='line'>dXNlcm5hbWU6cGFzc3dvcmQ=</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>(Obviously this isn’t my real username/password. Substitute yours above and
+use the resulting <code>base64</code>-encoded string in the <code>Authorization</code> headers
+below. I’ll use this bogus value to illustrate the flow.)</p>
+
+<p>With the correct header, we can try fetching the user info again:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/userInfo | jsonpp 
+</span><span class='line'>{
+</span><span class='line'>  “uri”: “http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com”,
+</span><span class='line'>  “email”: “savage.evan@gmail.com”,
+</span><span class='line'>  “tokens”: 0,
+</span><span class='line'>  “numOfAgings”: 1,
+</span><span class='line'>  “role”: “user”
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Great! Now we can POST an image to the uploading endpoint with <code>curl</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -F ‘filename=aging1.jpg’ -F ‘image=@/Users/candu/Desktop/aging1.jpg’ -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/images</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Another manual step: before proceeding, you’ll need to purchase a token on
+the <a href="http://www.ageme.com/">ageme.com</a> site. At time of writing, this cost $3.99; I looked for
+active promotion codes, but couldn’t find any.</p>
+
+<p><img src="https://lh6.googleusercontent.com/-co9vyFu4uJQ/UQrtSM1T8mI/AAAAAAAAATM/8ozrK3aiGjk/s400/ageme_buytokens.jpg"></p>
+
+<p>With your aging token purchased, you can now create an aging document. This
+lets APRIL know your age and ethnicity, which helps it to select the
+appropriate models for your particular aging sequence. It also identifies the
+starting image of that sequence via the <code>imageId</code> returned during image upload.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -H ‘Content-Type: application/json’ -d ‘{“document”: {“gender”: “male”, “age”: 26, “name”: “Evan”, “ethnicity”: “Caucasian”}, “imageId”: 2371944}}’ -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/documents</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We’re ready to run the aging process. There’s a single method <code>detectMatchAge</code>
+for performing all three steps, but I’ll break it down into the component
+steps here:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -X POST -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/pointDetection
+</span><span class='line'>$ while true; do curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/status; done
+</span><span class='line'>$ curl -X POST -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/match
+</span><span class='line'>$ while true; do curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/status; done
+</span><span class='line'>$ curl -H ‘Content-Type: application/json’ -d ‘{“sequenceType”: “Max72”, “sequences”: [{“smoking”: 0, “sunExposure”: 0, “multiplier”: 1}]}’ -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/aging
+</span><span class='line'>$ while true; do curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/status; done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Note the <code>while</code> loops, which wait for each step to complete. Once all steps
+are completed, we retrieve the aging results:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -H “Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=” http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/results &gt; aging_results.json
+</span><span class='line'>$ cat aging_results.json | jsonpp | head -15
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    “uri”: “http://www.ageme.com/AprilAPI/users/savage.evan@gmail.com/documents/2371973/results/76647”,
+</span><span class='line'>    “status”: “done”,
+</span><span class='line'>    “sequenceType”: “Max72”,
+</span><span class='line'>    “sequences”: [
+</span><span class='line'>      {
+</span><span class='line'>        “smoking”: 0.0,
+</span><span class='line'>        “sunExposure”: 0.0,
+</span><span class='line'>        “multiplier”: 1.0,
+</span><span class='line'>        “images”: [
+</span><span class='line'>          {
+</span><span class='line'>            “age”: 26,
+</span><span class='line'>            “uri”: “http://www.ageme.com/AprilAPI/images/IhLAo8Sp”
+</span><span class='line'>          },</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Finally, I wrote a bit of <a href="https://github.com/candu/quantified-savagery-files/blob/master/Aging/fetch_aging.py">Python glue</a> to fetch the URLs and name
+them by age:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">json</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span class='line'><span class="n">images</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="err">‘</span><span class="n">sequences</span><span class="err">’</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="err">‘</span><span class="n">images</span><span class="err">’</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="err">‘</span><span class="n">uri</span><span class="err">’</span><span class="p">])</span>
+</span><span class='line'>  <span class="n">path</span> <span class="o">=</span> <span class="err">‘</span><span class="n">age</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="o">.</span><span class="n">jpg</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="err">‘</span><span class="n">age</span><span class="err">’</span><span class="p">])</span>
+</span><span class='line'>  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="err">‘</span><span class="n">w</span><span class="err">’</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>With this, we can fetch the images:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ python fetch_aging.py &lt; aging_results.json</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And that’s it! Most of the process uses <code>curl</code>, with minimal leaning
+on Python for its <code>base64</code> module.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Financial Tracking: Mint Bubbles]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/12/financial-tracking-mint-bubbles/"/>
-    <updated>2012-11-12T07:00:00-05:00</updated>
+    <updated>2012-11-12T07:00:00-08:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/12/financial-tracking-mint-bubbles</id>
     <content type="html"><![CDATA[<p>In this post I present Mint Bubbles, a <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html">force-directed bubble chart</a>
 visualization of exported Mint data. I explain how to use
@@ -636,7 +918,7 @@ more detail. Keep posted!</p>
   <entry>
     <title type="html"><![CDATA[Persistent Location Tracking: Looking For A Few Good Data Points]]></title>
     <link href="http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/"/>
-    <updated>2012-11-02T16:38:00-04:00</updated>
+    <updated>2012-11-02T16:38:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points</id>
     <content type="html"><![CDATA[<p>In this post, I revisit the question of whether Google Latitude meets my
 persistent location tracking needs. In <a href="/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/">my previous post</a>, I compared
@@ -845,7 +1127,7 @@ to ask:</p>
   <entry>
     <title type="html"><![CDATA[Persistent Location Tracking: Picking The Right Tool]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/"/>
-    <updated>2012-10-29T18:37:00-04:00</updated>
+    <updated>2012-10-29T18:37:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool</id>
     <content type="html"><![CDATA[<p>In this post, I compare Google Latitude and InstaMapper, two popular services
 for persistent location tracking. I walk through installation and data
@@ -1287,7 +1569,7 @@ battery life nicely.</em></p>
   <entry>
     <title type="html"><![CDATA[Don't Hate, Cross-Correlate]]></title>
     <link href="http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/"/>
-    <updated>2012-10-22T13:41:00-04:00</updated>
+    <updated>2012-10-22T13:41:00-07:00</updated>
     <id>http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate</id>
     <content type="html"><![CDATA[<p>In this post, I discuss cross-correlation. Although commonly used in signal
 processing, cross-correlation can be useful in a Quantified Self context.
@@ -1513,252 +1795,6 @@ hopefully be able to better control our discretionary spending.</li>
   <li><strong>Loss Aversion:</strong> by <em>experimenting with tracking methods</em>, I’ll see if this
 is something that can be meaningfully tracked over time.</li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Track Your Happiness: An Adventure In Data Extraction]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/"/>
-    <updated>2012-10-18T15:41:00-04:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction</id>
-    <content type="html"><![CDATA[<p>In this post, I go over my first report from
-<a href="https://www.trackyourhappiness.org/">Track Your Happiness</a>, a tool that uses
-the <a href="https://www.trackyourhappiness.org/">Experience Sampling Method</a> for mood
-tracking.</p>
-
-<!-- more -->
-
-<h2 id="my-report">My Report</h2>
-
-<h3 id="charts">Charts</h3>
-
-<p>My happiness is <em>relatively constant across days of the week.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x200&amp;cht=bvg&amp;chco=0088cc&amp;chxt=x%2Cy&amp;chxl=0%3A%7CSun%7CMon%7CTue%7CWed%7CThu%7CFri%7CSat&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Aolpkmkp&amp;chbh=30" title="Weekday" ></p>
-
-<p>I’m <em>happiest at the gym or in parks</em>, with vacations and restaurants close
-behind. “At Home” is mid-pack, with <em>“At Work” near the bottom.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x338&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CBus+Stoo%7CPlane%7CAt+Work%7CIn+A+Car%7CDentist%7CAt+Home%7CAirport%7CRestaurant%7CVacation%7CPark%7CGym&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Auusroonliee&amp;chbh=20" title="Location" ></p>
-
-<p><em>Fun, exercise, and food</em> generate the most happiness. <em>Passive actions</em> such as
-watching TV, commuting, and waiting rank much lower. <em>Work is least
-happiness-inducing.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x422&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CWorking%7CCommuting%2C+Traveling%7CWaiting%7CWatching+Television%7CReading%7CHome+Computer%7CGrooming%2C+Self+Care%7CShopping%2C+Errands%7CRelaxing%2C+Nothing+Special%7CTalking%2C+Conversation%7CEating%7CPlaying%7CPreparing+Food%7CExercising&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Autrrrqpnnnmlkj&amp;chbh=20" title="What are you doing?" ></p>
-
-<p><em>Whether I want to perform a task</em> is a much stronger determinant of happiness
-than whether I have to:</p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x200&amp;cht=bvg&amp;chco=0088cc&amp;chxt=x%2Cx%2Cy&amp;chxl=0%3A%7CDon%27t+want+to%7CWant+to%7CWant+to%7CDon%27t+want+to%7C1%3A%7CHave+to%7CHave+to%7CDon%27t+have+to%7CDon%27t+have+to&amp;chxr=2%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10%7C2%2C666666%2C10&amp;chd=s%3Agope&amp;chbh=51" title="Want to / Have to" ></p>
-
-<p>I’m <em>happier when outside.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x126&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CNo%7CYes&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Apj&amp;chbh=40" title="Outside?" ></p>
-
-<p>I’m <em>happier when alone.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x126&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CNo%7CYes&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Apl&amp;chbh=40" title="Alone" ></p>
-
-<p>Given that, it seems counterintuitive that <em>I’m happier when interacting with
-multiple people.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x132&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7CThree+Or+More%7CTwo%7COne&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Aorq&amp;chbh=26" title="Number of people interacting with" ></p>
-
-<p>I was also surprised by this one: I’m happiest when <em>talking with acquaintances
-or friends</em> and least happy when <em>talking with family.</em></p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x198&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7COther+Relatives%7CSpouse%2FPartner%2FSignificant+Other%7CStrangers%7CCo+Workers%7CFriends%7CAcquaintances&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Autsrpo&amp;chbh=20" title="Who talking with" ></p>
-
-<h3 id="what-does-it-mean">What Does It Mean?</h3>
-
-<p>Even without considering the specific results, I have a few <em>unanswered
-questions:</em></p>
-
-<ul>
-  <li>What is <em>happiness</em>? How do I judge it at a particular moment? Is my
-judgment <em>accurate and consistent?</em></li>
-  <li>Is it necessarily better to be happier, or is there a
-threshold past which additional happiness doesn’t improve the quality of life?</li>
-  <li>Are these results <em>significant?</em> They’re computed from just 50 samples, which
-seems low for drawing such broad conclusions.</li>
-  <li>Do these activities make me more or less happy, or <em>do these readings reflect
-my pre-existing mental state?</em></li>
-</ul>
-
-<p>There’s also the issue of those surprising findings. Am I really less happy
-when talking with <a href="http://www.eecs.berkeley.edu/~valkyrie/">Valkyrie Savage</a>? To me, the most likely
-explanation is <em>trust</em>: around her, <em>I feel free to discuss negative aspects
-of my life.</em> Doing so would necessarily involve fixating on those aspects,
-which could account for some happiness reduction.</p>
-
-<p>During this period, I was confronting <em>doubt and frustration in
-my job.</em> According to my personal data, I was also <a href="/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/">drinking heavily</a>,
-possibly as a means for coping with that negative emotion. (It doesn’t help.)
-Guilt is a potential factor; perhaps I felt
-that I was always offloading that doubt and frustration onto her.</p>
-
-<p>The problem, though, is that <em>none of these explanations are testable</em>. They seem
-reasonable to me, but from a scientific standpoint they <em>fail a simple criterion:</em></p>
-
-<p><blockquote><p>Upon viewing only my data, would an impartial stranger reach similar conclusions?</p></blockquote></p>
-
-<p>I can’t see how they would, since <em>my explanations involve
-intricate self-knowledge</em> that is not represented in the data.</p>
-
-<h3 id="a-further-note-on-significance">A Further Note On Significance</h3>
-
-<p>Let’s take a more critical look at this chart:</p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x198&amp;cht=bhg&amp;chco=0088cc&amp;chxt=y%2Cx&amp;chxl=0%3A%7COther+Relatives%7CSpouse%2FPartner%2FSignificant+Other%7CStrangers%7CCo+Workers%7CFriends%7CAcquaintances&amp;chxr=1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3Autsrpo&amp;chbh=20" title="Who talking with" ></p>
-
-<p>I mentioned that this data was drawn from a total of 50 samples. I’m assuming
-that these bars represent <em>average reported happiness</em> in each category. But:</p>
-
-<ul>
-  <li><strong>Which average?</strong> Probably the mean, but that’s not made explicit
-anywhere.</li>
-  <li><strong>Where are the error bars?</strong> I have no idea whether the ranking is significant.</li>
-  <li><strong>How many samples go into each bar?</strong> Maybe “Acquaintances” and
-“Other Relatives” are outliers because I rarely talk to people in those
-categories.</li>
-</ul>
-
-<p>This leads to an important point:</p>
-
-<p><blockquote><p>Never present uncertain information as certain.</p></blockquote></p>
-
-<h2 id="digging-deeper">Digging Deeper</h2>
-
-<p>Consider this chart:</p>
-
-<p><img src="https://chart.googleapis.com/chart?chs=310x200&amp;cht=s&amp;chco=0088cc&amp;chxt=x%2Cy&amp;chxr=0%2C0%2C100%7C1%2C0%2C100&amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10&amp;chd=s%3AaUXKPnmomsWw0tSQnXaVrk%2CslrjjuZtXvZotualhrmepm" title="Focused" ></p>
-
-<p><em>Am I happier when I’m more focused?</em> It’s hard to tell from looking at this
-chart. This is a prime use case for <em>linear regression</em>, but I don’t have the
-data! They <a href="http://support.trackyourhappiness.org/customer/portal/questions/302357-combine-categories-">claim to have plans for data export</a>, but I haven’t seen those
-come to fruition. What now?</p>
-
-<h3 id="data-extraction">Data Extraction</h3>
-
-<p>Fortunately, the chart was generated using the 
-(now deprecated) <a href="https://developers.google.com/chart/image/">Image Charts</a> functionality of the
-<a href="https://developers.google.com/chart/">Google Charts API</a>. With Image Charts, you <em>make requests to specially
-encoded URLs:</em></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>https://chart.googleapis.com/chart
-</span><span class='line'>  ?chs=310x200
-</span><span class='line'>  &amp;cht=s
-</span><span class='line'>  &amp;chco=0088cc
-</span><span class='line'>  &amp;chxt=x%2Cy
-</span><span class='line'>  &amp;chxr=0%2C0%2C100%7C1%2C0%2C100
-</span><span class='line'>  &amp;chxs=0%2C666666%2C10%7C1%2C666666%2C10
-</span><span class='line'>  &amp;chd=s%3AaUXKPnmomsWw0tSQnXaVrk%2CslrjjuZtXvZotualhrmepm</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>You can see what all those parameters do <a href="https://developers.google.com/chart/image/docs/chart_params">here</a>,
-but the one I really care about is <code>chd</code>. This <em>encodes the chart data</em>
-in the <a href="https://developers.google.com/chart/image/docs/data_formats#simple">Simple Encoding Format</a>. I’ll walk through <em>how to decode
-this data.</em></p>
-
-<p>As it stands, the value of <code>chd</code> is <a href="http://tools.ietf.org/html/rfc3986#section-2.1">URL-encoded</a>.
-We need to decode those <code>%3A</code> and <code>%2C</code> escape sequences.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">urlparse</span>
-</span><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="err">‘</span><span class="n">chd</span><span class="o">=</span><span class="n">s</span><span class="o">%</span><span class="mi">3</span><span class="n">AaUXKPnmomsWw0tSQnXaVrk</span><span class="o">%</span><span class="mi">2</span><span class="n">CslrjjuZtXvZotualhrmepm</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'><span class="n">chd</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="err">‘</span><span class="n">chd</span><span class="err">’</span><span class="p">]</span> <span class="c"># ‘s:aUXKPnmomsWw0tSQnXaVrk,slrjjuZtXvZotualhrmepm’</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>The <code>s:</code> at the front means <em>use the simple encoding</em>. In that encoding, the
-characters <code>A-Za-z0-9</code> are mapped to values 0-61 in a, well, simple manner:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="err">&lt;</span><span class="nf">em</span><span class="o">&gt;</span><span class="n">get_simple_value</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="err">‘</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="k">if</span> <span class="err">‘</span><span class="n">A</span><span class="err">’</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">c</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="err">‘</span><span class="n">Z</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="err">‘</span><span class="n">A</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="err">‘</span><span class="n">a</span><span class="err">’</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">c</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="err">‘</span><span class="n">z</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">26</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="err">‘</span><span class="n">a</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="err">‘</span><span class="mi">0</span><span class="err">’</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">c</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="err">‘</span><span class="mi">9</span><span class="err">’</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">52</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="err">‘</span><span class="mi">0</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="err">‘</span><span class="n">invalid</span> <span class="n">character</span> <span class="k">for</span> <span class="n">simple</span> <span class="n">encoding</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Here the underscores <code>_</code> indicate missing or <code>null</code> values. With this function,
-recovering the original data from the <code>chd</code> param is a quick one-liner:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">map</span><span class="p">(</span><span class="n">_get_simple_value</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chd</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="err">‘</span><span class="p">,</span><span class="err">’</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>By default, the simple encoding maps onto an effective range of 1-100, so the
-last step is to normalize this and <code>zip()</code> the lists into pairs:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">fitSimpleToRange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">61.0</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">nx</span><span class="p">)</span> <span class="o">*</span> <span class="n">xmin</span> <span class="o">+</span> <span class="n">nx</span> <span class="o">*</span> <span class="n">xmax</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">points</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">fitSimpleToRange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">fitSimpleToRange</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Done! I’ve packaged this up as <a href="https://github.com/candu/quantified-savagery-files/blob/master/lib/py/chdecode.py">chdecode</a>,
-which also deals with the
-<a href="https://developers.google.com/chart/image/docs/data_formats#text">Basic Text</a> and <a href="https://developers.google.com/chart/image/docs/data_formats#extended">Extended Encoding</a> formats.</p>
-
-<h3 id="lets-see-those-charts-again">Let’s See Those Charts Again</h3>
-
-<p>You can see the code for this analysis <a href="https://github.com/candu/quantified-savagery-files/blob/master/Panic/track-your-happiness/linregress.py">here</a>.</p>
-
-<p>Focus, productivity, and sleep quality all have <em>minor positive correlations</em>
-with happiness:</p>
-
-<p><img src="https://lh4.googleusercontent.com/-DG51p79XNtk/UIGcRjGMLQI/AAAAAAAAAG4/mk1xaar0yJM/s640/happiness-focus.jpg" title="Focus" >
-<img src="https://lh6.googleusercontent.com/-85nu0a-MBJw/UIGcRyutW9I/AAAAAAAAAG8/psRbjq12PLw/s640/happiness-productivity.jpg" title="Productivity" >
-<img src="https://lh3.googleusercontent.com/-bjcS4-21xIw/UIGcSLK9mCI/AAAAAAAAAHA/EVJ1qonZvks/s640/happiness-sleep-quality.jpg" title="Sleep Quality" ></p>
-
-<p>The <em>most significant one is focus,</em> but with $ p = 0.0927 $ it doesn’t quite
-make the 5% significance threshold.</p>
-
-<h2 id="up-next">Up Next</h2>
-
-<p>This ends my series of posts on data collection and analysis for dealing
-with panic disorder. In my next few posts, I’ll talk about my plans for future
-experiments.</p>
 ]]></content>
   </entry>
   

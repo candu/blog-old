@@ -2,80 +2,84 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery/</loc>
-        <lastmod>2012-11-05T15:54:19-05:00</lastmod>
+        <lastmod>2012-11-05T12:54:19-08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/blog/2012/10/03/panic/</loc>
-        <lastmod>2012-10-05T20:25:58-04:00</lastmod>
+        <lastmod>2012-10-05T17:25:58-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.savageevan.com/blog/2012/10/08/self-tracking-for-panic-a-deeper-look/
         </loc>
-        <lastmod>2012-10-08T17:57:46-04:00</lastmod>
+        <lastmod>2012-10-08T14:57:46-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.savageevan.com/blog/2012/10/09/self-tracking-for-panic-an-even-deeper-look/
         </loc>
-        <lastmod>2012-10-14T21:26:00-04:00</lastmod>
+        <lastmod>2012-10-14T18:26:00-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.savageevan.com/blog/2012/10/14/self-tracking-for-panic-another-dataset/
         </loc>
-        <lastmod>2012-10-15T17:07:37-04:00</lastmod>
+        <lastmod>2012-10-15T14:07:37-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/blog/2012/10/17/fitbit-apis-crossfilter-and-d3/</loc>
-        <lastmod>2012-11-13T15:19:40-05:00</lastmod>
+        <lastmod>2012-11-13T12:19:40-08:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.savageevan.com/blog/2012/10/18/track-your-happiness-an-adventure-in-data-extraction/
         </loc>
-        <lastmod>2012-10-19T15:03:36-04:00</lastmod>
+        <lastmod>2012-10-19T12:03:36-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/blog/2012/10/22/dont-hate-cross-correlate/</loc>
-        <lastmod>2012-11-13T15:20:04-05:00</lastmod>
+        <lastmod>2012-11-13T12:20:04-08:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/
         </loc>
-        <lastmod>2012-10-30T17:29:00-04:00</lastmod>
+        <lastmod>2012-10-30T14:29:00-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.savageevan.com/blog/2012/11/02/persistent-location-tracking-looking-for-a-few-good-data-points/
         </loc>
-        <lastmod>2012-11-05T15:47:50-05:00</lastmod>
+        <lastmod>2012-11-05T12:47:50-08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/blog/2012/11/07/healthy-isnt-a-place-you-go-to/</loc>
-        <lastmod>2012-11-07T16:10:22-05:00</lastmod>
+        <lastmod>2012-11-07T13:10:22-08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/blog/2012/11/12/financial-tracking-mint-bubbles/</loc>
-        <lastmod>2012-11-13T18:22:14-05:00</lastmod>
+        <lastmod>2012-11-13T15:22:14-08:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.savageevan.com/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making/
         </loc>
-        <lastmod>2012-11-14T16:55:47-05:00</lastmod>
+        <lastmod>2012-11-14T13:55:47-08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/</loc>
-        <lastmod>2012-12-21T00:47:13-05:00</lastmod>
+        <lastmod>2012-12-20T21:47:13-08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.savageevan.com/blog/2013/01/31/what-ill-look-like-in-50-years/</loc>
+        <lastmod>2013-01-31T14:42:53-08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/blog/archives/</loc>
-        <lastmod>2012-12-21T00:47:13-05:00</lastmod>
+        <lastmod>2013-01-31T14:42:53-08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/</loc>
-        <lastmod>2012-12-21T00:47:13-05:00</lastmod>
+        <lastmod>2013-01-31T14:42:53-08:00</lastmod>
     </url>
 </urlset>
