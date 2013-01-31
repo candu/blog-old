@@ -8,13 +8,13 @@ categories: [Non-Technical, Technical, Computer Vision]
 
 I spent a few weeks in the not-so-frozen Canadian northlands over the winter
 holidays. While there, I had the chance to visit an old childhood favorite:
-the [Ontario Science Centre](LINK), six floors of science-based awesomeness.
-One of their current exhibits, the [Amazing Aging Machine](LINK), uses a
-computer vision software package called [APRIL](LINK) to predict how your
-face will change over 50 years.
+the [Ontario Science Centre](http://ontariosciencecentre.ca/), six floors of science-based awesomeness.
+One of their current exhibits, the [Amazing Aging Machine](http://ontariosciencecentre.ca/aging/), uses a
+computer vision software package called [APRIL](http://aprilage.com/) to predict how your
+face will change over the next 50 years.
 
 In this post, I explore my results from that exhibit alongside a customized
-aging I performed using the [APRIL API](LINK).
+aging I performed using the [APRIL API](http://www.aprilage.com/AprilAPI_V2.pdf).
 
 <!-- more -->
 
@@ -22,7 +22,7 @@ aging I performed using the [APRIL API](LINK).
 
 It's not the most flattering photo, but here I am at 26:
 
-TODO: image
+{% img https://lh4.googleusercontent.com/-8qaAivSLFrI/UQrbKiU3JZI/AAAAAAAAARY/9e7IvKZUB00/s288/aging1.jpg %}
 
 ## Future Me
 
@@ -30,9 +30,16 @@ TODO: image
 
 First, my face balloons out massively:
 
+{% img https://lh4.googleusercontent.com/-LCFkNNtDiJg/UQrbKwGOIQI/AAAAAAAAARg/SS9o98axBtU/s288/aging2.jpg %}
+
 Next, my cheek bones set downwards:
 
+{% img https://lh5.googleusercontent.com/-VZhuI1uOVQk/UQrbLTKdBXI/AAAAAAAAARo/LHKV6cGEBGA/s288/aging3.jpg %}
+{% img https://lh6.googleusercontent.com/-aNcc-FC_4yk/UQrbL53IPpI/AAAAAAAAARs/DRf3ySCxPs4/s288/aging4.jpg %}
+
 Finally, my face leans up and wrinkles a tiny bit:
+
+{% img https://lh6.googleusercontent.com/-F8xBzpDWsM4/UQrbMUOukwI/AAAAAAAAAR0/cRqPDd_wYPM/s288/aging5.jpg %}
 
 ### Take Two: APRIL API
 
@@ -41,43 +48,55 @@ exactly how old APRIL thought I was at each point in the aging sequence.
 
 From 26 to 28, there's not much change:
 
+{% img https://lh6.googleusercontent.com/-u36fDGLeI0Y/UQrbNrKtZyI/AAAAAAAAASE/NQSn0Y5uCng/s288/age28.jpg %}
+
 Then, by age 35, my face elongates slightly:
+
+{% img https://lh4.googleusercontent.com/-cRxKskiAyos/UQrbOiA_OjI/AAAAAAAAASM/GBFlRfZtXnc/s288/age35.jpg %}
 
 I while away the next couple of decades in relative facial stasis. The
 most pronounced change is in my skin, which pales gradually with age:
 
-Finally, age catches up with me, and I wrinkle into a severely troubled
+{% img https://lh6.googleusercontent.com/-gYCoSmKbBDw/UQrbO46gohI/AAAAAAAAASY/X8RoWKpGT_8/s288/age47.jpg %}
+{% img https://lh6.googleusercontent.com/-dWkaa-neumY/UQrbPgkBVtI/AAAAAAAAASg/ebWh4i14qYk/s288/age55.jpg %}
+
+Finally, age catches up with me, and I wrinkle into a haunted
 septuagenarian:
+
+{% img https://lh5.googleusercontent.com/-JNBO6QMu-Xg/UQrbP9uzUUI/AAAAAAAAASo/Dj43_1l46Zo/s288/age61.jpg %}
+{% img https://lh4.googleusercontent.com/-w7zx8Ql3PnM/UQrbQO2pqVI/AAAAAAAAASw/9HJrW1EUz2c/s288/age67.jpg %}
+{% img https://lh5.googleusercontent.com/-RNgo0CglAjs/UQrbQtlY69I/AAAAAAAAAS0/OXD8Yqf63og/s288/age72.jpg %}
 
 A few changes, each very minor, contribute to my forlorn expression over
 these last three photos.
 
-- The eyes get slightly rounder, as though they're welling up.
-- At the top of the eyes, wrinkling gives the impression of a furrowed brow.
-  (Note the lack of deep forehead and upper nose creases which normally
-  accompany this expression. The mere suggestion of it on the eyes is enough
-  to trigger our recognition of facial expressions!)
-- The face elongates yet again, creating a drawn expression.
-- As part of the elongation of the face, the mouth corners sag downwards
+- The *eyes get slightly rounder*, as though they're welling up.
+- *Wrinkling above the eyes* gives the impression of a furrowed brow.
+- The face *elongates yet again*, creating a drawn expression.
+- As part of the elongation of the face, the *mouth corners sag downwards*
   into the merest hint of a frown.
 
-Looking at this, it's surprising how little variation we need to recognize
-a profoundly different facial expression. Hopefully I look happier than
-this at 72!
+Note the lack of deep forehead and upper nose creases which normally
+accompany the furrowed brow expression. The mere suggestion of it on the eyes
+is enough to trigger our expression recognition! It's amazing how sensitive
+we are to minute variations in facial muscle position.
 
 ### Summary
 
 These images provide two divergent visions for my distant future:
 
-TODO: images
+{% img https://lh6.googleusercontent.com/-F8xBzpDWsM4/UQrbMUOukwI/AAAAAAAAAR0/cRqPDd_wYPM/s288/aging5.jpg %}
+{% img https://lh5.googleusercontent.com/-RNgo0CglAjs/UQrbQtlY69I/AAAAAAAAAS0/OXD8Yqf63og/s288/age72.jpg %}
 
-For comparison, here's my father in his late 50s:
+For comparison, here's my father in his late 50s, looking quite a bit happier:
 
 {% img http://farm4.staticflickr.com/3177/2828216200_5846e31c4a_z.jpg %}
 
 ## Why Were Those So Different?
 
-TODO: quote from Amazing Aging Machine
+{% blockquote The Amazing Aging Machine http://ontariosciencecentre.ca/aging/ %}
+...the machine uses state-of-the-art aging software developed in partnership with Aprilage Development Inc. of Toronto to add decades to the faces of 8-12 year olds.
+{% endblockquote %}
 
 The Amazing Aging Machine is calibrated for ages 8-12, likely to match 
 the Ontario Science Centre's target demographic. (Sadly, I couldn't find
@@ -89,14 +108,21 @@ By contrast, the APRIL API asks for your current age, allowing it to more
 correctly calibrate its models. As a result, the second set of faces exhibits
 relatively little change in shape.
 
-## What Does This Tell Me?
+## What Do I Get Out Of This?
 
 Although my face is unlikely to match either of these faces at 72, this
-experiment provides a window into how our appearance changes with age.
+experiment provides some insight into how our faces change with age. After
+all, the APRIL face aging models are based on real face data. They represent
+a sort of statistical average of the aging process.
+
+Also, I get the vaguely warm feeling that comes with having contributed to our
+[collective intelligence](http://vimeo.com/29052688). I provided APRIL
+with a real age-labelled face, which will likely be used to help train future
+models.
 
 ## Appendix: How To Use The APRIL API
 
-For the more technically-minded, I'll run through a transcript of the APRIL
+For the more technically-minded, I've provided a quick walkthrough of the
 API aging pipeline. For all the gritty details, consult the [API docs](http://www.aprilage.com/AprilAPI_V2.pdf).
 
 Before starting, I highly recommend installing a tool like [jsonpp](https://github.com/jmhodges/jsonpp);
@@ -105,7 +131,7 @@ it makes it much easier to read API results.
 The first step is manual: you need to register at [ageme.com](http://www.ageme.com/), then
 click the confirmation link in your email.
 
-TODO: screenshot
+{% img https://lh5.googleusercontent.com/-wuu_sRDb7qQ/UQrtRmoofNI/AAAAAAAAATE/l7CAexc1_ZY/s400/ageme_register.jpg %}
 
 The next step is uploading an image, but let's check first that the API
 works by retrieving our user info:
@@ -123,9 +149,9 @@ $ python -c "import base64; print base64.encodestring('username:password')"
 dXNlcm5hbWU6cGFzc3dvcmQ=
 {% endcodeblock %}
 
-(Obviously this isn't my real username/password. Substitute yours to get it
-working, and use that `base64`-encoded string in the `Authorization` headers
-below.)
+(Obviously this isn't my real username/password. Substitute yours above and
+use the resulting `base64`-encoded string in the `Authorization` headers
+below. I'll use this bogus value to illustrate the flow.)
 
 With the correct header, we can try fetching the user info again:
 
@@ -150,7 +176,7 @@ Another manual step: before proceeding, you'll need to purchase a token on
 the [ageme.com](http://www.ageme.com/) site. At time of writing, this cost $3.99; I looked for
 active promotion codes, but couldn't find any.
 
-TODO: screenshot
+{% img https://lh6.googleusercontent.com/-co9vyFu4uJQ/UQrtSM1T8mI/AAAAAAAAATM/8ozrK3aiGjk/s400/ageme_buytokens.jpg %}
 
 With your aging token purchased, you can now create an aging document. This
 lets APRIL know your age and ethnicity, which helps it to select the
@@ -197,7 +223,7 @@ $ cat aging_results.json | jsonpp | head -15
           },
 {% endcodeblock %}
 
-Finally, I wrote a bit of [Python glue](LINK) to fetch the URLs and name
+Finally, I wrote a bit of [Python glue](https://github.com/candu/quantified-savagery-files/blob/master/Aging/fetch_aging.py) to fetch the URLs and name
 them by age:
 
 {% codeblock lang:py %}
