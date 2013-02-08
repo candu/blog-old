@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technical | Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/blog/categories/technical/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2013-02-04T15:43:36-08:00</updated>
+  <updated>2013-02-07T17:34:43-08:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -12,6 +12,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Applying Genetic Research To My 23andMe Data]]></title>
+    <link href="http://blog.savageevan.com/blog/2013/02/07/applying-genetic-research-to-my-23andme-data/"/>
+    <updated>2013-02-07T16:29:00-08:00</updated>
+    <id>http://blog.savageevan.com/blog/2013/02/07/applying-genetic-research-to-my-23andme-data</id>
+    <content type="html"><![CDATA[<p>To calculate your risk of various diseases, 23andMe scours the medical research
+literature for studies that correlate incidence rates for those diseases with
+mutations at specific locations in the human genome. The locations where these
+mutations commonly occur are referred to as single-nucleotide polymorphisms, or
+<a href="http://en.wikipedia.org/wiki/Single-nucleotide_polymorphism">SNPs</a>.</p>
+
+<p>In this post, I show how I applied the findings of <a href="http://www.nature.com/npp/journal/v33/n12/full/npp200817a.html">this study about caffeine-induced anxiety</a>
+to discover more about myself. I have no genetic research background
+whatsoever, and my knowledge of genetics is minimal, so it’s amazing that
+this is slowly becoming accessible to a wider audience.</p>
+
+<!-- more -->
+
+<h2 id="the-genetic-culprit">The Genetic Culprit</h2>
+
+<p>From the study abstract:</p>
+
+<p><blockquote><p>At the 150 mg dose of caffeine, we found a significant association between caffeine-induced anxiety (Visual Analog Scales, VAS) and ADORA2A rs5751876 (1976C/T), rs2298383 (intron 1a) and rs4822492 (3′-flank), and DRD2 rs1110976 (intron 6).</p><footer><strong>Neuropsychopharmacology</strong> <cite><a href='http://www.nature.com/npp/journal/v33/n12/full/npp200817a.html'>www.nature.com/npp/journal/v33/&hellip;</a></cite></footer></blockquote></p>
+
+<p>The SNPs <code>rs5751876</code>, <code>rs2298383</code>, <code>rs4822492</code>, and a few others are claimed
+here to relate to caffeine-induced anxiety. Reading further,
+<a href="http://www.nature.com/npp/journal/v33/n12/fig_tab/npp200817f4.html#figure-title">Figure 4</a> and <a href="http://www.nature.com/npp/journal/v33/n12/fig_tab/npp200817t4.html#figure-title">Figure 5</a> show <em>which variations are
+correlated with higher anxiety.</em> Here’s a quick summary of the
+high-anxiety variations listed in those figures:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rs5751876: T/T (vs. C/C, C/T)
+</span><span class='line'>rs2298383: C/C (vs. T/T, C/T)
+</span><span class='line'>rs4822492: C/C (vs. G/G, G/C)
+</span><span class='line'>rs1110976: G/G (vs. G/-)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Armed with this information, I can check my own genome for variations at those
+SNPs.</p>
+
+<h2 id="checking-my-genome">Checking My Genome</h2>
+
+<p>In the appendix of <a href="http://blog.savageevan.com/blog/2013/02/04/the-behavioral-economics-of-23andme-results/">this blog post</a>,
+I discuss how to retrieve your genetic data from the 23andMe API. I followed
+those directions with two changes:</p>
+
+<ul>
+  <li>I used the authorization scope <code>genomes</code>;</li>
+  <li>I accessed the API endpoint <code>https://api.23andme.com/1/genomes/&lt;id&gt;</code>, where
+<code>&lt;id&gt;</code> is my internal ID. This ID is returned with every response from their
+API.</li>
+</ul>
+
+<p>I downloaded the genomic data as <code>genome.json</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl https://api.23andme.com/1/genomes/&lt;id>/ -H "Authorization: Bearer &lt;access_token>" &gt; genome.json</span></code></pre></td></tr></table></div></figure></notextile></div></access_token></id></p>
+
+<p>To help extract the specific SNPs listed above, I wrote
+<a href="https://github.com/candu/quantified-savagery-files/blob/master/Genetics/extractSNP.py">a quick Python script</a>.
+Running it, I get my results:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ python extractSNP.py rs5751876 rs2298383 rs4822492 rs1110976 &lt; genome.json
+</span><span class='line'>rs5751876       TT
+</span><span class='line'>rs2298383       CC</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>23andMe doesn’t provide data on the <code>rs4822492</code> or <code>rs1110976</code> SNPs, but I can
+see that <em>I have the high-anxiety variations</em> at <code>rs5751876</code> and <code>rs2298383</code>.</p>
+
+<p>The script uses 23andMe’s <a href="https://api.23andme.com/res/txt/snps.data">SNP list</a>,
+which identifies the locations of all SNPs that they look for. The first time
+you run <code>extractSNP.py</code>, it will generate an index of all 23andMe SNPs in
+<code>.snps-index</code> to make subsequent runs faster. Once you have your <code>genome.json</code>
+data and have built the <code>.snps-index</code> index, <em>you can look up any SNP or group
+of SNPs in about a second.</em></p>
+
+<h2 id="summary">Summary</h2>
+
+<p>To apply genetic research findings to your genomic data:</p>
+
+<ul>
+  <li>Use the process described in <a href="http://blog.savageevan.com/blog/2013/02/04/the-behavioral-economics-of-23andme-results/">this blog post</a>
+with scope <code>genomes</code> and API endpoint <code>https://api.23andme.com/1/genomes/&lt;id&gt;</code>
+to download your genetic data. Save it as <code>genome.json</code>.</li>
+  <li>Download <a href="https://github.com/candu/quantified-savagery-files/blob/master/Genetics/extractSNP.py">my script</a>
+into the same folder as <code>genome.json</code>.</li>
+  <li>Find a paper, journal article, etc. that mentions specific SNPs
+(those funny <code>rsXXX</code> or <code>iXXX</code> numbers).</li>
+  <li>Run <code>python extractSNP.py rsXXX &lt; genome.json</code> to search for those SNPs in
+your genome.</li>
+</ul>
+
+<h2 id="caveats">Caveats</h2>
+
+<p>This is still a highly manual process, and you’ll need some familiarity
+with the command line to pull it off. We haven’t quite reached the
+promised near-future where the deepest insights about our personal
+genetics are easily available.</p>
+
+<p>23andMe’s data is incomplete: they only had two of the four listed SNPs.
+That said, it’s far better than nothing!</p>
+
+<p>Also, there’s room for skepticism regarding the underlying research. Only
+102 participants took part, all of European-American descent. The subjects
+all had stated caffeine intake levels of less than 300mg per day, or about
+3 cups’ worth - that’s a pretty wide range of potential tolerances. Subjects
+rated their anxiety on a subjective scale. The researchers also took
+measurements of heart rate and blood pressure, but did not incorporate that
+data into the anxiety rankings.</p>
+
+<p>No single study is perfect. For more reliable results, you’ll want 
+to dig up findings that are supported by multiple studies.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Behavioral Economics of 23AndMe Results]]></title>
@@ -1515,448 +1635,6 @@ When your chosen tools and services add noise on top of that, it’s reasonable
 to ask:</p>
 
 <p><blockquote><p>How much trust should I place in the output?</p></blockquote></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Persistent Location Tracking: Picking The Right Tool]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool/"/>
-    <updated>2012-10-29T18:37:00-07:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/29/persistent-location-tracking-picking-the-right-tool</id>
-    <content type="html"><![CDATA[<p>In this post, I compare Google Latitude and InstaMapper, two popular services
-for persistent location tracking. I walk through installation and data
-extraction via API for each service, then provide some subjective first
-impressions as to which one better suits my location-tracking needs.</p>
-
-<!-- more -->
-
-<h2 id="evaluating-tools">Evaluating Tools</h2>
-
-<p>As the ecosystem of self-tracking tools <a href="http://quantifiedself.com/2011/03/the-state-of-quantified-self-a-year-of-growth/">grows exponentially</a>,
-choosing the right tool is becoming an increasingly daunting task.
-To add to the complexity of this decision, self-tracking tools are
-<em>highly personal.</em></p>
-
-<p><blockquote><p>How do I pick the best tool for me?</p></blockquote></p>
-
-<p>This question is far from monolithic:</p>
-
-<ul>
-  <li>Do I want <strong>manual</strong> or <strong>automatic</strong> tracking?
-    <ul>
-      <li>How much <em>time and effort</em> am I willing to spend on self-tracking?</li>
-      <li>Is a hybrid <em>automatic plus manual annotation</em> approach workable?</li>
-    </ul>
-  </li>
-  <li>Do I want <strong>persistent</strong> tracking?
-    <ul>
-      <li><em>All day?</em> Or only at predetermined times?</li>
-      <li><em>Every day?</em> What if I’m on vacation?</li>
-    </ul>
-  </li>
-  <li>Do I want <strong>raw data access?</strong>
-    <ul>
-      <li>How do I want to access that data? Through <em>Excel CSV files?</em>
-Via a <em>developer-friendly API?</em></li>
-      <li>What <em>granularity</em> do I want? Sub-second? Daily?</li>
-      <li>What <em>parameters</em> do I want? For location, is <code>(lat, long)</code> enough?
-Do I want <em>altitude</em> as well? GPS fix <em>accuracy?</em></li>
-    </ul>
-  </li>
-</ul>
-
-<p>Without a <em>searchable database of self-tracking tools</em>, these questions can be
-difficult to answer. The main <a href="http://quantifiedself.com/">Quantified Self website</a> includes a
-<a href="http://quantifiedself.com/guide/">Guide to Self-Tracking Tools</a>, but their implementation is subject to
-criticism:</p>
-
-<p><blockquote><p>In a report to RWJF, Project Director Alexandra C. Carmichael noted that the guide was more a catalog of tools than a useful manual for people wanting to choose and use these tools.</p><footer><strong>Robert Wood Johnson Foundation</strong> <cite><a href='http://www.rwjf.org/content/dam/farm/reports/program_results_reports/2012/rwjf400733'>www.rwjf.org/content/dam/farm/&hellip;</a></cite></footer></blockquote></p>
-
-<p>This is a point worth repeating. Simply listing tools is <em>not enough</em>; a
-database of tools <em>must answer these basic questions</em> to be useful. A quick
-search on the Guide for <a href="http://quantifiedself.com/guide/tag/location">location-related tools</a>
-comes up short:</p>
-
-<p><img src="https://lh6.googleusercontent.com/-1r1swg9oBxo/UJA_is6HMSI/AAAAAAAAAIQ/zoiBG4fRAPU/s640/qs-guide-location-apps.jpg"></p>
-
-<p>Why is <a href="http://moodpanda.com/">MoodPanda</a> listed? I suppose it must location-tag mood entries,
-but <em>that isn’t made explicit in the description.</em>
-<a href="http://www.momentoapp.com/">Momento</a> makes a bit more sense, but it’s primarily a journalling app.
-<a href="https://foursquare.com/">Foursquare</a> is definitely location-based, but anyone unfamiliar with
-it <em>must read its description closely</em> to realize that it relies on
-manual check-ins.</p>
-
-<p>In lieu of a useful tool database, the only effective option is direct
-evaluation. By investigating two popular location tracking tools, I’ll
-demonstrate how such an evaluation might be carried out.</p>
-
-<h2 id="the-tools">The Tools</h2>
-
-<h3 id="google-latitude">Google Latitude</h3>
-
-<p>Google Latitude bills itself primarily as a social location sharing service:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-ZGGebfguFEk/UJA_hShHXRI/AAAAAAAAAH4/kziP-01pI_g/s800/banner-glatitude.jpg"></p>
-
-<p>Social capacities aside, the <a href="https://maps.google.com/locationhistory/b/0">Location History</a>
-functionality can be used as a persistent location-tracking tool.</p>
-
-<h3 id="instamapper">InstaMapper</h3>
-
-<p>I first heard of InstaMapper from
-<a href="http://vimeo.com/8545134">Ted Power’s talk on geo-tracking</a>. Unlike Google
-Latitude, InstaMapper focuses more on personal tracking:</p>
-
-<p><img src="https://lh4.googleusercontent.com/-dOIGJWcJ7uc/UJA_h8QM2FI/AAAAAAAAAIA/0owDXIrD6Ro/s800/banner-instamapper.jpg"></p>
-
-<h3 id="the-criteria">The Criteria</h3>
-
-<p>My ideal location tracking tool is:</p>
-
-<ul>
-  <li><strong>Android-compatible:</strong> It should work with my <a href="www.razr.com/RAZR-M">RAZR M</a> running
-<a href="http://www.android.com/about/ice-cream-sandwich/">Android 4.0.4 (Ice Cream Sandwich)</a>.</li>
-  <li><strong>Battery-friendly:</strong> It should allow me to go at least a day <em>without
-recharging.</em></li>
-  <li><strong>Automatic:</strong> It should track my location <em>without requiring check-ins</em>
-or other manual input.</li>
-  <li><strong>Persistent:</strong> It should track my location <em>constantly.</em></li>
-  <li><strong>Fine-grained:</strong> It should be capable of <em>per-minute resolution or better.</em></li>
-  <li><strong>Developer-friendly:</strong> It should <em>provide an API</em> for fetching location
-history, and the data offered through that API should be <em>as complete as
-possible.</em></li>
-</ul>
-
-<p>Both tools are <em>Android-compatible</em>, <em>automatic</em>, and <em>persistent</em> already,
-which narrows down the list of criteria to evaluate.</p>
-
-<h2 id="installation">Installation</h2>
-
-<h3 id="google-latitude-1">Google Latitude</h3>
-
-<p>Enabling automatic location tracking on Android requires <em>only a single
-setting change:</em></p>
-
-<p><img src="https://lh4.googleusercontent.com/-lGwyff6IKAQ/UJA_jzsY3CI/AAAAAAAAAIw/qgFZr8kT1xE/s288/install-glatitude-step1.jpg">
-<img src="https://lh5.googleusercontent.com/-v-7rvy4kAk4/UJA_kbfLddI/AAAAAAAAAI4/MLzFAjPXgR8/s288/install-glatitude-step2.jpg">
-<img src="https://lh3.googleusercontent.com/-rooAhkMibWg/UJA_kjz8o1I/AAAAAAAAAJA/sCnrK_yNHbE/s288/install-glatitude-step3.jpg">
-<img src="https://lh5.googleusercontent.com/-8jz3N_5HkUA/UJA_k6mNTAI/AAAAAAAAAJI/qerZyoCzXbo/s288/install-glatitude-step4.jpg"></p>
-
-<h3 id="instamapper-1">InstaMapper</h3>
-
-<p>I followed the Android installation directions <a href="http://www.instamapper.com/android_howto.html">here</a>.
-After you <a href="https://www.instamapper.com/fe?page=register">register for an InstaMapper account</a>, you install
-InstaMapper’s <a href="https://play.google.com/store/apps/details?id=com.instamapper.gpstracker&amp;hl=en">GPS Tracker app</a>:</p>
-
-<p><img src="https://lh5.googleusercontent.com/-FJZ7CxlpWSE/UJA_lDw4OVI/AAAAAAAAAJQ/pCreIS9emn0/s288/install-instamapper-step1.jpg"></p>
-
-<h3 id="comparison">Comparison</h3>
-
-<p>Both tools are easily installed, but <em>Google Latitude</em> wins on simplicity. This
-is unsurprising, as Google Latitude comes pre-installed.</p>
-
-<h2 id="data-export">Data Export</h2>
-
-<h3 id="google-latitude-2">Google Latitude</h3>
-
-<p>To export data from the Location History dashboard, click on <em>Export KML</em>
-under the calendar widget:</p>
-
-<p><img src="https://lh3.googleusercontent.com/-N_E7GC01k3I/UJA_lY310cI/AAAAAAAAAJY/B6qCcqCAPm0/s800/export-glatitude.jpg"></p>
-
-<h3 id="instamapper-2">InstaMapper</h3>
-
-<p>Head to the <em>data page</em> for your device:</p>
-
-<p><img src="https://lh4.googleusercontent.com/-WiPRLpRcC9Q/UJA_l7UA-cI/AAAAAAAAAJg/ienRb1xYY2o/s400/export-instamapper-step1.jpg">
-<img src="https://lh4.googleusercontent.com/-kvWTFuAZoJ8/UJA_mK_zsbI/AAAAAAAAAJk/aG-iJs2Sfp8/s400/export-instamapper-step2.jpg"></p>
-
-<p>Here’s where this process gets weird. To export your data, you first have to
-<em>define a track:</em></p>
-
-<p><img src="https://lh3.googleusercontent.com/-0j8AdUIinoU/UJA_msnEnLI/AAAAAAAAAKM/LfOZOnEyOJA/s400/export-instamapper-step3.jpg">
-<img src="https://lh5.googleusercontent.com/-aiXmPGeKOxo/UJA_nRZr93I/AAAAAAAAAJ0/wWNddc34ZXo/s400/export-instamapper-step4.jpg">
-<img src="https://lh6.googleusercontent.com/-tgipa_V9TfU/UJA_ncU8LeI/AAAAAAAAAJ8/2HIvGJ_ycfY/s400/export-instamapper-step5.jpg"></p>
-
-<p>Once the track is created, you can <em>visit the Track Manager</em> to
-export your track data in a variety of formats:</p>
-
-<p><img src="https://lh6.googleusercontent.com/-OyteTDJcqYk/UJA_n7L2QvI/AAAAAAAAAKE/tvEkdMbB-Ik/s400/export-instamapper-step6.jpg">
-<img src="https://lh5.googleusercontent.com/-e52trEcnN0I/UJA_ob4XGgI/AAAAAAAAAKI/REcryQodFq0/s400/export-instamapper-step7.jpg"></p>
-
-<h3 id="comparison-1">Comparison</h3>
-
-<p>This one goes to <em>Google Latitude</em>. Aside from the terrible UI flow,
-InstaMapper has some other problems:</p>
-
-<ul>
-  <li>The <code>accuracy</code> field is missing, making it harder to <em>filter out noisy
-readings.</em></li>
-  <li>As stated in the <a href="http://www.instamapper.com/faq.html">InstaMapper FAQ</a>,
-data access is <em>limited to the
-previous 30 days or 100 000 locations.</em></li>
-</ul>
-
-<h2 id="api-fetching">API Fetching</h2>
-
-<h3 id="tailers-and-streams">Tailers and Streams</h3>
-
-<p>Many real-time APIs provide <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> endpoints for fetching
-time-bounded chunks of data:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>https://www.googleapis.com/latitude/v1/location?key=INSERT-YOUR-KEY&amp;min-time=1111&amp;max-time=2222&amp;max-results=10</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>By keeping track of a <code>since</code> time to fetch after, we can easily turn this
-into a stream:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="n">since</span><span class="p">):</span>
-</span><span class='line'>  <span class="c"># TODO: actually fetch data</span>
-</span><span class='line'>  <span class="k">pass</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="n">since</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">since</span>
-</span><span class='line'>  <span class="n">wait</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">-</span> <span class="n">elapsed</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">wait</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span>
-</span><span class='line'>  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">poll</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">since</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">sleep</span><span class="p">(</span><span class="n">since</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">locations</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">since</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">locations</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">continue</span>
-</span><span class='line'>    <span class="n">doSomething</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">since</span> <span class="o">=</span> <span class="n">locations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>This pattern is often referred to as a <em>tailer.</em> Why? Suppose we have a simple
-implementation of <code>doSomething()</code>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="k">def</span> <span class="nf">doSomething</span><span class="p">(</span><span class="n">locations</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">print</span> <span class="n">location</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>This prints out locations as they are received, similar to UNIX <code>tail -F</code>. By
-adjusting <code>freq</code> I can make different real-time guarantees, although at some
-point the upstream API will start throttling my requests.</p>
-
-<h3 id="google-latitude-3">Google Latitude</h3>
-
-<p>You can see a working tailer implementation <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/tail_glatitude.py">here</a>.</p>
-
-<p>To access the <a href="https://developers.google.com/latitude/">Google Latitude API</a>, you first need to
-<a href="https://code.google.com/apis/console/b/0/">register an application</a>. This gives you the necessary
-parameters <code>YOUR_KEY</code>, <code>YOUR_SECRET</code> for stepping through the OAuth flow.</p>
-
-<p>With the Python library <a href="http://code.google.com/p/google-api-python-client/wiki/OAuth2Client">oauthclient2</a>, retrieving OAuth credentials is
-relatively painless:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.client</span> <span class="kn">import</span> <span class="n">OAuth2WebServerFlow</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.file</span> <span class="kn">import</span> <span class="n">Storage</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">oauth2client.tools</span> <span class="kn">import</span> <span class="n">run</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">getCredentials</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">flow</span> <span class="o">=</span> <span class="n">OAuth2WebServerFlow</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">client_id</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">client_secret</span><span class="o">=</span><span class="n">secret</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">scope</span><span class="o">=</span><span class="err">’</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">latitude</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">best</span><span class="err">’</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">redirect_uri</span><span class="o">=</span><span class="err">’</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">oauth2callback</span><span class="err">’</span>
-</span><span class='line'>  <span class="p">)</span>
-</span><span class='line'>  <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span><span class="err">‘</span><span class="o">.</span><span class="n">creds</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><code>oauth2client.tools.run()</code> invokes a browser window and starts an HTTP server
-to receive the OAuth callback. With the credentials, we can <em>make a signed API
-request:</em></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">httplib2</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">json</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">http</span> <span class="o">=</span> <span class="n">httplib2</span><span class="o">.</span><span class="n">Http</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">credentials</span> <span class="o">=</span> <span class="n">getCredentials</span><span class="p">(</span><span class="n">YOUR_KEY</span><span class="p">,</span> <span class="n">YOUR_SECRET</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">credentials</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">latitude</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">location</span><span class="err">?</span><span class="o">%</span><span class="n">s</span><span class="err">’</span> <span class="o">%</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span>
-</span><span class='line'>    <span class="err">‘</span><span class="nb">max</span><span class="o">-</span><span class="n">results</span><span class="err">’</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="nb">min</span><span class="o">-</span><span class="n">time</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="nb">max</span><span class="o">-</span><span class="n">time</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">),</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">granularity</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">best</span><span class="err">’</span>
-</span><span class='line'>  <span class="p">})</span>
-</span><span class='line'>  <span class="n">resp</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="err">‘</span><span class="n">error</span><span class="err">’</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="err">‘</span><span class="n">data</span><span class="err">’</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="err">‘</span><span class="n">items</span><span class="err">’</span><span class="p">,</span> <span class="p">[])</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>There are some minor details:</p>
-
-<ul>
-  <li>The API <em>uses milliseconds for its timestamps</em>, so my <code>since</code> values take
-this into account.</li>
-  <li>Without <code>max-time</code>, the API <em>returns the most recent</em> <code>max-results</code> locations.
-I supply a 150-second window.</li>
-  <li>If there are no locations within the given time range, the API <strong>does not</strong>
-populate <code>data['data']['items']</code>. I use <code>get()</code> to work around the resulting
-<code>KeyError</code>.</li>
-  <li>In the event of an error, the API populates <code>data['error']</code>. I use <code>None</code> as
-a <em>sentinel value</em> to indicate that an error has occurred.</li>
-</ul>
-
-<h3 id="instamapper-3">InstaMapper</h3>
-
-<p>You can see a working tailer implementation <a href="https://github.com/candu/quantified-savagery-files/blob/master/Location/tail_instamapper.py">here</a>.</p>
-
-<p>InstaMapper doesn’t use OAuth; instead, it uses a unique key
-<code>YOUR_KEY</code> that is passed as a GET parameter to the REST API:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">httplib</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">json</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">since</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">action</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">getPositions</span><span class="err">’</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">key</span><span class="err">’</span><span class="p">:</span> <span class="n">YOUR_KEY</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">num</span><span class="err">’</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">from_ts</span><span class="err">’</span><span class="p">:</span> <span class="n">since</span><span class="p">,</span>
-</span><span class='line'>    <span class="err">‘</span><span class="n">format</span><span class="err">’</span><span class="p">:</span> <span class="err">‘</span><span class="n">json</span><span class="err">’</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="err">‘</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">instamapper</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">api</span><span class="err">?</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">APIHOST</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
-</span><span class='line'>  <span class="n">conn</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPConnection</span><span class="p">(</span><span class="err">‘</span><span class="n">www</span><span class="o">.</span><span class="n">instamapper</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="err">‘</span><span class="n">GET</span><span class="err">’</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">resp</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="err">‘</span><span class="n">HTTP</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="err">’</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">reason</span><span class="p">))</span>
-</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span class='line'>  <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="err">‘</span><span class="n">positions</span><span class="err">’</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3 id="comparison-2">Comparison</h3>
-
-<p>Although InstaMapper’s API is arguably simpler to use, I’ll award this one to
-<em>Google Latitude:</em></p>
-
-<ul>
-  <li><strong>Security:</strong> InstaMapper uses unencrypted HTTP GET requests, so anyone
-running a <a href="http://www.wireshark.org/">packet sniffer</a> on my network has <em>complete access to my
-location data.</em> Google Latitude uses HTTPS and OAuth. No contest.</li>
-  <li><strong>Support:</strong> I can <em>leverage the community of Google API users</em> to help resolve
-any issues I encounter.</li>
-  <li><strong>Data:</strong> again, InstaMapper is <em>missing location accuracy.</em></li>
-  <li><strong>Request Volume:</strong> InstaMapper permits one request every 10 seconds. Google
-Latitude allows 1 000 000 requests per day, or <em>one request every 0.0864
-seconds.</em></li>
-</ul>
-
-<h2 id="battery-usage">Battery Usage</h2>
-
-<p>To find out how battery-friendly the two Android apps are, I <em>check the
-Battery Manager:</em></p>
-
-<p><img src="https://lh6.googleusercontent.com/-B246p7a_vbg/UJA_i7iGdyI/AAAAAAAAAIU/Q6U6hLdc2hg/s288/battery-overview.jpg">
-<img src="https://lh5.googleusercontent.com/-X6ClOm7t-8s/UJA_jVwjgrI/AAAAAAAAAIk/V1lOfjmpO2o/s288/battery-maps.jpg">
-<img src="https://lh5.googleusercontent.com/-r7N176E75z0/UJA_jdJfs_I/AAAAAAAAAIg/XQnPc0Q2lgY/s288/battery-gps-tracker.jpg"></p>
-
-<h3 id="comparison-3">Comparison</h3>
-
-<p><em>Google Latitude</em> wins this one as well. InstaMapper keeps the GPS radio
-running almost constantly, whereas Google Latitude manages to sip radio
-access. I’m guessing that it uses WiFi, cell towers, and other non-GPS sources
-where possible.</p>
-
-<p>Without these power consumption improvements, InstaMapper’s GPS Tracker <em>uses
-an order of magnitude more energy</em> than Google Latitude. Ouch.</p>
-
-<h2 id="first-impressions">First Impressions</h2>
-
-<p>After a day of persistent location tracking with both Google Latitude and
-InstaMapper, <em>Google Latitude wins hands-down.</em> It’s <em>easy to install</em>, it
-provides <em>simple and secure data access</em> via <code>oauth2client</code>, and it <em>preserves
-battery life nicely.</em></p>
 ]]></content>
   </entry>
   
