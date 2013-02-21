@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,500,500italic' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8">
+  <title>Quadtree Cartography - Quantified Savagery</title>
+  <meta name="author" content="Evan Savage">
+
+  
+  <meta name="description" content="In this post, I show off some images from a project I’m working on (which will
+remain nameless for now!) These images visualize subdivisions of the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.savageevan.com/blog/2013/02/21/quadtree-cartography/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!-- see http://luikore.github.com/2011/09/good-things-learned-from-octopress/ -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$']],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    messageStyle: "none",
+    "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+  });
+  </script>
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <link href="/atom.xml" rel="alternate" title="Quantified Savagery" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34927069-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Quantified Savagery</a></h1>
+  
+    <h2>Where Personal Data Runs Wild</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.savageevan.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Quadtree Cartography</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-21T10:05:00-08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In this post, I show off some images from a project I’m working on (which will
+remain nameless for now!) These images visualize subdivisions of the Earth
+into Google Maps tile-sized regions with roughly equal population. I’ll also
+provide a brief and non-technical rundown of the process by which I generated
+these images.</p>
+
+<!-- more -->
+
+<h2 id="the-images">The Images</h2>
+
+<p>First, a representative image from my renderings:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-EmN0ma8uhtg/USZnFkGsrfI/AAAAAAAAAV8/hDpa5sx1-IE/s640/tiles11.ag.jpg" /></p>
+
+<p>I love working on problems with a visual aspect - you get direct sensory
+feedback on your progress!</p>
+
+<p>Here, we can clearly see the continents delineated
+by dense coastal population clusters. India and China are especially detailed,
+and Europe has fairly uniform density throughout. Contrast this with North
+America: northern Canada is sparsely populated, as are the deserts and
+mountains of the Central United States.</p>
+
+<p>Next, some renderings at different subdivision levels (Google Maps zoom
+levels 8-11):</p>
+
+<p><img src="https://lh4.googleusercontent.com/-SqLGYcz6yl0/USZnBXDoUNI/AAAAAAAAAUs/C7vdLkL522Y/s288/tiles8.ag60.jpg" />
+<img src="https://lh5.googleusercontent.com/-m2wk-ov9Mw4/USZnBmDUucI/AAAAAAAAAU0/vrU48gzJei4/s288/tiles9.ag60.jpg" />
+<img src="https://lh6.googleusercontent.com/-GuXnAIjWUf0/USZnCbAac_I/AAAAAAAAAU8/urh1UXBD3-U/s288/tiles10.ag60.jpg" />
+<img src="https://lh6.googleusercontent.com/-Y53pPe7T0II/USZnCn5ZL3I/AAAAAAAAAVI/Owjf_pnQBic/s288/tiles11.ag60.jpg" /></p>
+
+<p>As the subdivision level increases, the continents progress from blocky pixel
+art to more recognizable shapes.</p>
+
+<p>Finally, some renderings with different resolutions of the underlying population
+data (degree, half-degree, quarter-degree, and 2.5 arc minutes):</p>
+
+<p><img src="https://lh6.googleusercontent.com/-GuXnAIjWUf0/USZnCbAac_I/AAAAAAAAAU8/urh1UXBD3-U/s288/tiles10.ag60.jpg" />
+<img src="https://lh6.googleusercontent.com/-RRw5Gx4OiaA/USZnEQhqNhI/AAAAAAAAAVg/i6B3yx8BF_M/s288/tiles10.ag30.jpg" />
+<img src="https://lh5.googleusercontent.com/-NkGpf7zzHsY/USZnFI4qQ7I/AAAAAAAAAV4/Kl1UB4U-4pU/s288/tiles10.ag15.jpg" />
+<img src="https://lh6.googleusercontent.com/-n6Ufe_6mJzM/USZnF60IfvI/AAAAAAAAAWE/PEmAgvWvzNU/s288/tiles10.ag.jpg" /></p>
+
+<p>Here the effect is more subtle: detail is added in densely populated areas,
+but larger tiles (corresponding to more remote regions) are mostly unaffected.</p>
+
+<p>To see all the images as small multiples, <a href="https://picasaweb.google.com/100933554722754572774/20130221QuadtreeCartography#">view the album on Picasa</a>.</p>
+
+<h2 id="the-process">The Process</h2>
+
+<p>There are four major steps: getting the data, combining it with Google Maps
+tile data, building the subdivision, and rendering it.</p>
+
+<h3 id="getting-the-data">Getting the Data</h3>
+
+<p>The <a href="http://sedac.ciesin.columbia.edu/citations">NASA Socio-Economic Data and Applications Center</a>,
+or SEDAC, compiles global population grids. These grids contain the estimated
+number of people living in each 2.5-arc-minute square of the Earth’s surface.
+2.5 arc-minutes is 1/24 of a degree, or about 4.5 km of equatorial circumference:
+definitely high-resolution enough for building some awesome maps!</p>
+
+<p>The population count grids are available <a href="http://sedac.ciesin.columbia.edu/data/set/gpw-v3-population-count/data-download">here</a>.
+You have to register on the site and cite usage of their data, but otherwise it
+appears to be freely available.</p>
+
+<h3 id="combining-with-google-maps">Combining with Google Maps</h3>
+
+<p>Google Maps uses a <a href="http://en.wikipedia.org/wiki/Mercator_projection">Mercator projection</a>.
+This projection is <a href="https://developers.google.com/maps/documentation/javascript/maptypes#WorldCoordinates">truncated</a>
+at roughly 85 degrees latitude to create a square map, which is then projected
+onto a 256 x 256 world coordinate system. Finally, world coordinates are
+mapped to <a href="https://developers.google.com/maps/documentation/javascript/maptypes#PixelCoordinates">pixel coordinates</a>
+at different zoom levels, which determine which <a href="https://developers.google.com/maps/documentation/javascript/maptypes#TileCoordinates">tile</a>
+your location falls in.</p>
+
+<p>To match up the gridded population data with Google Maps tiles, then, we need
+to do the following:</p>
+
+<ul>
+  <li>for each grid cell, <em>determine its latitude and longitude boundaries</em>;</li>
+  <li>use those boundaries to <em>figure out which map tiles the cell overlaps</em>;</li>
+  <li><em>divide the cell’s population among those map tiles</em>.</li>
+</ul>
+
+<p>To divide the cell’s population fairly, I determine how much of the cell
+overlaps each tile.</p>
+
+<p>I found <a href="https://google-developers.appspot.com/maps/documentation/javascript/examples/map-coordinates">this helpful example</a>
+of working with locations, world coordinates, pixel coordinates, and tiles.
+The source code of that example contains an implementation of Google’s
+Mercator projection, which I built into a larger <a href="http://nodejs.org/">node.js</a>
+utility for computing the equal-population subdivision.</p>
+
+<p>(Yes, node.js is fine for CPU-intensive tasks, just not in the same process
+as your webserver.)</p>
+
+<h3 id="building-an-equal-population-subdivision">Building an Equal-Population Subdivision</h3>
+
+<p>To get map tiles of equal population, <em>I combine tiles into larger tiles
+until the population exceeds a threshold.</em> This creates large tiles in
+sparsely populated areas while leaving smaller tiles in densely populated
+areas.</p>
+
+<p>(I mentioned <a href="http://blog.notdot.net/2009/11/Damn-Cool-Algorithms-Spatial-indexing-with-Quadtrees-and-Hilbert-Curves">quadtrees</a>
+in the title of this post - this data structure is ideally suited for the
+problem.)</p>
+
+<h3 id="rendering-the-subdivision">Rendering the Subdivision</h3>
+
+<p>This is the easy part! I used <a href="https://pypi.python.org/pypi/Pillow/">Pillow</a>, a
+nicely-packaged version of the excellent <a href="http://www.pythonware.com/products/pil/">Python Imaging Library</a>,
+to render the subdivisions out as JPEG images.</p>
+
+<p>(I suppose I could have rendered SVG images in node.js using some <a href="https://github.com/tmpvar/jsdom">jsdom</a>
+and <a href="http://d3js.org/">d3</a> hackery, but I was already familiar with using
+Python Imaging Library for image synthesis.)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Evan Savage</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-21T10:05:00-08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/location/'>Location</a>, <a class='category' href='/blog/categories/non-technical/'>Non-Technical</a>, <a class='category' href='/blog/categories/visualization/'>Visualization</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2013/02/21/quadtree-cartography/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2013/02/21/quadtree-cartography/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/07/applying-genetic-research-to-my-23andme-data/" title="Previous Post: Applying Genetic Research To My 23andMe Data">&laquo; Applying Genetic Research To My 23andMe Data</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/21/quadtree-cartography/">Quadtree Cartography</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/07/applying-genetic-research-to-my-23andme-data/">Applying Genetic Research To My 23andMe Data</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/04/the-behavioral-economics-of-23andme-results/">The Behavioral Economics of 23AndMe Results</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/31/what-ill-look-like-in-50-years/">What I'll Look Like In 50 Years</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/21/datafist-exploration-and-analysis/">datafist: Exploration And Analysis</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/candu">@candu</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'candu',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("candusavage", 5, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/candusavage" class="twitter-follow-button" data-show-count="false">Follow @candusavage</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Evan Savage -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
