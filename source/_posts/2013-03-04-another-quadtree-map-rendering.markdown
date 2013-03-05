@@ -36,3 +36,10 @@ A few more random tidbits of information:
   (Tiles further north or south are shorter in the north-south direction
   due to distortion in the Mercator projection.)
 - *The Nile is clearly visible* between the Nile Delta and Aswan.
+
+## Next Post
+
+In my next post, I'll dive into [six months of journal entries](http://fearlesstost.github.com/biketotheearth/)
+from a [six-month bike trip](http://goo.gl/maps/0Xs55) that
+[Valkyrie Savage](http://www.eecs.berkeley.edu/~valkyrie/) and I took back in
+2010.
