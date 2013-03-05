@@ -4,7 +4,7 @@
   <title><![CDATA[Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2013-02-21T11:28:46-08:00</updated>
+  <updated>2013-03-04T17:08:58-08:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Another Quadtree Map Rendering]]></title>
+    <link href="http://blog.savageevan.com/blog/2013/03/04/another-quadtree-map-rendering/"/>
+    <updated>2013-03-04T16:48:00-08:00</updated>
+    <id>http://blog.savageevan.com/blog/2013/03/04/another-quadtree-map-rendering</id>
+    <content type="html"><![CDATA[<p>This will be a quick post: I’ve got another population-based map rendering to
+share, based on the work described in <a href="http://blog.savageevan.com/blog/2013/02/21/quadtree-cartography/">this post</a>.</p>
+
+<!-- more -->
+
+<h2 id="the-rendering">The Rendering</h2>
+
+<p>This rendering uses tiles at Google Maps zoom level 14:</p>
+
+<p><img src="https://lh5.googleusercontent.com/-74zVhVDHIdc/UTVAtI4bhcI/AAAAAAAAAWY/sWT9JplWl7k/s800/tiles14.2048.jpg" /></p>
+
+<p>I decided to experiment with solid shading rather than wireframe for the tiles.
+This cuts down on the <a href="http://en.wikipedia.org/wiki/Moir%C3%A9_pattern">Moiré effect</a>
+in densely populated areas.</p>
+
+<p>The original is a <em>whopping 1 gigapixels</em>, so I had to resize it using
+<a href="http://www.imagemagick.org/script/index.php">ImageMagick</a> before uploading it to Picasa:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ convert tiles14.jpg -sample 2048x2048 tiles14.2048.jpg</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>A few more random tidbits of information:</p>
+
+<ul>
+  <li>Computing the tile subdivision <em>took one CPU-hour</em> on my laptop, a fairly
+new MacBook Air.</li>
+  <li>At zoom level 14, tiles near the equator are <em>roughly 1.5 miles to a side.</em>
+(Tiles further north or south are shorter in the north-south direction
+due to distortion in the Mercator projection.)</li>
+  <li><em>The Nile is clearly visible</em> between the Nile Delta and Aswan.</li>
+</ul>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Quadtree Cartography]]></title>

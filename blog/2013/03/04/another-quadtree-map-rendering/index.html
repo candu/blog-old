@@ -6,11 +6,12 @@
 <head>
   <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,500,500italic' rel='stylesheet' type='text/css'>
   <meta charset="utf-8">
-  <title>Category: Algorithms - Quantified Savagery</title>
+  <title>Another Quadtree Map Rendering - Quantified Savagery</title>
   <meta name="author" content="Evan Savage">
 
   
-  <meta name="description" content="Category: Algorithms">
+  <meta name="description" content="This will be a quick post: I’ve got another population-based map rendering to
+share, based on the work described in this post. The Rendering This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.savageevan.comblog/categories/algorithms/">
+  <link rel="canonical" href="http://blog.savageevan.com/blog/2013/03/04/another-quadtree-map-rendering/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -93,35 +94,118 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Algorithms</h1>
+    
+      <h1 class="entry-title">Another Quadtree Map Rendering</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-04T16:48:00-08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>This will be a quick post: I’ve got another population-based map rendering to
+share, based on the work described in <a href="http://blog.savageevan.com/blog/2013/02/21/quadtree-cartography/">this post</a>.</p>
 
-  
-  <h2>2012</h2>
+<!-- more -->
 
-<article>
-  
-<h1><a href="/blog/2012/10/22/dont-hate-cross-correlate/">Don't Hate, Cross-Correlate</a></h1>
-<time datetime="2012-10-22T13:41:00-07:00" pubdate><span class='month'>Oct</span> <span class='day'>22</span> <span class='year'>2012</span></time>
+<h2 id="the-rendering">The Rendering</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/algorithms/'>Algorithms</a>, <a class='category' href='/blog/categories/technical/'>Technical</a>, <a class='category' href='/blog/categories/visualization/'>Visualization</a></span>
-</footer>
+<p>This rendering uses tiles at Google Maps zoom level 14:</p>
 
+<p><img src="https://lh5.googleusercontent.com/-74zVhVDHIdc/UTVAtI4bhcI/AAAAAAAAAWY/sWT9JplWl7k/s800/tiles14.2048.jpg" /></p>
 
-</article>
+<p>I decided to experiment with solid shading rather than wireframe for the tiles.
+This cuts down on the <a href="http://en.wikipedia.org/wiki/Moir%C3%A9_pattern">Moiré effect</a>
+in densely populated areas.</p>
 
+<p>The original is a <em>whopping 1 gigapixels</em>, so I had to resize it using
+<a href="http://www.imagemagick.org/script/index.php">ImageMagick</a> before uploading it to Picasa:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ convert tiles14.jpg -sample 2048x2048 tiles14.2048.jpg</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>A few more random tidbits of information:</p>
+
+<ul>
+  <li>Computing the tile subdivision <em>took one CPU-hour</em> on my laptop, a fairly
+new MacBook Air.</li>
+  <li>At zoom level 14, tiles near the equator are <em>roughly 1.5 miles to a side.</em>
+(Tiles further north or south are shorter in the north-south direction
+due to distortion in the Mercator projection.)</li>
+  <li><em>The Nile is clearly visible</em> between the Nile Delta and Aswan.</li>
+</ul>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Evan Savage</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-04T16:48:00-08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/location/'>Location</a>, <a class='category' href='/blog/categories/non-technical/'>Non-Technical</a>, <a class='category' href='/blog/categories/visualization/'>Visualization</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2013/03/04/another-quadtree-map-rendering/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2013/03/04/another-quadtree-map-rendering/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/21/quadtree-cartography/" title="Previous Post: Quadtree Cartography">&laquo; Quadtree Cartography</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
