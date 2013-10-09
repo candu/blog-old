@@ -258,10 +258,10 @@ many kinds of awesome.
       width: 610px;
     }
   </style>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/crossfilter.js"></script>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/d3.js"></script>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/chart.js"></script>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Panic/fitbit-crossfilter/demo.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/Panic/fitbit-crossfilter/crossfilter.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/Panic/fitbit-crossfilter/d3.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/Panic/fitbit-crossfilter/chart.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/Panic/fitbit-crossfilter/demo.js"></script>
   <div id="charts">
     <div id="chartA" class="chart">
       <div class="title">A</div>

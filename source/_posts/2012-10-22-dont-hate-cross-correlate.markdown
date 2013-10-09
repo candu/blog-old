@@ -154,11 +154,11 @@ You can see the code for this demo [here](https://github.com/candu/quantified-sa
       background-color: rgba(0, 0, 210, 0.7);
     }  
   </style>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/ArrayUtils.js"></script>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/MathUtils.js"></script>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/third-party/mootools.js"></script>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/lib/js/third-party/d3.js"></script>
-  <script src="https://raw.github.com/candu/quantified-savagery-files/master/Algorithms/cross-correlation/demo.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/lib/js/ArrayUtils.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/lib/js/MathUtils.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/lib/js/third-party/mootools.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/lib/js/third-party/d3.js"></script>
+  <script src="http://candu.github.io/quantified-savagery-files/Algorithms/cross-correlation/demo.js"></script>
   <div id="controls">
     <select id="s1-picker">
       <option value="sine" selected>Sine</option>
