@@ -3,7 +3,7 @@ layout: post
 title: "A Tale of Two Trips"
 date: 2013-10-09 09:32
 comments: true
-categories: [Non-Technical, Location, Text Processing, Visualization]
+categories: [Non-Technical, Text Processing, Visualization]
 ---
 
 This summer, [Valkyrie](http://www.eecs.berkeley.edu/~valkyrie/) and I travelled
@@ -13,7 +13,10 @@ before spending three typhoon-stricken days holed up in Manila, Philippines.
 
 As with our [bike trip](http://fearlesstost.github.io/biketotheearth/), we kept
 a [daily journal](http://ramblelust.savageinter.net/) of our travels in blog
-form.  In this post, I visualize the two trips from our blog entries.
+form.  In this post, I visualize the two trips from our blog entries using some
+simple word count graphs.  These aren't the most sophisticated visualizations
+possible, but they provide a simple starting point to build upon in future
+blog posts.
 
 <!-- more -->
 
@@ -29,10 +32,10 @@ of broad textual measures, word count.
 How many words did we write for each trip?  How many per post, on average?
 
 {% codeblock %}
-$ python word_count.py < BikeToTheEarth/posts_normalized.json 
+$ python global_word_count.py < BikeToTheEarth/posts_normalized.json 
 141329 words in 197 posts (717 words/post)
 
-$ python word_count.py < Ramblelust/posts_normalized.json 
+$ python global_word_count.py < Ramblelust/posts_normalized.json 
 61010 words in 86 posts (709 words/post)
 {% endcodeblock %}
 
@@ -40,38 +43,34 @@ Not much difference here.  What happens if we graph the word counts over time?
 
 TODO: create graph here
 
-TODO: offer insight
+One point jumps out on the Bike to the Earth graph: [this post](http://fearlesstost.github.io/biketotheearth/posts/2010/10/19/hellbania.html),
+a massive 3600-word whopper that details our arduous exit from the rain-stricken
+Albanian coastline and into Greece.  For comparison, our longest post from
+Ramblelust was [this one](http://ramblelust.savageinter.net/blog/2013/06/29/cam-ranh-ing-around/)
+about our CouchSurfing experiences in Cam Ranh, a short distance south from
+Nha Trang along the Vietnamese coast.
 
-## Word Cloud
+Still, it's hard to make much out of such noisy data.  Let's smooth that a bit
+by looking at weekly averages:
 
-[Word clouds are considered harmful](http://www.niemanlab.org/2011/10/word-clouds-considered-harmful/),
-but let's make some anyways.  We'll use some [small multiples](LINK) here to
-put these word clouds in context.
+TODO: more graphs
 
-First, let's get a look at the two trips side-by-side:
+Now another pattern pops out of the Bike to the Earth data: sometime around
+the beginning of September, our writing output doubled.  At that time, we were
+just entering Italy, where we were sandwiched in between the southern Alps
+and the sea for about 900km before reaching Rome.
 
-TODO: build word clouds
+As I go through this process, I'm constantly jumping back and forth between
+the blog posts and these graphs.  As with all visualization, this context is an
+essential part of understanding the data.
 
-### Authorship
+## Next Steps
 
-The [Bike to the Earth post data](LINK) has authorship info, but it's unreliable:
-it reflects who uploaded the post, not who wrote it.  A better measure of
-authorship is the haikus Valkyrie almost always puts at the head of her posts:
+There are lots of places we could go from here:
 
-TODO: offer example
+- sentiment analysis;
+- location-based visualization (by combining with country data);
+- authorship analysis (my posts vs. Valkyrie's posts)...
 
-Using these haikus, we can split the corpus by author:
-
-TODO: build word clouds
-
-### Countries
-
-Thanks to our [Ramblelust categories](LINK) and [Bike to the Earth country flag icons](LINK),
-we know which posts were written in which countries.  Let's break down the
-text by country:
-
-TODO: build word clouds
-
-## Wrapping Up
-
-TODO: write this
+...the list goes on.  What would you like to see?  Comment via Facebook or
+Twitter to let me know.
