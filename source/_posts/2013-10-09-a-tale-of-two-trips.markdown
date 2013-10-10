@@ -40,8 +40,10 @@ $ python global_word_count.py < Ramblelust/posts_normalized.json
 {% endcodeblock %}
 
 Not much difference here.  What happens if we graph the word counts over time?
+Top is Bike to the Earth, bottom is Ramblelust.
 
-TODO: create graph here
+{% img https://lh4.googleusercontent.com/-5Sv5_JZEDdw/UlcoazZGSxI/AAAAAAAAAks/9TZH7nDzpnQ/w1000/biketotheearth_daily_words.jpg %}
+{% img https://lh6.googleusercontent.com/-BW5K-iWb56c/UlcoZ4fktZI/AAAAAAAAAkw/3g2w4bbbMtI/w1000/ramblelust_daily_words.jpg %}
 
 One point jumps out on the Bike to the Earth graph: [this post](http://fearlesstost.github.io/biketotheearth/posts/2010/10/19/hellbania.html),
 a massive 3600-word whopper that details our arduous exit from the rain-stricken
@@ -51,9 +53,10 @@ about our CouchSurfing experiences in Cam Ranh, a short distance south from
 Nha Trang along the Vietnamese coast.
 
 Still, it's hard to make much out of such noisy data.  Let's smooth that a bit
-by looking at weekly averages:
+by looking at weekly averages. Again, top is Bike to the Earth, bottom is Ramblelust.
 
-TODO: more graphs
+{% img https://lh6.googleusercontent.com/-9YT2XueNpAs/UlcodH_CpwI/AAAAAAAAAkk/0ZnCYmXSMJc/w1000/biketotheearth_daily_words_smoothed.jpg %}
+{% img https://lh4.googleusercontent.com/-C-Q604GWq84/UlcoesNibrI/AAAAAAAAAjk/8RHMmaBdOi0/w1000/ramblelust_daily_words_smoothed.jpg %}
 
 Now another pattern pops out of the Bike to the Earth data: sometime around
 the beginning of September, our writing output doubled.  At that time, we were
@@ -73,4 +76,4 @@ There are lots of places we could go from here:
 - authorship analysis (my posts vs. Valkyrie's posts)...
 
 ...the list goes on.  What would you like to see?  Comment via Facebook or
-Twitter to let me know.
+Twitter to let me know, and I'll put it into the next blog post.
