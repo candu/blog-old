@@ -6,12 +6,13 @@
 <head>
   <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,500,500italic' rel='stylesheet' type='text/css'>
   <meta charset="utf-8">
-  <title>datafist: Exploration And Analysis - Quantified Savagery</title>
+  <title>A Tale of Two Trips - Quantified Savagery</title>
   <meta name="author" content="Evan Savage">
 
   
-  <meta name="description" content="In this post I introduce datafist, an in-browser tool for visually exploring
-your data. First, A Quote Are we analyzing data? Then we should be &hellip;">
+  <meta name="description" content="This summer, Valkyrie and I travelled
+through Eastern Asia. We started with the Great Barrier Reef and rainforests near
+Cairns, then went onwards to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +21,7 @@ your data. First, A Quote Are we analyzing data? Then we should be &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/">
+  <link rel="canonical" href="http://blog.savageevan.com/blog/2013/10/09/a-tale-of-two-trips/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -98,7 +99,7 @@ your data. First, A Quote Are we analyzing data? Then we should be &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Datafist: Exploration and Analysis</h1>
+      <h1 class="entry-title">A Tale of Two Trips</h1>
     
     
       <p class="meta">
@@ -114,108 +115,89 @@ your data. First, A Quote Are we analyzing data? Then we should be &hellip;">
   
 
 
-<time datetime="2012-12-21T07:00:00-08:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
+<time datetime="2013-10-09T09:32:00-07:00" pubdate data-updated="true">Oct 9<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>In this post I introduce datafist, an in-browser tool for visually exploring
-your data. </p>
+<div class="entry-content"><p>This summer, <a href="http://www.eecs.berkeley.edu/~valkyrie/">Valkyrie</a> and I travelled
+through Eastern Asia.  We started with the Great Barrier Reef and rainforests near
+Cairns, then went onwards to Singapore, Vietnam, Cambodia, Malaysia, and Korea
+before spending three typhoon-stricken days holed up in Manila, Philippines.</p>
+
+<p>As with our <a href="http://fearlesstost.github.io/biketotheearth/">bike trip</a>, we kept
+a <a href="http://ramblelust.savageinter.net/">daily journal</a> of our travels in blog
+form.  In this post, I visualize the two trips from our blog entries using some
+simple word count graphs.  These aren’t the most sophisticated visualizations
+possible, but they provide a simple starting point to build upon in future
+blog posts.</p>
 
 <!-- more -->
 
-<h2 id="first-a-quote">First, A Quote</h2>
+<p>First of all, it feels good to write another post!  The rapidly upcoming <a href="http://quantifiedself.com/conference/San-Francisco-2013/">Quantified Self 2013 Global Conference</a>
+seemed like a good excuse to break seven months of blog neglect, so here I am.</p>
 
-<blockquote><p>Are we analyzing data? Then we should be manipulating the data themselves; or if we are designing an analysis of data, we should be manipulating the analytic structures themselves.</p><footer><strong>Direct Manipulation Interfaces</strong> <cite><a href="http://cleo.ics.uci.edu/teaching/Winter10/231/readings/1-HutchinsHollanNorman-DirectManipulation-HCI.pdf">cleo.ics.uci.edu/teaching/231/&hellip;</a></cite></footer></blockquote>
+<p>I’ll refer to these trips as <em>Bike to the Earth</em> and <em>Ramblelust</em> respectively,
+following the names of each trip blog.  Let’s start with a look at the broadest
+of broad textual measures, word count.</p>
 
-<h2 id="the-sixfold-path-of-self-tracking">The Sixfold Path Of Self-Tracking</h2>
+<h2 id="word-count">Word Count</h2>
 
-<p>Self-tracking is a complex process. It can be broken down into stages:</p>
+<p>How many words did we write for each trip?  How many per post, on average?</p>
 
-<ul>
-  <li><em>Intent:</em> our initial goals or motivations in deciding to self-track.</li>
-  <li><em>Tools:</em> the devices or methods we use for tracking.</li>
-  <li><em>Measurement:</em> collecting our data using those tools.</li>
-  <li><em>Analysis:</em> extracting insights from our data.</li>
-  <li><em>Interpretation:</em> creating personal meaning from those insights.</li>
-  <li><em>Action:</em> responding to that personal meaning.</li>
-</ul>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ python global_word_count.py &lt; BikeToTheEarth/posts_normalized.json 
+</span><span class="line">141329 words in 197 posts (717 words/post)
+</span><span class="line">
+</span><span class="line">$ python global_word_count.py &lt; Ramblelust/posts_normalized.json 
+</span><span class="line">61010 words in 86 posts (709 words/post)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>Thanks to smartphones and cheap sensors, many of us already have the tools
-necessary for measurement. The psychology of intent and action is rapidly
-being explored through <a href="http://www.meetup.com/habitdesign/">Habit Design</a> and <a href="http://captology.stanford.edu/">Captology</a>, with
-startups like <a href="http://lift.do/">Lift</a> and <a href="https://www.beeminder.com/">Beeminder</a> harnessing the findings
-to great effect.</p>
+<p>Not much difference here.  What happens if we graph the word counts over time?
+Top is Bike to the Earth, bottom is Ramblelust.</p>
 
-<p><em>What are the technologies of analysis and interpretation?</em></p>
+<p><img src="https://lh4.googleusercontent.com/-5Sv5_JZEDdw/UlcoazZGSxI/AAAAAAAAAks/9TZH7nDzpnQ/w1000/biketotheearth_daily_words.jpg" />
+<img src="https://lh6.googleusercontent.com/-BW5K-iWb56c/UlcoZ4fktZI/AAAAAAAAAkw/3g2w4bbbMtI/w1000/ramblelust_daily_words.jpg" /></p>
 
-<h3 id="visualization">Visualization</h3>
+<p>One point jumps out on the Bike to the Earth graph: <a href="http://fearlesstost.github.io/biketotheearth/posts/2010/10/19/hellbania.html">this post</a>,
+a massive 3600-word whopper that details our arduous exit from the rain-stricken
+Albanian coastline and into Greece.  For comparison, our longest post from
+Ramblelust was <a href="http://ramblelust.savageinter.net/blog/2013/06/29/cam-ranh-ing-around/">this one</a>
+about our CouchSurfing experiences in Cam Ranh, a short distance south from
+Nha Trang along the Vietnamese coast.</p>
 
-<p>Visualizations, even interactive ones, are usually designed to <em>answer
-specific questions</em> such as <a href="http://www.nytimes.com/interactive/2012/11/07/us/politics/obamas-diverse-base-of-support.html">how did Obama win re-election?</a>
-Within the context of those questions, they help us understand our data
-intuitively. Outside that context, however, they are often useless.</p>
+<p>Still, it’s hard to make much out of such noisy data.  Let’s smooth that a bit
+by looking at weekly averages. Again, top is Bike to the Earth, bottom is Ramblelust.</p>
 
-<h3 id="statisticalmathematical-software">Statistical/Mathematical Software</h3>
+<p><img src="https://lh6.googleusercontent.com/-9YT2XueNpAs/UlcodH_CpwI/AAAAAAAAAkk/0ZnCYmXSMJc/w1000/biketotheearth_daily_words_smoothed.jpg" />
+<img src="https://lh4.googleusercontent.com/-C-Q604GWq84/UlcoesNibrI/AAAAAAAAAjk/8RHMmaBdOi0/w1000/ramblelust_daily_words_smoothed.jpg" /></p>
 
-<p>Environments like <a href="http://www.r-project.org/">R</a> and <a href="http://www.wolfram.com/mathematica/">Mathematica</a> allow you to <em>explore
-your data in meticulous detail.</em> In the hands of people like
-<a href="http://blog.stephenwolfram.com/2012/03/the-personal-analytics-of-my-life/">Stephen Wolfram</a>, they are the holy grail of data analysis. For the
-less technically inclined, they remain hopelessly unintuitive.</p>
+<p>Now another pattern pops out of the Bike to the Earth data: sometime around
+the beginning of September, our writing output doubled.  At that time, we were
+just entering Italy, where we were sandwiched in between the southern Alps
+and the sea for about 900km before reaching Rome.</p>
 
-<h2 id="a-middle-road">A Middle Road</h2>
+<p>As I go through this process, I’m constantly jumping back and forth between
+the blog posts and these graphs.  As with all visualization, this context is an
+essential part of understanding the data.</p>
 
-<p>What we need is <em>something between the two</em>, a hybrid that exposes the
-exploratory power of the latter through the intuitive interface of the former.
-Such a tool would give us the opportunity to <em>explore our data as we see fit.</em>
-We could ask our data questions, iterating quickly on those questions until
-we reach useful insights.</p>
+<h2 id="next-steps">Next Steps</h2>
 
-<p>Until we can all converse with our data with the fluency of <a href="http://www.ted.com/talks/hans_rosling_the_good_news_of_the_decade.html">Hans Rosling</a>,
-there’s still room for improvement!</p>
-
-<h2 id="datafist">datafist</h2>
-
-<p>datafist tries to bridge this gap by providing <em>visual and gestural actions</em>
-for data manipulation. This is probably easier to demonstrate than describe,
-so here’s a screencast that shows an early development version of datafist
-in action:</p>
-
-<div>
-  <iframe width="560" height="315" src="http://www.youtube.com/embed/ypitHPXKa8M" frameborder="0" allowfullscreen=""></iframe>
-</div>
-
-<p>As you use datafist, <em>you’re constantly modifying the analysis itself.</em>
-This modification takes place through <em>visual and gestural actions:</em> you
-move channels to the viewer, drag out ranges of time to zoom in on, and draw
-regions around interesting clusters. As you do this, the view is
-<em>updated in real-time</em>, allowing you to see the effects of your actions.</p>
-
-<h3 id="try-datafist-out">Try datafist Out!</h3>
-
-<p>I’m hosting a version of datafist <a href="http://datafist.savageevan.com">here at savageevan.com</a>.
-Note that this is still a very early development version!</p>
-
-<h3 id="contribute-to-datafist">Contribute to datafist!</h3>
-
-<p>If you’re interested in making datafist better, <a href="https://github.com/candu/datafist">fork me on github!</a>
-Bug reports should be submitted <a href="https://github.com/candu/datafist/issues">via the issue tracker</a>.
-In particular, if you have a CSV file that won’t import properly, please attach
-it for testing purposes!</p>
-
-<h2 id="inspiration">Inspiration</h2>
+<p>There are lots of places we could go from here:</p>
 
 <ul>
-  <li><a href="http://www.audiomulch.com/">AudioMulch</a> is an awesome graphical audio synthesis tool.</li>
-  <li><a href="http://puredata.info/">PureData</a> and <a href="http://cycling74.com/products/max/">Max/MSP</a> are visual signal processing languages.</li>
-  <li><a href="http://cleo.ics.uci.edu/teaching/Winter10/231/readings/1-HutchinsHollanNorman-DirectManipulation-HCI.pdf">Direct Manipulation Interfaces</a> is a classic paper on the design of
-natural-seeming interfaces. You’ll recognize some of the interface concepts
-from the analysis package design mocks at the beginning.</li>
-  <li><a href="http://www.startuplessonslearned.com/2011/11/startup-is-vision.html">FAKEGRIMLOCK</a> is a fountain of poorly-Englished wisdom on
-entrepreneurship.</li>
+  <li>sentiment analysis;</li>
+  <li>location-based visualization (by combining with country data);</li>
+  <li>authorship analysis (my posts vs. Valkyrie’s posts)…</li>
 </ul>
+
+<p>…the list goes on.  What would you like to see?  Comment via Facebook or
+Twitter to let me know, and I’ll put it into the next blog post.</p>
 </div>
 
 
@@ -238,12 +220,12 @@ entrepreneurship.</li>
   
 
 
-<time datetime="2012-12-21T07:00:00-08:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
+<time datetime="2013-10-09T09:32:00-07:00" pubdate data-updated="true">Oct 9<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/non-technical/'>Non-Technical</a>, <a class='category' href='/blog/categories/datafist/'>datafist</a>
+    <a class='category' href='/blog/categories/non-technical/'>Non-Technical</a>, <a class='category' href='/blog/categories/text-processing/'>Text Processing</a>, <a class='category' href='/blog/categories/visualization/'>Visualization</a>
   
 </span>
 
@@ -252,7 +234,7 @@ entrepreneurship.</li>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2012/12/21/datafist-exploration-and-analysis/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.savageevan.com/blog/2013/10/09/a-tale-of-two-trips/" data-via="candusavage" data-counturl="http://blog.savageevan.com/blog/2013/10/09/a-tale-of-two-trips/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -265,10 +247,8 @@ entrepreneurship.</li>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/11/14/sober-thoughts-on-willpower-and-decision-making/" title="Previous Post: Sober Thoughts On Willpower And Decision Making">&laquo; Sober Thoughts On Willpower And Decision Making</a>
+        <a class="basic-alignment left" href="/blog/2013/03/04/another-quadtree-map-rendering/" title="Previous Post: Another Quadtree Map Rendering">&laquo; Another Quadtree Map Rendering</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/01/31/what-ill-look-like-in-50-years/" title="Next Post: What I'll Look Like In 50 Years">What I'll Look Like In 50 Years &raquo;</a>
       
     </p>
   </footer>
