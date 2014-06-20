@@ -99,11 +99,17 @@
         <lastmod>2013-10-10T15:29:57-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://blog.savageevan.com/blog/2014/06/20/running-a-1-mb-slash-s-tor-relay-on-linode/
+        </loc>
+        <lastmod>2014-06-20T14:27:11-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://blog.savageevan.com/blog/archives/</loc>
-        <lastmod>2013-10-10T15:29:57-07:00</lastmod>
+        <lastmod>2014-06-20T14:27:11-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.savageevan.com/</loc>
-        <lastmod>2013-10-10T15:29:57-07:00</lastmod>
+        <lastmod>2014-06-20T14:27:11-07:00</lastmod>
     </url>
 </urlset>

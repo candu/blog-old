@@ -4,7 +4,7 @@
   <title><![CDATA[Quantified Savagery]]></title>
   <link href="http://blog.savageevan.com/atom.xml" rel="self"/>
   <link href="http://blog.savageevan.com/"/>
-  <updated>2013-10-10T15:30:30-07:00</updated>
+  <updated>2014-06-20T14:27:44-07:00</updated>
   <id>http://blog.savageevan.com/</id>
   <author>
     <name><![CDATA[Evan Savage]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Running a 1 MB/s Tor relay on Linode]]></title>
+    <link href="http://blog.savageevan.com/blog/2014/06/20/running-a-1-mb-slash-s-tor-relay-on-linode/"/>
+    <updated>2014-06-20T09:17:00-07:00</updated>
+    <id>http://blog.savageevan.com/blog/2014/06/20/running-a-1-mb-slash-s-tor-relay-on-linode</id>
+    <content type="html"><![CDATA[<p><a href="http://savageinter.net/">Savage Internet</a> is proud to announce that we’re now running a 1 MB/s
+<a href="https://www.torproject.org/">Tor</a> exit relay.  How much is this costing us?  $10/month, thanks to
+<a href="https://www.linode.com/">Linode’s</a> excellent data transfer caps.  In this post, we’ll explain
+how we set that up.</p>
+
+<p>If you’re not sure what Tor is, <a href="https://www.eff.org/torchallenge/what-is-tor.html">read this article</a>.</p>
+
+<!-- more -->
+
+<h2 id="our-node">Our Node</h2>
+
+<p>is listed <a href="https://globe.torproject.org/#/relay/D85D427500E47F6D1408C883FAB56AF4ED55F3EA">on Globe</a>.
+As of time of writing, we’re still <a href="https://blog.torproject.org/blog/lifecycle-of-a-new-relay">ramping up</a>,
+so our advertised bandwidth will be lower than 1 MB/s for a few days.</p>
+
+<h2 id="setting-up-a-tor-relay-on-linode">Setting up a Tor Relay on Linode</h2>
+
+<h3 id="step-1-set-up-your-linode-instance">Step 1: Set up your Linode instance</h3>
+
+<p>Go to <a href="https://www.linode.com/">linode.com</a>, sign up, and add a Linode 1GB instance
+to your account.  You can follow Linode’s <a href="https://library.linode.com/getting-started">Getting Started instructions</a>.
+We’re using Ubuntu as the distro, mainly because we’re familiar with it and we
+wanted to get this up and running as quickly as possible!</p>
+
+<h3 id="step-2-install-tor">Step 2: Install Tor</h3>
+
+<p>There are some good instructions <a href="http://www.darkcoding.net/society/running-a-tor-relay-node-server-on-ubuntu/">here</a>,
+but they boil down to:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ gpg --keyserver keys.gnupg.net --recv 886DDD89
+</span><span class="line">$ gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+</span><span class="line">$ sudo apt-get update
+</span><span class="line">$ sudo apt-get install tor tor-arm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Once Tor is installed, you need to configure it.</p>
+
+<h3 id="step-3-basic-tor-configuration">Step 3: Basic Tor Configuration</h3>
+
+<p>We’ll get to exit policies in a bit, but:</p>
+
+<ul>
+  <li>set <code>ORPort</code> (or just uncomment it);</li>
+  <li>give yourself a <code>Nickname</code>, and set <code>ContactInfo</code>;</li>
+  <li>set <code>RelayBandwidthRate</code>, <code>RelayBandwidthBurst</code> (in our case, 1 MB/s).</li>
+</ul>
+
+<h3 id="step-4-exit-policy-configuration">Step 4: Exit Policy Configuration</h3>
+
+<p>The Tor Project recommends <a href="https://trac.torproject.org/projects/tor/wiki/doc/ReducedExitPolicy">this exit policy</a>,
+which allows roughly 65 ports.</p>
+
+<h3 id="step-5-block-bittorrent-using-iptables">Step 5: Block BitTorrent using iptables</h3>
+
+<p>We went one step further and blocked common markers of BitTorrent traffic, using
+<a href="https://docs.google.com/document/d/1gaoln96He6yVFcAHoZGPdnDioMrqbABqw2s6nx2wdiI/edit">this set of iptables rules</a>.</p>
+
+<h3 id="step-6-run">Step 6: Run!</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo service tor start
+</span><span class="line">$ arm                      # to see awesome graphs</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="appendix">Appendix</h2>
+
+<h3 id="what-is-tor">What is Tor?</h3>
+
+<p><a href="https://www.eff.org/torchallenge/what-is-tor.html">EFF’s Tor Challenge site</a> explains
+that far better than we could:</p>
+
+<blockquote><p>Tor is a service that helps you to protect your anonymity while using the Internet.</p></blockquote>
+
+<h3 id="why-linode">Why Linode?</h3>
+
+<p>We compared several <a href="https://en.wikipedia.org/wiki/Virtual_private_server">virtual private server</a> providers.
+<a href="https://www.linode.com/pricing">Linode</a> offers relatively high bandwidth caps:
+their $10/month plan, for instance, gives you 2TB/month outgoing with unlimited
+incoming, which is enough to sustain 700 KB/s <em>24/7</em>.  <a href="https://aws.amazon.com/ec2/">Amazon EC2</a>
+doesn’t even compare: bandwidth charges alone for that much traffic would be about
+$200/month.</p>
+
+<p><a href="https://www.noisebridge.net/">Noisebridge</a> runs <a href="https://globe.torproject.org/#/search/query=noiseexit">four Tor exit relays</a>
+using <a href="http://www.quadranet.com/dedicated-servers/high-bandwidth/">QuadraNet dedicated servers</a>.
+Dedicated servers are more attractive once you ramp up capacity.  With QuadraNet,
+for instance, $700/month gets you 1Gbps unmetered, or 125 MB/s - Linode 64GB
+instances are comparable in cost, but those only get you 20TB/month, or 7MB/s.
+Since our goals are a relatively modest 1 MB/s, this would be overkill; for the same
+reason, we didn’t look into colocation either.</p>
+
+<h3 id="why-block-bittorrent--i-thought-this-was-about-freedom">Why block BitTorrent?  I thought this was about freedom!</h3>
+
+<p>From Linode’s Terms of Service:</p>
+
+<blockquote><p>Linode does not prohibit the use of distributed, peer to peer network services such as Tor, nor does Linode routinely monitor the network communications of customer Linodes as a normal business practice. However, customers are responsible for the contents of network traffic exiting their Linode. Any usage that prompts the receipt of abuse complaints pertaining to violation of United States and/or international copyright law must be promptly discontinued to avoid service cancellation for violation of these terms.</p><footer><strong>Linode Terms of Service</strong> <cite><a href="https://www.linode.com/tos">www.linode.com/tos/&hellip;</a></cite></footer></blockquote>
+
+<p>In practical terms: if you run an exit relay, Linode <em>will</em> receive DMCA takedown notices
+for your IP address.  They <em>will</em> pass those on to you, making them your responsibility.</p>
+
+<p>To mitigate this risk, we block BitTorrent.  Otherwise we’ll eventually have to</p>
+
+<ul>
+  <li>take down the node; or</li>
+  <li><code>ExitPolicy reject *:*</code>; or</li>
+  <li>move elsewhere.</li>
+</ul>
+
+<p>An offline node is of use to no one.  A middle relay is less useful, since overall
+Tor network performance relies upon having exit nodes.  Moving elsewhere is
+doable, but it would definitely be less cost-effective (at least at our current
+scale - see below).</p>
+
+<p>Another option is to donate to other relay operators.  Donations are more
+cost-effective in increasing Tor network
+bandwidth, but this comes <a href="https://blog.torproject.org/blog/turning-funding-more-exit-relays">at the expense of network diversity</a>.
+(If you don’t see why this is a problem, consider what happens when a malicious actor -
+NSA/GCHQ/etc., for instance - operates some proportion of Tor relays.)</p>
+
+<p>Even if Linode handled DMCA complaints differently, a relay that’s swamped with
+high-bandwidth, high-connection-count traffic from BitTorrent is of use to
+far fewer people than one that isn’t.  We’d rather support people who <em>need</em>
+Tor than some dude who just can’t find that awesome movie on Netflix.</p>
+
+<p>If that’s not enough for you, the Tor Project itself notes that
+<a href="https://blog.torproject.org/blog/bittorrent-over-tor-isnt-good-idea">BitTorrent over Tor isn’t a good idea</a>,
+as it leaks identifying information and generally hurts network performance.</p>
+
+<p>So: we have nothing against BitTorrent, and we do wish the DMCA would burn and
+die, but we will make every effort possible to prevent BitTorrent traffic from
+running through our relay.</p>
+
+<h3 id="last-words">Last Words</h3>
+
+<p>This is easy to do and relatively inexpensive, and if you run a 1 MB/s relay
+you <a href="https://www.eff.org/torchallenge/#getstarted">might get a T-shirt from the EFF</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Tale of Two Trips]]></title>
@@ -4989,174 +5135,6 @@ yourself. The blessing is that you might not care!</p>
 <a href="http://en.wikipedia.org/wiki/Reinforcement_learning">reinforcement learning</a>
 system, the Quantified Self community <em>needs both modes of self-tracking to
 thrive</em>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Welcome to Quantified Savagery]]></title>
-    <link href="http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery/"/>
-    <updated>2012-10-02T21:34:00-07:00</updated>
-    <id>http://blog.savageevan.com/blog/2012/10/02/welcome-to-quantified-savagery</id>
-    <content type="html"><![CDATA[<p>I’m <a href="http://cv.savageevan.com/">Evan Savage</a> and I’d like to welcome you
-to Quantified Savagery. I recently left my job at Facebook to focus on
-exploring the
-<a href="http://quantifiedself.com/">Quantified Self</a>,
-and I’m super-excited to share those explorations here on my new blog.</p>
-
-<p>In this first post, I’ll explain the Quantified Self, give you a sense of
-what I’ll be posting in the near future, and provide some helpful tips on
-reading this blog.</p>
-
-<!--more-->
-
-<h2 id="what-is-the-quantified-self">What is the Quantified Self?</h2>
-
-<p>I’ve had to explain this countless times to friends, family, and
-co-workers: why did I leave
-<a href="http://www.glassdoor.com/Reviews/Facebook-Reviews-E40772.htm">one of the world’s best employers</a>
-to explore a field most people haven’t even heard of?
-I usually start by name-dropping
-<a href="http://www.fitbit.com/">Fitbit</a> or <a href="http://nikeplus.nike.com/plus/">Nike+</a> as
-prominent examples of personal data collection and analysis. I then do some
-semi-coherent hand-waving about the vast potential of data collection and
-analysis. All of this is really just an attempt to cover up the fact
-that <em>I don’t really know</em>.</p>
-
-<p>That doesn’t really cut it as an explanation for a major life decision,
-though, so let’s look a bit deeper.</p>
-
-<p>The Quantified Self
-<a href="http://quantifiedself.com/">community website</a> has this tagline:</p>
-
-<blockquote><p>self knowledge through numbers</p></blockquote>
-
-<ul>
-  <li><strong>self:</strong> you seek to answer <em>your</em> questions.</li>
-  <li><strong>knowledge:</strong> in doing this, you gain an <em>awareness</em> of your behaviors and
-motivations.</li>
-  <li><strong>through numbers:</strong> this process is driven by <em>data</em> gathered from sensors,
-journals, and any other tools at your disposal.</li>
-</ul>
-
-<p>This is a good first-level approximation: you <em>gather</em> your data, <em>analyze</em> it,
-and <em>interpret</em> the analysis to become more <em>self-aware</em>.</p>
-
-<p><span class="pullquote-right" data-pullquote="For the first time in history, over half the world&#8217;s population owns sensor-packed networked computing devices.">
-But why is this suddenly important? After all, journal-keeping has been around
-roughly as long as written languages. The answer lies in <em>technology</em>.
-For the first time in history, over half the world’s population owns
-sensor-packed networked computing devices. We refer to these
-devices as mobile phones only by historical accident. In fact, they’re really
-powerful tools for speeding up this process of gaining
-<em>self knowledge through numbers</em>.
-</span></p>
-
-<p>As I said before, though, this is only a first-level approximation. There are
-two main ways in which Quantified Self can achieve greater awesomeness:
-<em>Quantified Mass</em> and <em>Qualified Self</em>.</p>
-
-<h3 id="quantified-mass">Quantified Mass</h3>
-
-<p>As Gary Wolf pointed out in his
-<a href="http://www.onthemedia.org/people/gary-wolf/">interview with On the Media</a>,
-self-tracking doesn’t lead to self-obsession but rather to group-awareness.
-In asking our own questions, we find that these questions are important to
-others as well. When many people gather comparable datasets to answer the
-same questions, there’s an opportunity to extract insights
-that could benefit us all.</p>
-
-<p>Scalable <em>mass</em> insights have massive power. Taking a 1% chunk out of the
-American obesity epidemic might not sound impressive, but that’s potentially
-a <a href="http://www.forbes.com/sites/bethhoffman/2012/08/16/what-the-obesity-epidemic-costs-us-infographic/">$6 billion impact</a>
-on direct and indirect costs. And that’s just in the United States, which
-counts for a tiny slice of the global mobile userbase.</p>
-
-<p>Many of the requisite data mining tools already
-exist, but they’re being employed to increase advertising click-through rates
-by 1%. The engineers building these tools aren’t indifferent to societal
-problems; rather, <em>the datasets to solve those problems largely don’t exist yet.</em>
-Once they do, the quantified mass can start driving these massive-scale
-incremental wins.</p>
-
-<h3 id="qualified-self">Qualified Self</h3>
-
-<blockquote><p>Not everything that counts can be counted,<br />and not everything that can be counted counts.</p></blockquote>
-
-<p>Our perception of life is rarely numerical. Much more often, it is visual,
-auditory, tactile, or experiential. 
-The problem with data is that you can’t
-<a href="http://worrydream.com/#!/KillMath">see</a> or
-<a href="http://blog.makezine.com/2009/02/08/haptic-compass/">feel</a> them.
-Even the best data scientists use
-data only as a means of
-<a href="http://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen.html">telling a story</a>.</p>
-
-<p>Put another way, this awareness process starts with qualitative questions
-and ends with qualitative answers. Data is the intermediate representation,
-one we use for its unique ability to permit detailed analysis. Ultimately,
-though, we’re going to ask questions like</p>
-
-<blockquote><p>How can I improve my fitness?</p></blockquote>
-
-<p>and expect answers like</p>
-
-<blockquote><p>By finding training partners. By doing more engaging athletic<br />activities. By setting aside regularly scheduled time.</p></blockquote>
-
-<p>We’re going to need moral support. We’re going to give and receive advice.
-We’re going to have conversations and <em>tell stories</em> about our personal
-struggles with fitness.</p>
-
-<p>These qualified aspects of self-awareness are arguably the most important
-to us. <em>Data provide a stepping-stone</em>, something we can build upon
-to address these aspects. By building systems designed for the qualified self,
-we can bring the benefits of the quantified self to everyone.</p>
-
-<h3 id="back-to-the-quantified-self">Back to the Quantified Self</h3>
-
-<p>That sums up why I’m so excited about Quantified Self: there really is an
-enormous potential here to revolutionize our lives on both the global/societal
-and individual levels.
-It’s also a fantastically diverse field, one that connects hackers and 
-doctors and entrepreneurs and teachers and artists through mutual pursuit of
-insanely lofty goals.</p>
-
-<h2 id="upcoming-content">Upcoming Content</h2>
-
-<p>The next few posts will detail my experiences <em>dealing with panic
-disorder through self-tracking</em>. I gave a talk about this to the Bay Area
-Quantified Self community, which you can
-<a href="http://quantifiedself.com/2012/07/evan-savage-on-panic-tracking/">view here</a>
-for some initial context.</p>
-
-<h2 id="how-to-read-this-blog">How To Read This Blog</h2>
-
-<p>Although this is a blog about personal data, one of my primary goals is to
-make the thoughts and insights shared here accessible to a broad audience.
-You can filter what you read with these categories:</p>
-
-<ul>
-  <li><a href="http://blog.savageevan.com/blog/categories/non-technical/" class="category">Non-Technical</a>:
-expect to see insights, thoughts, discussions, descriptions
-of planned experiments, and post-mortems. I might link to articles, studies,
-or books that provide context, but I’ll try to summarize the relevant
-parts.</li>
-  <li><a href="http://blog.savageevan.com/blog/categories/technical/" class="category">Technical</a>:
-expect to see code, statistical analysis, $ \LaTeX $ formulae,
-links to <a href="https://github.com/candu">Github</a> repos, and algorithm
-descriptions. I’ll assume familiarity with programming and mathematics, or
-at least a willingness to learn.</li>
-</ul>
-
-<p>In addition, many of my posts will be connected to one or more experiments.
-For instance, my upcoming posts on self-tracking to address panic disorder will
-fall under the <a href="http://blog.savageevan.com/blog/categories/panic/" class="category">Panic</a> category.
-For every experiment, I’ll attempt to post
-content in both the
-<a href="http://blog.savageevan.com/blog/categories/non-technical/" class="category">Non-Technical</a> and
-<a href="http://blog.savageevan.com/blog/categories/technical/" class="category">Technical</a> categories.</p>
-
-<p>Of course, I’ll be glad to answer any questions you have, technical or
-otherwise!</p>
 ]]></content>
   </entry>
   
